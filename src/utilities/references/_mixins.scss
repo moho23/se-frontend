@@ -1,0 +1,53 @@
+@mixin rtl {
+    @at-root body[dir="rtl"] & {
+        @content
+    }
+};
+
+@mixin project-xs {
+    @media (max-width: 575.98px) {
+        @content
+    }
+};
+
+@mixin project-sm {
+    @media (min-width: 575.98px) {
+        @content
+    }
+};
+
+@mixin project-md {
+    @media (min-width: 767.98px) {
+        @content
+    }
+};
+
+@mixin project-lg {
+    @media (min-width: 991.98px) {
+        @content
+    }
+};
+
+@mixin project-xl {
+    @media (min-width: 1199.98px) {
+        @content
+    }
+};
+
+@mixin project-size($property, $web-value, $mobile-value) {
+    @include project-xs{
+        #{$property}: $mobile-value;
+    }
+    @include project-sm{
+        #{$property}: (2*$mobile-value + $web-value)/3;
+    }
+    @include project-md{
+        #{$property}: ($mobile-value + $web-value)/2;
+    }
+    @include project-lg{
+        #{$property}: ($mobile-value + 2*$web-value)/3;
+    }
+    @include project-xl{
+        #{$property}: $web-value;
+    }
+};

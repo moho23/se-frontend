@@ -1,0 +1,63 @@
+@import '../references/index';
+
+ * {
+     &::-webkit-scrollbar {
+         width: 5px;
+         height: 5px;
+     }
+
+     &::-webkit-scrollbar:hover {
+         width: 10px;
+         height: 10px;
+     }
+
+     /* Track */
+     &::-webkit-scrollbar-track {
+         background-color: $grayLight;
+         // box-shadow: inset 0 0 5px grey;
+         border-radius: 10px;
+     }
+
+     /* Handle */
+     &::-webkit-scrollbar-thumb {
+         background-color: $gray;
+         border-radius: 5px;
+     }
+
+     /* Handle on hover */
+     &::-webkit-scrollbar-thumb:hover {
+         width: 50px;
+         background-color: #999999;
+     }
+
+     .project-skeleton {
+         background-color: $gray;
+         display: block;
+         position: relative;
+         overflow: hidden;
+
+
+         &::after {
+             position: absolute;
+             top: 0;
+             right: 0;
+             bottom: 0;
+             left: 0;
+
+             transform: translateX(-100%) ;
+             background-image: linear-gradient(90deg,
+                     rgba($grayLight, 0) 0,
+
+                     rgba($grayLight, 0.3) 50%,
+                     rgba($grayLight, 0));
+             animation: skeleton-background-animation 2s infinite;
+             content: '';
+         }
+
+         @keyframes skeleton-background-animation {
+             100% {
+                 transform: translateX(100%) ;
+             }
+         }
+     }
+ }
