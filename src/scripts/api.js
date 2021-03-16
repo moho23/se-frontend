@@ -1,12 +1,12 @@
-import {accessTocken} from "./storage";
+import {authToken} from "./storage";
 import ENV from "../env.json"
 
 export const SERVER = ENV.api;
 
 function generateHeader(object) {
     const header = {};
-    if (accessTocken.get() && accessTocken.get().length > 0) {
-        header['Authorization'] = 'jwt ' + accessTocken.get();
+    if (authToken.get() && authToken.get().length > 0) {
+        header['Authorization'] = 'jwt ' + authToken.get();
     }
     for (const key of Object.keys(object)) {
         header[key] = object[key];
