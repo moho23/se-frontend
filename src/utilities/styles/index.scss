@@ -1,4 +1,9 @@
-
+@import "~bootstrap/dist/css/bootstrap-grid.css";
+@import "~react-toastify/dist/ReactToastify.css";
+@import "../../assets/icons/feather/feather.css";
+@import "../../assets/icons/material/material.css";
+@import "./card";
+@import "./animation";
 
 body {
   direction: ltr;

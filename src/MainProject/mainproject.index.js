@@ -1,6 +1,7 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import "./mainproject.style.scss"
+import {toast} from "react-toastify";
 
 
 const MainProject = () => {
@@ -8,8 +9,8 @@ const MainProject = () => {
         <Router>
             <Switch>
                 <Route path="*">
-                    <div className="main-project-page">
-                        سلام پوریا
+                    <div  onClick={()=>toast.success("salam")} className="main-project-page">
+                        Hello World!
                     </div>
                 </Route>
             </Switch>
