@@ -1,0 +1,31 @@
+@import "../../references/index";
+
+
+.project-buttons {
+  border-radius: 5px;
+  color: $white;
+  width: 100%;
+  background-color: $navy;
+  border: none;
+  font-weight: bold;
+  height: 48px;
+  outline: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .cfi-loader {
+    color: $white;
+    -webkit-animation: project-spin 2s linear infinite;
+    -moz-animation: project-spin 2s linear infinite;
+    animation: project-spin 2s linear infinite;
+  }
+
+  &:disabled {
+    color: $gray;
+    background-color: $navyDark;
+    cursor: not-allowed;
+  }
+}
