@@ -1,0 +1,62 @@
+@import '../../references/index';
+
+.project-input {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    color: $navy;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    direction: rtl;
+  }
+
+  input {
+    height: 48px;
+    padding: 0 18px;
+    background-color: $navy;
+    outline: none;
+    font-size: 16px;
+    color: $white;
+    border: none;
+    border-radius: 5px;
+    direction: rtl;
+
+    ::placeholder {
+      color: $grayLight;
+      font-size: 12px;
+    }
+
+
+    &:disabled {
+      background-color: $navyDark;
+      cursor: not-allowed;
+    }
+
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  > p {
+    font-size: 12px;
+    color: $red;
+    max-height: 0px;
+    opacity: 0;
+    transition: 0.3s;
+    overflow: hidden;
+
+    &.active {
+      max-height: 18px;
+      opacity: 1;
+    }
+  }
+}
