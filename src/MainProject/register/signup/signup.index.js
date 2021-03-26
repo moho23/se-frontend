@@ -20,11 +20,11 @@ const Signup = () => {
                 //post api
             }
             else{
-                toast.error("RIDI!")
+                // toast.error("validation")
             }
         }
         else{
-            toast.error("BAD RIDI!")
+            // toast.error("empty")
         }
     }
     
