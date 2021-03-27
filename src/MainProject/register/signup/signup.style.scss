@@ -1,10 +1,34 @@
 @import "../../../utilities/references/index";
 
 .signup-main-page {
-    display: flex;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: $navy;
+
+  .signup {
     width: 100%;
-    max-width: 620px;
-    align-items: center;
-    flex-direction: column;
+    max-width: 520px;
     justify-content: center;
+    padding: 10px;
+    background-color: $white;
+    border-radius: 1%;
+
+    .header {
+      direction: rtl;
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .items {
+      margin-bottom: 15px;
+    }
+
+    .last-item {
+      margin-top: 35px;
+    }
+  }
 }

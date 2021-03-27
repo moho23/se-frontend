@@ -1,41 +1,47 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import "./signup.style.scss"
 import Input from "../../../utilities/components/input/input.index"
 import Button from "../../../utilities/components/button/button.index"
-import { emailValidation, usernameValidation } from "../../../scripts/validations";
-import { toast } from "react-toastify";
+import {emailValidation, usernameValidation} from "../../../scripts/validations";
+import {toast} from "react-toastify";
 
 const Signup = () => {
-    const [email,setEmail]=useState(null)
-    const [username,setUsername]=useState(null)
-    const [city,setCity]=useState(null)
-    const [password,setPassword]=useState(null)
-    const [cnfrmPassword,setCnfrmPassword]=useState(null)
-    
-   
+    const [email, setEmail] = useState(null)
+    const [username, setUsername] = useState(null)
+    const [city, setCity] = useState(null)
+    const [password, setPassword] = useState(null)
+    const [confirmPassword, setConfirmPassword] = useState(null)
 
-    function submit(event) {
-        if(email && city && password && username){
-            if(emailValidation(email)&&usernameValidation(username)&&(password===cnfrmPassword)){
+
+    function submit(e) {
+        if (email && city && password && username) {
+            if (emailValidation(email) && usernameValidation(username) && (password === confirmPassword)) {
                 //post api
-            }
-            else{
+            } else {
                 // toast.error("validation")
             }
-        }
-        else{
+        } else {
             // toast.error("empty")
         }
     }
-    
+
     return (
         <div className={"signup-main-page"}>
-            <Input label={"ایمیل"} onChange={(event)=>setEmail(event)} placeholder={"ایمیل خود را وارد کنید"}/>
-            <Input label={"نام کاربری"} onChange={(event)=>setUsername(event)} placeholder={"نام کاربری خود را وارد کنید"}/>
-            <Input label={"شهر"} onChange={(event)=>setCity(event)} placeholder={"شهر خود را وارد کنید"}/>
-            <Input label={"رمز"} type={"password"} onChange={(event)=>setPassword(event)} placeholder={"رمز خود را وارد کنید"}/>
-            <Input label={"تایید رمز"} type={"password"} onChange={(event)=>setCnfrmPassword(event)} placeholder={"رمز خود را مجددن وارد کنید"}/>
-            <Button text={"ثبت نام"} onClick={()=>submit()}/>
+            <div className="signup">
+                <div className="header">
+                    <p>ثبت نام</p>
+                </div>
+                <Input className="items" label="ایمیل" onChange={(e) => setEmail(e)}
+                       placeholder="ایمیل خود را وارد کنید."/>
+                <Input className="items" label="نام کاربری" onChange={(e) => setUsername(e)}
+                       placeholder="نام کاربری خود را وارد کنید."/>
+                <Input className="items" label="شهر" onChange={(e) => setCity(e)} placeholder="شهر خود را انتخاب کنید."/>
+                <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
+                       placeholder="رمز خود را وارد کنید."/>
+                <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}
+                       placeholder="رمز خود را تکرار کنید."/>
+                <Button className="last-item" text="ثبت نام" onClick={submit}/>
+            </div>
         </div>
     )
 }
