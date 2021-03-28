@@ -2,33 +2,60 @@
 
 .signup-main-page {
   display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   height: 100vh;
-  background-color: $navy;
+  width: 100%;
 
-  .signup {
+  @include project-md {
+    flex-direction: row;
+  }
+
+  .signup-image {
+    height: 350px;
     width: 100%;
-    max-width: 520px;
+    flex: 1;
+    background-color: $cream;
+    @include project-md {
+      height: 100%;
+    }
+    box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.32);
+
+    img {
+      width: 100%;
+      height: 100%;
+      //min-height: 100%;
+    }
+  }
+
+  .signup-div {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex: 1;
+    align-items: center;
     justify-content: center;
-    padding: 10px;
-    background-color: $white;
-    border-radius: 1%;
+    background-color: $green;
 
-    .header {
-      direction: rtl;
-      font-size: 25px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+    .signup {
+      width: 100%;
+      max-width: 580px;
+      padding: 30px;
 
-    .items {
-      margin-bottom: 15px;
-    }
+      .header {
+        direction: rtl;
+        font-weight: bold;
+        font-size: 35px;
+        color: $cream;
+        margin-bottom: 20px;
+      }
 
-    .last-item {
-      margin-top: 35px;
+      .items {
+        @include project-size(margin-bottom, 20px, 8px)
+      }
+
+      .last-item {
+        margin-top: 30px;
+      }
     }
   }
 }

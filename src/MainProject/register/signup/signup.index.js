@@ -4,6 +4,7 @@ import Input from "../../../utilities/components/input/input.index"
 import Button from "../../../utilities/components/button/button.index"
 import {emailValidation, usernameValidation} from "../../../scripts/validations";
 import {toast} from "react-toastify";
+import signup from "../../../assets/images/signup.svg"
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -26,21 +27,27 @@ const Signup = () => {
     }
 
     return (
-        <div className={"signup-main-page"}>
-            <div className="signup">
-                <div className="header">
-                    <p>ثبت نام</p>
+        <div className="signup-main-page">
+            <div className="signup-image d-md-block d-none">
+                <img src={signup} alt="signup"/>
+            </div>
+            <div className="signup-div">
+                <div className="signup">
+                    <div className="header">
+                        <p>بزن بریم تو!</p>
+                    </div>
+                    <Input className="items" label="ایمیل" onChange={(e) => setEmail(e)}
+                           placeholder="ایمیل خود را وارد کنید."/>
+                    <Input className="items" label="نام کاربری" onChange={(e) => setUsername(e)}
+                           placeholder="نام کاربری خود را وارد کنید."/>
+                    <Input className="items" label="شهر" onChange={(e) => setCity(e)}
+                           placeholder="شهر خود را انتخاب کنید."/>
+                    <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
+                           placeholder="رمز خود را وارد کنید."/>
+                    <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}
+                           placeholder="رمز خود را تکرار کنید."/>
+                    <Button className="last-item" text="ثبت نام" onClick={submit}/>
                 </div>
-                <Input className="items" label="ایمیل" onChange={(e) => setEmail(e)}
-                       placeholder="ایمیل خود را وارد کنید."/>
-                <Input className="items" label="نام کاربری" onChange={(e) => setUsername(e)}
-                       placeholder="نام کاربری خود را وارد کنید."/>
-                <Input className="items" label="شهر" onChange={(e) => setCity(e)} placeholder="شهر خود را انتخاب کنید."/>
-                <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
-                       placeholder="رمز خود را وارد کنید."/>
-                <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}
-                       placeholder="رمز خود را تکرار کنید."/>
-                <Button className="last-item" text="ثبت نام" onClick={submit}/>
             </div>
         </div>
     )
