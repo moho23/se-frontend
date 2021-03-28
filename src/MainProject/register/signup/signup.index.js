@@ -4,7 +4,7 @@ import Input from "../../../utilities/components/input/input.index"
 import Button from "../../../utilities/components/button/button.index"
 import {emailValidation, usernameValidation} from "../../../scripts/validations";
 import {toast} from "react-toastify";
-import signup from "../../../assets/images/signup.svg"
+import signup from "../../../assets/images/signup5.svg"
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -34,7 +34,7 @@ const Signup = () => {
             <div className="signup-div">
                 <div className="signup">
                     <div className="header">
-                        <p>بزن بریم تو!</p>
+                        <p>خوش اومدی :)</p>
                     </div>
                     <Input className="items" label="ایمیل" onChange={(e) => setEmail(e)}
                            placeholder="ایمیل خود را وارد کنید."/>
