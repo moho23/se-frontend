@@ -5,6 +5,8 @@ import Button from "../../../utilities/components/button/button.index"
 import {emailValidation, usernameValidation} from "../../../scripts/validations";
 import {toast} from "react-toastify";
 import signup from "../../../assets/images/signup5.svg"
+import { post } from "../../../scripts/api";
+import { useHistory } from "react-router";
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -13,16 +15,30 @@ const Signup = () => {
     const [password, setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)
 
-
+    const history = useHistory();
     function submit(e) {
+        
         if (email && city && password && username) {
             if (emailValidation(email) && usernameValidation(username) && (password === confirmPassword)) {
-                //post api
+                const signup_form = {
+                    username:username,
+                    email:email,
+                    password1:password,
+                    password2:confirmPassword,
+                    city:city
+                }
+                post("http://127.0.0.1:8000/api/rest-auth/registration/",signup_form)
+                .then((data)=>{
+                    history.push('/register/login')
+                }
+                )
+                .catch(error=>console.log(error))
+                
             } else {
-                // toast.error("validation")
+                toast.error(".فک کنم یه چیزیو اشتباه وارد کردی سلطان")
             }
         } else {
-            // toast.error("empty")
+            toast.error(" !کامل پر نکردی که عزیزم")
         }
     }
 

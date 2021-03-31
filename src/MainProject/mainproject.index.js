@@ -2,6 +2,7 @@ import React from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {RoutePath} from "../data";
 import "./mainproject.style.scss"
+import Login from "./register/login/login.index";
 import Signup from "./register/signup/signup.index"
 
 
@@ -13,6 +14,7 @@ const MainProject = () => {
             {/*</div>*/}
             <Switch>
                 <Route path={RoutePath.register.signup} component={Signup}/>
+                <Route path={RoutePath.register.login} component={Login}/>
             </Switch>
         </Router>
     )
