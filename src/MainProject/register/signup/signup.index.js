@@ -29,10 +29,19 @@ const Signup = () => {
                 }
                 post("http://127.0.0.1:8000/api/rest-auth/registration/",signup_form)
                 .then((data)=>{
-                    history.push('/register/login')
+                    if(data.data.key){
+                        history.push('/register/login')
+                    }
+                    else{
+                        if(data.data.email){
+                            toast.error(".آخ آخ مث که این ایمیلو قبلا ثبت کردن")
+                        }
+                        if(data.data.username){
+                            toast.error(".نام کاربریتو قبلا یکی گذاشته")
+                        }
+                    }
                 }
                 )
-                .catch(error=>console.log(error))
                 
             } else {
                 toast.error(".فک کنم یه چیزیو اشتباه وارد کردی سلطان")
