@@ -9,12 +9,9 @@ import Signup from "./register/signup/signup.index"
 const MainProject = () => {
     return (
         <Router>
-            {/*<div className="project-header">*/}
-            {/*    <p>!بزن بریم</p>*/}
-            {/*</div>*/}
             <Switch>
                 <Route path={RoutePath.register.signup} component={Signup}/>
-                <Route path={RoutePath.register.login} component={Login}/>
+                <Route path={RoutePath.register.signin} component={Login}/>
             </Switch>
         </Router>
     )

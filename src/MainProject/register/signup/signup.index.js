@@ -5,8 +5,9 @@ import Button from "../../../utilities/components/button/button.index"
 import {emailValidation, usernameValidation} from "../../../scripts/validations";
 import {toast} from "react-toastify";
 import signup from "../../../assets/images/signup5.svg"
-import { post } from "../../../scripts/api";
-import { useHistory } from "react-router";
+import {post} from "../../../scripts/api";
+import {useHistory} from "react-router";
+import {APIPath} from "../../../data";
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -16,38 +17,37 @@ const Signup = () => {
     const [confirmPassword, setConfirmPassword] = useState(null)
 
     const history = useHistory();
-    function submit(e) {
-        
+
+    function submit() {
         if (email && city && password && username) {
             if (emailValidation(email) && usernameValidation(username) && (password === confirmPassword)) {
                 const signup_form = {
-                    username:username,
-                    email:email,
-                    password1:password,
-                    password2:confirmPassword,
-                    city:city
+                    username: username,
+                    email: email,
+                    password1: password,
+                    password2: confirmPassword,
+                    city: city
                 }
-                post("http://127.0.0.1:8000/api/rest-auth/registration/",signup_form)
-                .then((data)=>{
-                    if(data.data.key){
-                        history.push('/register/login')
-                    }
-                    else{
-                        if(data.data.email){
-                            toast.error(".آخ آخ مث که این ایمیلو قبلا ثبت کردن")
+                post(APIPath.register.signup, signup_form)
+                    .then((data) => {
+                            if (data.data.key) {
+                                history.push('/register/login')
+                            } else {
+                                if (data.data.email) {
+                                    toast.warn("ایمیل تکراری می باشد.")
+                                }
+                                if (data.data.username) {
+                                    toast.warn("نام کاربری شما قبلا استفاده شده است.")
+                                }
+                            }
                         }
-                        if(data.data.username){
-                            toast.error(".نام کاربریتو قبلا یکی گذاشته")
-                        }
-                    }
-                }
-                )
-                
+                    )
+
             } else {
-                toast.error(".فک کنم یه چیزیو اشتباه وارد کردی سلطان")
+                toast.error("اطلاعات خود را مجددا بررسی نمایید.")
             }
         } else {
-            toast.error(" !کامل پر نکردی که عزیزم")
+            toast.error("فیلد خالی را پر کنید.")
         }
     }
 

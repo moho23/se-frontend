@@ -1,18 +1,1 @@
 @import "../utilities/references/index";
-
-.project-header {
-  height: 70px;
-  background-color: $navyDark;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-
-  p {
-    color: $white;
-    font-weight: bold;
-    font-size: 25px;
-  }
-}
