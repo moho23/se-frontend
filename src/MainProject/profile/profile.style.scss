@@ -1,80 +1,56 @@
 @import "../../utilities/references/index";
 
-.background{
-    background-color: #30475e;
-    height: 100%;
-    width: 100%;
-    position: fixed;
+.profile-main-page {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
+  background-color: $navyDark;
+  flex-direction: column;
+
+  .image-div {
     display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    width: 100%;
+    flex-direction: row-reverse;
+    padding: 50px 50px 25px 50px;
 
-.window{
-    background-color: #DDDDDD;
-    opacity: 0.9;
-    border-radius:1%;
-    width: 65%;
-    height: 400px;
-    margin-bottom:-100px;
-}
+    img {
+      @include project-size(width, 150px, 80px);
+      @include project-size(height, 150px, 80px);
+      border-radius: 100%;
+    }
+  }
 
-.picture{
-    background-image: url("https://freesvg.org/img/abstract-user-flat-4.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    float: left;
-    height: 185px;
-    width: 185px;
-    margin-left: 100px;
-    margin-top: -90px;
-    border: ridge;
-    border-radius: 50%;
-}
+  .details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 50px;
 
-.info{
-    margin-top: 50px;
-    text-align: right;
-    padding-right: 60px;
-    padding-top: 30px;
-    direction: rtl;
-}
-
-.user{
-    padding:10px 0px 10px 0px;
-}
-
-.lName{
-    padding:10px 0px 10px 0px;
-
-}
-
-.fName{
-    padding:10px 0px 10px 0px;
-}
-
-.city{
-    padding:10px 0px 10px 0px;
-}
-
-.email{
-    padding:10px 0px 10px 0px;
-}
-
-.editPro{
-    width: 20% !important;
-    background-color: #f05454 !important;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-@media (max-width:375px){
-    .info{
-        padding-right: 25px;
+    .edit-button {
+      max-width: 100px;
+      margin-top: 22px;
+      height: 40px;
+      background-color: $orangeDark;
     }
 
-    .picture{
-        margin-left: 32px;
-        margin-top: -110px;
+
+    .item-detail {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+
+      @include project-md {
+        flex-direction: row;
+      }
+
+      .item {
+        width: 100%;
+        display: flex;
+        padding: 5px;
+      }
     }
+  }
 }

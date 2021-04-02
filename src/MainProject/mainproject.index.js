@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import "./mainproject.style.scss"
 import {authToken} from "../scripts/storage";
 import Sidebar from "./sidebar/sidebar.index";
+import {RoutePath} from "../data";
+import Profile from "./profile/profile.index";
 
 
 const MainProject = () => {
@@ -38,6 +40,7 @@ const MainProject = () => {
                                     </div>
                                     <div className="project-content">
                                         <Switch>
+                                            <Route path={RoutePath.dashboard.profile} component={Profile}/>
                                         </Switch>
                                     </div>
                                 </div>

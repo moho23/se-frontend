@@ -1,23 +1,42 @@
-import "./profile.style.scss"
+import React, {useState} from "react";
+import "./profile.style.scss";
+import cover from "../../assets/image/static.png";
+import Input from "../../utilities/components/input/input.index";
 import Button from "../../utilities/components/button/button.index";
 
-function Profile(){
-    return(
-        <>
-        <div className="background">
-            <div className="window">
-            <div className="picture"></div>
-                <div className="info">
-                    <h3 className="user">نام کاربری:  </h3>
-                    <h3 className="fName">نام: </h3>
-                    <h3 className="lName">نام خانوادگی: </h3>
-                    <h3 className="city">شهر: </h3>
-                    <h3 className="email">ایمیل: </h3>                    
+function Profile() {
+
+    const [firstname, setFirstname] = useState()
+    const [lastname, setLastname] = useState()
+    const [email, setEmail] = useState()
+    const [username, setUsername] = useState()
+    const [bio, setBio] = useState()
+    const [image, setImage] = useState()
+    const [isEdit, setIsEdit] = useState(true)
+
+
+    return (
+        <div className="profile-main-page">
+            <div className="image-div"><img src={cover} alt="cover"/></div>
+            <div className="details">
+                <div className="item-detail">
+                    <Input value="Ahmad@gmail.com" disabled={isEdit} onChange={(e) => setLastname(e)}
+                           className="item"
+                           label="ایمیل"/>
+                    <Input value="ahamadYakooza" disabled={isEdit} onChange={(e) => setFirstname(e)}
+                           className="item"
+                           label="نام کاربری"/>
                 </div>
-                <Button className="editPro" text={"ویرایش"} ></Button>
+                <div className="item-detail">
+                    <Input value="شجریان" disabled={isEdit} onChange={(e) => setLastname(e)} className="item"
+                           label="نام خانوادگی"/>
+                    <Input value="محمدرضا" disabled={isEdit} onChange={(e) => setFirstname(e)} className="item"
+                           label="نام"/>
+                </div>
+                <Button className="edit-button" onClick={() => setIsEdit(!isEdit)} text={isEdit ? "ویرایش" : "تایید"}/>
             </div>
         </div>
-        </>
     )
 }
+
 export default Profile;

@@ -5,7 +5,7 @@
   border-radius: 5px;
   color: $white;
   width: 100%;
-  background-color: $navy;
+  background-color: $orangeDark;
   border: none;
   font-weight: bold;
   height: 48px;
@@ -24,8 +24,9 @@
   }
 
   &:disabled {
-    color: $gray;
-    background-color: $navyDark;
+    color: $white;
+    background-color: $orangeDark;
     cursor: not-allowed;
+    opacity: 0.5;
   }
 }
