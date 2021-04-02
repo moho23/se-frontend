@@ -17,6 +17,9 @@ function Profile() {
 
     return (
         <div className="profile-main-page">
+            <div className="title">
+                <h2>پروفایل</h2>
+            </div>
             <div className="image-div"><img src={cover} alt="cover"/></div>
             <div className="details">
                 <div className="item-detail">

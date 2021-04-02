@@ -8,6 +8,17 @@
   background-color: $navyDark;
   flex-direction: column;
 
+  .title {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+
+    h2 {
+      color: $creamLight;
+      padding: 20px;
+    }
+  }
+
   .image-div {
     display: flex;
     width: 100%;
