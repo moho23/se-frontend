@@ -45,6 +45,7 @@ function Profile() {
             }
         }
     })
+    
 
     return (
         <div className="profile-main-page">
@@ -54,7 +55,11 @@ function Profile() {
                 </div> */}
                 <div className="image-div">
                     <img src={cover} alt="cover"/>
-                    <i class="material-icons">edit</i>
+                    {/* <input type="file" id="file">
+                    <label for="file" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"> */}
+                    {isEdit ? "" : <i class="material-icons" >edit</i>}
+                    {/* </label>
+                    </input> */}
                 </div>
             </div>
             <div className="details">

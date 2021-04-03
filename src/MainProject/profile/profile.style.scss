@@ -28,11 +28,22 @@
     padding: 25px 50px 25px 50px;
     background:url("../../assets/image/1.jpg") no-repeat bottom/cover;
     height: 115%;
+    position: relative;
+    
 
     img {
       @include project-size(width, 150px, 100px);
       @include project-size(height, 150px, 100px);
       border-radius: 100%;
+    }
+    .material-icons{
+    margin-top: 112px;
+    position: absolute;
+    border-radius: 100%;
+    background-color: $creamLight;
+      @include project-xs{
+        margin-top: 75px;
+      }
     }
   }
 
@@ -44,13 +55,13 @@
     margin-top: 20px;
 
     .btn-outline-info{
-      margin-top: 40px;
+      margin-top: 60px;
       margin-left: 10px;
       width: 80px;
     }
 
     .btn-success{
-      margin-top: 40px;
+      margin-top: 60px;
       margin-left: 10px;
       width: 80px;
     }
