@@ -6,7 +6,7 @@ import {emailValidation, usernameValidation} from "../../../scripts/validations"
 import {toast} from "react-toastify";
 import signup from "../../../assets/images/signup5.svg"
 import {post} from "../../../scripts/api";
-import {useHistory} from "react-router-dom";
+import {Link, Route, useHistory} from "react-router-dom";
 import {APIPath, RoutePath} from "../../../data";
 
 const Signup = () => {
@@ -66,12 +66,18 @@ const Signup = () => {
                     <Input className="items" label="نام کاربری" onChange={(e) => setUsername(e)}
                            placeholder="نام کاربری خود را وارد کنید."/>
                     <Input className="items" label="شهر" onChange={(e) => setCity(e)}
-                           placeholder="شهر خود را انتخاب کنید."/>
+                           placeholder="شهر خود را وارد کنید."/>
                     <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
                            placeholder="رمز خود را وارد کنید."/>
                     <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}
                            placeholder="رمز خود را تکرار کنید."/>
                     <Button className="last-item" text="ثبت نام" onClick={submit}/>
+                    <div className="end-line">
+                        <p>
+                            قبلا ثبت نام کردید؟ <Link to={RoutePath.account.signin}
+                                                      className="signin-button">ورود</Link>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
