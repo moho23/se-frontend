@@ -7,7 +7,7 @@ import {toast} from "react-toastify";
 import signup from "../../../assets/images/signup5.svg"
 import {post} from "../../../scripts/api";
 import {useHistory} from "react-router";
-import {APIPath} from "../../../data";
+import {APIPath, RoutePath} from "../../../data";
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -31,7 +31,7 @@ const Signup = () => {
                 post(APIPath.register.signup, signup_form)
                     .then((data) => {
                             if (data.data.key) {
-                                history.push('/register/login')
+                                history.push(RoutePath.register.signin)
                             } else {
                                 if (data.data.email) {
                                     toast.warn("ایمیل تکراری می باشد.")
