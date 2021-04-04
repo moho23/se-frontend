@@ -2,15 +2,53 @@ import React, {useState} from "react";
 import "./login.style.scss"
 import Input from "../../../utilities/components/input/input.index"
 import Button from "../../../utilities/components/button/button.index"
-// import {toast} from "react-toastify";
 import signin from "../../../assets/images/signin.svg"
 import {Link, useHistory} from "react-router-dom";
 import {APIPath, RoutePath} from "../../../data";
+import {emailValidation} from "../../../scripts/validations";
+import {post, get, responseValidator} from "../../../scripts/api";
+import {toast} from "react-toastify";
+import {authToken} from "../../../scripts/storage";
 
 const Login = () => {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const history = useHistory();
+
+    function onLoginHandler() {
+        if (email && password) {
+            if (emailValidation(email)) {
+                return new Promise((resolve) => {
+                    authToken.remove();
+                    post(APIPath.register.signin, {
+                        email: email,
+                        password: password,
+                    }).then((data) => {
+                        resolve(true);
+                        if (responseValidator(data.status) && data.data) {
+                            authToken.set(data.data);
+                            // get("").then((data) => {
+                            //     if (responseValidator(data.status) && data.data) {
+                            //         // props.dispatch(setUserData(data.data));
+                            //         // props.dispatch(setAuth(AuthStatus.valid));
+                            //     } else {
+                            //         // toast.error(lang.error);
+                            //         authToken.remove();
+                            //         // props.dispatch(setAuth(AuthStatus.inValid));
+                            //     }
+                            // });
+                        } else {
+                            toast.error("مجددا تلاش کنید.");
+                        }
+                    });
+                });
+            } else {
+                toast.error("فرمت ایمیل وارد شده اشتباه است.")
+            }
+        } else {
+            toast.warn("فیلد خالی رو پر کن.")
+        }
+    }
 
     return (
         <div className="signin-main-page">
@@ -26,7 +64,7 @@ const Login = () => {
                            placeholder="ایمیل خود را وارد کنید."/>
                     <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
                            placeholder="رمز خود را وارد کنید."/>
-                    <Button className="last-item" text="ورود"/>
+                    <Button className="last-item" text="ورود" onClick={onLoginHandler}/>
                     <div className="end-line">
                         <p>
                             حساب نداری؟ <Link to={RoutePath.account.signup}

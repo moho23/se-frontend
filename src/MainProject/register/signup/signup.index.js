@@ -47,7 +47,7 @@ const Signup = () => {
                 toast.error("اطلاعات خود را مجددا بررسی نمایید.")
             }
         } else {
-            toast.error("فیلد خالی را پر کنید.")
+            toast.error("فیلد خالی رو پر کن.")
         }
     }
 
