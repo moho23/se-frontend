@@ -38,23 +38,42 @@
 
     .signup {
       width: 100%;
-      max-width: 580px;
+      max-width: 520px;
       padding: 30px;
+
+      .end-line {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-top: 16px;
+
+        p {
+          color: rgba($creamLight, 0.8);
+          font-weight: 500;
+
+          .signin-button {
+            color: $creamLight;
+            font-weight: bold;
+          }
+        }
+
+
+      }
 
       .header {
         direction: rtl;
         font-weight: bold;
         font-size: 35px;
         color: $creamLight;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
       }
 
       .items {
-        @include project-size(margin-bottom, 20px, 8px)
+        @include project-size(margin-bottom, 16px, 8px)
       }
 
       .last-item {
-        margin-top: 30px;
+        margin-top: 36px;
       }
     }
   }
