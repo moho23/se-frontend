@@ -1,1 +1,5 @@
-export const __APIPath = {};
+export const __APIPath = {
+    register: {
+        signup: "account/register/"
+    }
+};

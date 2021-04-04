@@ -5,8 +5,8 @@
   flex-direction: column;
 
   label {
-    color: $navy;
-    font-size: 14px;
+    color: $creamLight;
+    font-size: 16px;
     margin-bottom: 6px;
     font-weight: 600;
     direction: rtl;
@@ -15,23 +15,26 @@
   input {
     height: 48px;
     padding: 0 18px;
-    background-color: $navy;
+    background-color: $creamLight;
     outline: none;
     font-size: 16px;
-    color: $white;
+    color: $black;
+    font-weight: 500;
     border: none;
     border-radius: 5px;
     direction: rtl;
+    min-width: 220px;
 
     ::placeholder {
-      color: $grayLight;
+      color: red;
       font-size: 12px;
     }
 
 
     &:disabled {
-      background-color: $navyDark;
+      background-color: $creamLight;
       cursor: not-allowed;
+      opacity: 0.5;
     }
 
   }

@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {RoutePath} from "../data";
 import "./mainproject.style.scss"
+import Login from "./register/login/login.index";
+import Signup from "./register/signup/signup.index"
 import {authToken} from "../scripts/storage";
 import Sidebar from "./sidebar/sidebar.index";
 
@@ -13,12 +16,14 @@ const MainProject = () => {
         <Router>
             <Switch>
                 {
-                    authToken.get() !== null &&
+                    authToken.get() === null &&
                     <Switch>
+                        <Route path={RoutePath.account.signup} component={Signup}/>
+                        <Route path={RoutePath.account.signin} component={Login}/>
                     </Switch>
                 }
                 {
-                    authToken.get() === null &&
+                    authToken.get() !== null &&
                     (
                         <Switch>
                             <div className="main-project">
