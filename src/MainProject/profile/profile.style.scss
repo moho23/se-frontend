@@ -36,11 +36,16 @@
       @include project-size(height, 150px, 100px);
       border-radius: 100%;
     }
+    .edit-button{
+      display: none;
+    }
     .material-icons{
     margin-top: 112px;
+    font-size: 208%;
     position: absolute;
     border-radius: 100%;
     background-color: $creamLight;
+    cursor: pointer;
       @include project-xs{
         margin-top: 75px;
       }

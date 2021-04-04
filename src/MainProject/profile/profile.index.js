@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState,useRef} from "react";
 import "./profile.style.scss";
 import cover from "../../assets/image/static.png";
 import Input from "../../utilities/components/input/input.index";
@@ -16,7 +16,8 @@ function Profile() {
     const [bio, setBio] = useState()
     const [image, setImage] = useState()
     const [isEdit, setIsEdit] = useState(true)
-
+    const fileRef = useRef(null)
+    
     var url="/api/profile";
     var token="";
     get(url,token).then((data)=> {
@@ -46,7 +47,6 @@ function Profile() {
         }
     })
     
-
     return (
         <div className="profile-main-page">
             <div class="back-img">
@@ -55,19 +55,16 @@ function Profile() {
                 </div> */}
                 <div className="image-div">
                     <img src={cover} alt="cover"/>
-                    {/* <input type="file" id="file">
-                    <label for="file" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"> */}
-                    {isEdit ? "" : <i class="material-icons" >edit</i>}
-                    {/* </label>
-                    </input> */}
+                    <input type="file" ref={fileRef} className="edit-button"></input>
+                    {isEdit ? "" : <i class="material-icons" onClick={()=>{fileRef.current.click();}}>edit</i>}
                 </div>
             </div>
             <div className="details">
                 <div className="item-detail">
-                    <Input value={username} disabled={isEdit} onChange={(e) => setFirstname(e)}
+                    <Input value={username} disabled={isEdit} onChange={(e) => setUsername(e)}
                            className="item"
                            label="نام کاربری"/>
-                    <Input value={city} disabled={isEdit} onChange={(e) => setLastname(e)}
+                    <Input value={city} disabled={isEdit} onChange={(e) => setCity(e)}
                            className="item"
                            label="شهر"/>
                 </div>
@@ -80,7 +77,7 @@ function Profile() {
                            label="نام خانوادگی"/>
                 </div>
                 <div className="item-detail">
-                <Input value={email} disabled={isEdit} onChange={(e) => setLastname(e)}
+                <Input value={email} disabled={isEdit} onChange={(e) => setEmail(e)}
                            className="item"
                            label="ایمیل"/>
                 </div>
