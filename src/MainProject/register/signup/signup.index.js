@@ -74,7 +74,7 @@ const Signup = () => {
                     <Button className="last-item" text="ثبت نام" onClick={submit}/>
                     <div className="end-line">
                         <p>
-                            قبلا ثبت نام کردید؟ <Link to={RoutePath.account.signin}
+                            قبلا ثبت نام کردی؟ <Link to={RoutePath.account.signin}
                                                       className="signin-button">ورود</Link>
                         </p>
                     </div>
