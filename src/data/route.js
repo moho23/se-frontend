@@ -1,7 +1,11 @@
 export const __RoutePath = {
-    register: {
+    account: {
         index: "/register",
         signup: "/register/signup",
         signin: "/register/signin"
-    }
+    },
+    dashboard: {
+        index: "/dashboard",
+        profile: "/dashboard/profile"
+    },
 };
