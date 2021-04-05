@@ -3,7 +3,6 @@
 .profile-main-page {
   width: 100%;
   display: flex;
-  overflow: hidden;
   background-color: $navyDark;
   flex-direction: column;
   overflow: auto;
@@ -25,30 +24,34 @@
     display: flex;
     width: 100%;
     flex-direction: row-reverse;
-    padding: 25px 50px 25px 50px;
-    background:url("../../assets/image/1.jpg") no-repeat bottom/cover;
-    height: 115%;
+    background: url("../../assets/image/1.jpg") no-repeat bottom/cover;
     position: relative;
-    
+    @include project-size(padding-right, 50px, 40px);
+    @include project-size(padding-bottom, 50px, 40px);
+    @include project-size(padding-top, 50px, 40px);
 
     img {
-      @include project-size(width, 150px, 100px);
-      @include project-size(height, 150px, 100px);
+      width: 150px;
+      height: 150px;
       border-radius: 100%;
     }
-    .edit-button{
+
+    .edit-button {
       display: none;
     }
-    .material-icons{
-    margin-top: 112px;
-    font-size: 208%;
-    position: absolute;
-    border-radius: 100%;
-    background-color: $creamLight;
-    cursor: pointer;
-      @include project-xs{
-        margin-top: 75px;
-      }
+
+    .edit-icon {
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 35px;
+      height: 35px;
+      position: absolute;
+      border-radius: 100%;
+      background-color: $creamLight;
+      cursor: pointer;
+      margin-top: 100px;
     }
   }
 
@@ -59,23 +62,20 @@
     padding: 25px 50px;
     margin-top: 20px;
 
-    .btn-outline-info{
-      margin-top: 60px;
-      margin-left: 10px;
-      width: 80px;
-    }
-
-    .btn-success{
-      margin-top: 60px;
-      margin-left: 10px;
-      width: 80px;
-    }
-
-    .edit-button {
-      max-width: 100px;
-      margin-top: 22px;
+    .edit-confirm-button {
+      margin-top: 20px;
       margin-left: 5px;
-      height: 40px;
+      max-width: 80px;
+      height: 38px;
+      font-weight: normal;
+    }
+
+    .editable {
+      background-color: $blue;
+    }
+
+    .not-editable {
+      background-color: $green;
     }
 
     .item-detail {

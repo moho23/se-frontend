@@ -1,12 +1,11 @@
-import React, {useEffect, useState,useRef} from "react";
+import React, {useState, useRef} from "react";
 import "./profile.style.scss";
 import cover from "../../assets/image/static.png";
 import Input from "../../utilities/components/input/input.index";
+import {connect} from "react-redux";
 import Button from "../../utilities/components/button/button.index";
-import {get} from "../../scripts/api"
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Profile() {
+const Profile = (props) => {
 
     const [firstname, setFirstname] = useState()
     const [lastname, setLastname] = useState()
@@ -17,46 +16,17 @@ function Profile() {
     const [image, setImage] = useState()
     const [isEdit, setIsEdit] = useState(true)
     const fileRef = useRef(null)
-    
-    var url="/api/profile";
-    var token="";
-    get(url,token).then((data)=> {
-        console.log("data of profile",data)
-        for(var key in data){
-            switch(key){
-                case "username":
-                    setUsername(data[key])
-                    break;
 
-                case "city":
-                    setCity(data[key]);
-                    break;
 
-                case "firstname":
-                    setFirstname(data[key])
-                    break;
-
-                case "lastname":
-                    setLastname(data[key])
-                    break;
-                
-                case "email":
-                    setEmail(data[key])
-                    break;  
-            }
-        }
-    })
-    
     return (
         <div className="profile-main-page">
-            <div class="back-img">
-                {/* <div className="title">
-                    <h2>پروفایل</h2>
-                </div> */}
+            <div className="back-img">
                 <div className="image-div">
                     <img src={cover} alt="cover"/>
-                    <input type="file" ref={fileRef} className="edit-button"></input>
-                    {isEdit ? "" : <i class="material-icons" onClick={()=>{fileRef.current.click();}}>edit</i>}
+                    <input type="file" ref={fileRef} className="edit-button"/>
+                    {isEdit ? "" : <i className="material-icons edit-icon" onClick={() => {
+                        fileRef.current.click();
+                    }}>edit</i>}
                 </div>
             </div>
             <div className="details">
@@ -70,22 +40,28 @@ function Profile() {
                 </div>
                 <div className="item-detail">
                     <Input value={firstname} disabled={isEdit} onChange={(e) => setFirstname(e)} className="item"
-                           placeholder="نام خود را وارد کنید..."
+                           placeholder="نام خود را وارد کنید."
                            label="نام"/>
                     <Input value={lastname} disabled={isEdit} onChange={(e) => setLastname(e)} className="item"
-                           placeholder="نام خانوادگی خود را وارد کنید..."
+                           placeholder="نام خانوادگی خود را وارد کنید."
                            label="نام خانوادگی"/>
                 </div>
                 <div className="item-detail">
-                <Input value={email} disabled={isEdit} onChange={(e) => setEmail(e)}
+                    <Input value={email} disabled={isEdit} onChange={(e) => setEmail(e)}
                            className="item"
                            label="ایمیل"/>
                 </div>
-                {/* <Button className="edit-button" onClick={() => setIsEdit(!isEdit)} text={isEdit ? "ویرایش" : "تایید"}/> */}
-                <button type="button" class={isEdit? "btn btn-outline-info" : "btn btn-success"} onClick={() => setIsEdit(!isEdit)}>{isEdit ? "ویرایش" : "تایید"}</button>
+                <Button
+                    className={`edit-confirm-button ${isEdit ? "editable" : "not-editable"}`}
+                    onClick={() => setIsEdit(!isEdit)} text={isEdit ? "ویرایش" : "تایید"}/>
             </div>
         </div>
     )
 }
 
-export default Profile;
+
+const mapStateToProps = (state) => ({
+    isAuth: state.authStatus,
+});
+const connector = connect(mapStateToProps);
+export default connector(Profile);
