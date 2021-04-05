@@ -2,30 +2,42 @@ import React, {useEffect, useState} from 'react';
 import './sidebar.style.scss';
 import static_profile from "../../assets/image/static.png"
 import {NavLink} from 'react-router-dom';
-import {RoutePath} from "../../data";
+import {APIPath, RoutePath} from "../../data";
 import {authToken} from "../../scripts/storage";
-// import {setAuth, setUserData} from '../../redux/actions';
+import {setAuth, setUserData} from "../../redux/actions";
+import {connect} from "react-redux";
 
 const Sidebar = (props) => {
     const [status, setStatus] = useState(props.isOpen);
+    const [userDetail, setUserDetail] = useState()
+    const detail = props.information;
 
     useEffect(() => {
         setStatus(props.isOpen);
     }, [props.isOpen]);
 
+    // useEffect(() => {
+    //     get(APIPath.account.profile).then((res) => {
+    //         if (responseValidator(res.status) && res.data) {
+    //             setUserDetail(res.data)
+    //         } else {
+    //             authToken.remove();
+    //         }
+    //     });
+    // }, [])
+
     function logout() {
         authToken.remove();
-        // props.dispatch(setUserData(null));
-        // props.dispatch(setAuth(AuthStatus.inValid));
+        props.dispatch(setUserData(null));
+        props.dispatch(setAuth("inValid"));
     }
 
-    // const detail = props.artistInfo;
 
     return (
         <div className={`project-sidebar-page ${status ? 'is-open' : ''}`}>
             <div className="artist-details">
-                <img src={static_profile} alt="static"/>
-                <p>نام و نام خانوادگی</p>
+                <img src={detail && detail.profile_picture ? detail.profile_picture : static_profile} alt="static"/>
+                <p>{detail && detail.username}</p>
             </div>
             <div className="sidebar-items">
                 <NavLink
@@ -49,4 +61,10 @@ const Sidebar = (props) => {
     );
 };
 
-export default Sidebar;
+const mapStateToProps = (state) => ({
+    text: state.language,
+    information: state.userData,
+});
+
+const connector = connect(mapStateToProps);
+export default connector(Sidebar);

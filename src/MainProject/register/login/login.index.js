@@ -3,17 +3,18 @@ import "./login.style.scss"
 import Input from "../../../utilities/components/input/input.index"
 import Button from "../../../utilities/components/button/button.index"
 import signin from "../../../assets/images/signin.svg"
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {APIPath, RoutePath} from "../../../data";
 import {emailValidation} from "../../../scripts/validations";
 import {post, get, responseValidator} from "../../../scripts/api";
 import {toast} from "react-toastify";
 import {authToken} from "../../../scripts/storage";
+import {connect} from "react-redux";
+import {setAuth, setUserData} from "../../../redux/actions";
 
-const Login = () => {
+const Login = (props) => {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
-    const history = useHistory();
 
     function onLoginHandler() {
         if (email && password) {
@@ -26,17 +27,17 @@ const Login = () => {
                     }).then((data) => {
                         resolve(true);
                         if (responseValidator(data.status) && data.data) {
-                            authToken.set(data.data);
-                            // get("").then((data) => {
-                            //     if (responseValidator(data.status) && data.data) {
-                            //         // props.dispatch(setUserData(data.data));
-                            //         // props.dispatch(setAuth(AuthStatus.valid));
-                            //     } else {
-                            //         // toast.error(lang.error);
-                            //         authToken.remove();
-                            //         // props.dispatch(setAuth(AuthStatus.inValid));
-                            //     }
-                            // });
+                            authToken.set(data.data.key);
+                            get(APIPath.account.profile).then((data) => {
+                                if (responseValidator(data.status) && data.data) {
+                                    props.dispatch(setUserData(data.data));
+                                    props.dispatch(setAuth("valid"));
+                                } else {
+                                    toast.error("مجددا تلاش نمایید.");
+                                    authToken.remove();
+                                    props.dispatch(setAuth("inValid"));
+                                }
+                            });
                         } else {
                             toast.error("مجددا تلاش کنید.");
                         }
@@ -77,4 +78,9 @@ const Login = () => {
     )
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+    information: state.userData,
+});
+
+const connector = connect(mapStateToProps);
+export default connector(Login);
