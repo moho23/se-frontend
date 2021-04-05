@@ -24,7 +24,7 @@
     display: flex;
     width: 100%;
     flex-direction: row-reverse;
-    background: url("../../assets/image/1.jpg") no-repeat bottom/cover;
+    background: url("../../assets/images/profile_background.png") no-repeat bottom/cover;
     position: relative;
     @include project-size(padding-right, 50px, 40px);
     @include project-size(padding-bottom, 50px, 40px);
@@ -34,6 +34,7 @@
       width: 150px;
       height: 150px;
       border-radius: 100%;
+      object-fit: cover;
     }
 
     .edit-button {
@@ -60,7 +61,7 @@
     display: flex;
     flex-direction: column;
     padding: 25px 50px;
-    margin-top: 20px;
+    margin-top: 35px;
 
     .edit-confirm-button {
       margin-top: 20px;
@@ -83,6 +84,7 @@
       width: 100%;
       display: flex;
       flex-direction: column;
+      margin-top: 16px;
 
       @include project-md {
         flex-direction: row-reverse;

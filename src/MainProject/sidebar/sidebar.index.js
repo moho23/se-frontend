@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './sidebar.style.scss';
-import static_profile from "../../assets/image/static.png"
+import static_profile from "../../assets/images/static.png"
 import {NavLink} from 'react-router-dom';
 import {RoutePath} from "../../data";
 import {authToken} from "../../scripts/storage";
