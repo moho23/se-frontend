@@ -1,0 +1,100 @@
+@import "../../utilities/references/index";
+
+.profile-main-page {
+  width: 100%;
+  display: flex;
+  background-color: $navyDark;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+  text-align: right;
+
+  .title {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+
+    h2 {
+      color: $creamLight;
+      padding: 20px;
+    }
+  }
+
+  .image-div {
+    display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    background: url("../../assets/image/1.jpg") no-repeat bottom/cover;
+    position: relative;
+    @include project-size(padding-right, 50px, 40px);
+    @include project-size(padding-bottom, 50px, 40px);
+    @include project-size(padding-top, 50px, 40px);
+
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 100%;
+    }
+
+    .edit-button {
+      display: none;
+    }
+
+    .edit-icon {
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 35px;
+      height: 35px;
+      position: absolute;
+      border-radius: 100%;
+      background-color: $creamLight;
+      cursor: pointer;
+      margin-top: 100px;
+    }
+  }
+
+  .details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 50px;
+    margin-top: 20px;
+
+    .edit-confirm-button {
+      margin-top: 20px;
+      margin-left: 5px;
+      max-width: 80px;
+      height: 38px;
+      font-weight: normal;
+    }
+
+    .editable {
+      background-color: $blue;
+    }
+
+    .not-editable {
+      background-color: $green;
+    }
+
+    .item-detail {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      @include project-md {
+        flex-direction: row-reverse;
+      }
+
+      .item {
+        width: 100%;
+        display: flex;
+        padding: 5px;
+      }
+    }
+  }
+}
+
+

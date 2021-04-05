@@ -22,10 +22,10 @@
       height: calc(100% - 40px);
       box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.32);
       background-color: $creamLight;
-      padding: 24px 22px;
-      @include project-md {
-        padding: 52px 36px;
-      }
+      //padding: 24px 22px;
+      //@include project-md {
+      //  padding: 52px 36px;
+      //}
     }
 
     .project-responsive-header {

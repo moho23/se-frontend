@@ -2,36 +2,24 @@ import React, {useEffect, useState} from 'react';
 import './sidebar.style.scss';
 import static_profile from "../../assets/image/static.png"
 import {NavLink} from 'react-router-dom';
-import {APIPath, RoutePath} from "../../data";
+import {RoutePath} from "../../data";
 import {authToken} from "../../scripts/storage";
 import {setAuth, setUserData} from "../../redux/actions";
 import {connect} from "react-redux";
 
 const Sidebar = (props) => {
     const [status, setStatus] = useState(props.isOpen);
-    const [userDetail, setUserDetail] = useState()
     const detail = props.information;
 
     useEffect(() => {
         setStatus(props.isOpen);
     }, [props.isOpen]);
 
-    // useEffect(() => {
-    //     get(APIPath.account.profile).then((res) => {
-    //         if (responseValidator(res.status) && res.data) {
-    //             setUserDetail(res.data)
-    //         } else {
-    //             authToken.remove();
-    //         }
-    //     });
-    // }, [])
-
     function logout() {
         authToken.remove();
         props.dispatch(setUserData(null));
         props.dispatch(setAuth("inValid"));
     }
-
 
     return (
         <div className={`project-sidebar-page ${status ? 'is-open' : ''}`}>

@@ -61,11 +61,11 @@
       }
 
       .header {
-        direction: rtl;
         font-weight: bold;
         font-size: 27px;
         color: $creamLight;
         margin-bottom: 16px;
+        direction: rtl;
       }
 
       .items {
