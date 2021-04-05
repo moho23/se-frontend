@@ -6,7 +6,7 @@ export const SERVER = ENV.api;
 function generateHeader(object) {
     const header = {};
     if (authToken.get() && authToken.get().length > 0) {
-        header['Authorization'] = 'jwt ' + authToken.get();
+        header['Authorization'] = 'Token ' + authToken.get();
     }
     for (const key of Object.keys(object)) {
         header[key] = object[key];

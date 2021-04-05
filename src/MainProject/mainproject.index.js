@@ -1,29 +1,38 @@
-import React, {useState} from "react";
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import React, {useState, useEffect} from "react";
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import {RoutePath} from "../data";
 import "./mainproject.style.scss"
 import Login from "./register/login/login.index";
 import Signup from "./register/signup/signup.index"
-import {authToken} from "../scripts/storage";
 import Sidebar from "./sidebar/sidebar.index";
+import {connect} from "react-redux";
+import {projectInitialize} from "./mainproject.scripts";
 
 
-const MainProject = () => {
+const MainProject = (props) => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const isAuth = props.isAuth;
+
+    useEffect(() => {
+        projectInitialize(props.dispatch);
+    }, []);
 
     return (
         <Router>
             <Switch>
                 {
-                    authToken.get() === null &&
+                    isAuth === "inValid" &&
                     <Switch>
                         <Route path={RoutePath.account.signup} component={Signup}/>
                         <Route path={RoutePath.account.signin} component={Login}/>
+                        <Route path="*">
+                            <Redirect to={RoutePath.account.signin}/>
+                        </Route>
                     </Switch>
                 }
                 {
-                    authToken.get() !== null &&
+                    isAuth === "valid" &&
                     (
                         <Switch>
                             <div className="main-project">
@@ -43,6 +52,9 @@ const MainProject = () => {
                                     </div>
                                     <div className="project-content">
                                         <Switch>
+                                            <Route path="*">
+                                                <Redirect to={RoutePath.dashboard.index}/>
+                                            </Route>
                                         </Switch>
                                     </div>
                                 </div>
@@ -56,7 +68,11 @@ const MainProject = () => {
 }
 
 
-export default MainProject;
+const mapStateToProps = (state) => ({
+    isAuth: state.authStatus,
+});
+const connector = connect(mapStateToProps);
+export default connector(MainProject);
 
 
 

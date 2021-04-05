@@ -5,8 +5,8 @@ import Button from "../../../utilities/components/button/button.index"
 import {emailValidation, usernameValidation} from "../../../scripts/validations";
 import {toast} from "react-toastify";
 import signup from "../../../assets/images/signup5.svg"
-import {post} from "../../../scripts/api";
-import {Link, Route, useHistory} from "react-router-dom";
+import {post, responseValidator} from "../../../scripts/api";
+import {Link, useHistory} from "react-router-dom";
 import {APIPath, RoutePath} from "../../../data";
 
 const Signup = () => {
@@ -21,33 +21,33 @@ const Signup = () => {
     function submit() {
         if (email && city && password && username) {
             if (emailValidation(email) && usernameValidation(username) && (password === confirmPassword)) {
-                const signup_form = {
-                    username: username,
-                    email: email,
-                    password1: password,
-                    password2: confirmPassword,
-                    city: city
-                }
-                post(APIPath.register.signup, signup_form)
-                    .then((data) => {
-                            if (data.data.key) {
-                                history.push(RoutePath.account.signin)
-                            } else {
-                                if (data.data.email) {
-                                    toast.warn("ایمیل تکراری می باشد.")
-                                }
-                                if (data.data.username) {
-                                    toast.warn("نام کاربری شما قبلا استفاده شده است.")
-                                }
+                return new Promise((resolve) => {
+                    const signup_form = {
+                        username: username,
+                        email: email,
+                        password1: password,
+                        password2: confirmPassword,
+                        city: city
+                    }
+                    post(APIPath.register.signup, signup_form).then((data) => {
+                        resolve(true);
+                        if (responseValidator(data.status)) {
+                            history.push(RoutePath.account.signin)
+                        } else {
+                            if (data.data.email) {
+                                toast.error("ایمیل تکراری می باشد.")
+                            }
+                            if (data.data.username) {
+                                toast.error("نام کاربری شما قبلا استفاده شده است.")
                             }
                         }
-                    )
-
+                    });
+                });
             } else {
                 toast.error("اطلاعات خود را مجددا بررسی نمایید.")
             }
         } else {
-            toast.error("فیلد خالی را پر کنید.")
+            toast.error("فیلد خالی رو پر کن.")
         }
     }
 
@@ -74,8 +74,8 @@ const Signup = () => {
                     <Button className="last-item" text="ثبت نام" onClick={submit}/>
                     <div className="end-line">
                         <p>
-                            قبلا ثبت نام کردید؟ <Link to={RoutePath.account.signin}
-                                                      className="signin-button">ورود</Link>
+                            قبلا ثبت نام کردی؟ <Link to={RoutePath.account.signin}
+                                                     className="signin-button">ورود</Link>
                         </p>
                     </div>
                 </div>
