@@ -28,7 +28,7 @@ const Profile = (props) => {
         setIsEdit(!isEdit)
     }
 
-    function onConfirmHandler(e) {
+    function onConfirmHandler() {
         setIsEdit(!isEdit);
         if (firstname && lastname) {
             return new Promise((resolve) => {
@@ -58,9 +58,18 @@ const Profile = (props) => {
                     (res => {
                             if (responseValidator(res.status)) {
                                 props.dispatch(setUserData(res.data))
+                                toast.success("اطلاعات شما با موفقیت تغییر یافت.")
                                 setTimeout(() => {
                                     resolve(true)
                                 }, 1500);
+                            } else if (res.data && res.data.username) {
+                                setUsername(userInfos.username)
+                                toast.error("نام کاربری در سیستم وجود دارد.")
+                                resolve(true)
+                            } else if (res.data && res.data.email) {
+                                setEmail(userInfos.email)
+                                toast.error("ایمیل در سیستم وجود دارد.")
+                                resolve(true)
                             }
                         }
                     ))
