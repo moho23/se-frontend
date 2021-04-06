@@ -34,10 +34,10 @@ const Signup = () => {
                         if (responseValidator(data.status)) {
                             history.push(RoutePath.account.signin)
                         } else {
-                            if (data.data.email) {
+                            if (data.data && data.data.email) {
                                 toast.error("ایمیل تکراری می باشد.")
                             }
-                            if (data.data.username) {
+                            if (data.data && data.data.username) {
                                 toast.error("نام کاربری شما قبلا استفاده شده است.")
                             }
                         }
