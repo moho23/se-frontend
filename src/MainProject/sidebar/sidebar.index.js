@@ -38,6 +38,15 @@ const Sidebar = (props) => {
                     <p>پروفایل</p>
                 </NavLink>
 
+                <NavLink
+                    to={RoutePath.map.index}
+                    onClick={() => setStatus(false)}
+                    activeClassName="active"
+                    className="row-item map"
+                >
+                    <i className="material-icons">map</i>
+                    <p>نقشه</p>
+                </NavLink>
                 <span/>
 
                 <NavLink to={RoutePath.account.signin} onClick={logout} className="row-item end-item">
