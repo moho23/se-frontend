@@ -8,6 +8,7 @@ import Sidebar from "./sidebar/sidebar.index";
 import {connect} from "react-redux";
 import {projectInitialize} from "./mainproject.scripts";
 import Profile from "./profile/profile.index";
+import MapContainer from "./map/mapcontainer.index";
 
 
 const MainProject = (props) => {
@@ -54,6 +55,7 @@ const MainProject = (props) => {
                                     <div className="project-content">
                                         <Switch>
                                             <Route path={RoutePath.dashboard.profile} component={Profile}/>
+                                            <Route path={RoutePath.map.index} component={MapContainer}></Route>
                                             <Route path="*">
                                                 <Redirect to={RoutePath.dashboard.index}/>
                                             </Route>

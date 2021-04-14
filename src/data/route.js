@@ -8,4 +8,7 @@ export const __RoutePath = {
         index: "/dashboard",
         profile: "/dashboard/profile"
     },
+    map: {
+        index: "/map",
+    }
 };
