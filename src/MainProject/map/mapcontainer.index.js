@@ -22,6 +22,7 @@ const MapContainer = () => {
           .then(response => response.json())
           .then(data => { console.log(data) })
         const array = [];
+        setIsntClicked(true)
         array.push(<Mapir.Marker
           coordinates={[e.lngLat.lng, e.lngLat.lat]}
           onClick={()=>setIsntClicked(false)}
