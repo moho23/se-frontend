@@ -24,8 +24,8 @@ const Sidebar = (props) => {
     return (
         <div className={`project-sidebar-page ${status ? 'is-open' : ''}`}>
             <div className="artist-details">
-                <img src={detail && detail.profile_picture ? detail.profile_picture : static_profile} alt="static"/>
-                <p>{detail && detail.username}</p>
+                <img src={detail && detail.profile_picture ? detail.profile_picture : static_profile} alt={detail.username}/>
+                <p>{detail && detail.username}@</p>
             </div>
             <div className="sidebar-items">
                 <NavLink

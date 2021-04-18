@@ -150,7 +150,7 @@ export function upload(URL, formData, onProgress) {
         request.upload.addEventListener('progress', function (e) {
             onProgress(e.loaded);
         });
-        request.open('put', ENV.api + URL);
+        request.open('put', SERVER + URL);
         request.setRequestHeader('Authorization', 'Token ' + authToken.get());
         request.timeout = 45000;
         request.send(formData);
