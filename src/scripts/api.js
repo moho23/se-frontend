@@ -1,12 +1,13 @@
 import {authToken} from "./storage";
 import ENV from "../env.json"
 
-export const SERVER = ENV.api;
+// export const SERVER = ENV.api;
+export const SERVER = "http://45.149.76.77/api/";
 
 function generateHeader(object) {
     const header = {};
     if (authToken.get() && authToken.get().length > 0) {
-        header['Authorization'] = 'jwt ' + authToken.get();
+        header['Authorization'] = 'Token ' + authToken.get();
     }
     for (const key of Object.keys(object)) {
         header[key] = object[key];
@@ -134,4 +135,25 @@ export function get(url, params = {}) {
 
 export function responseValidator(status) {
     return status >= 200 && status < 300;
+}
+
+export function upload(URL, formData, onProgress) {
+    let abort;
+    const promise = new Promise((resolve) => {
+        const request = new XMLHttpRequest();
+        abort = request.abort;
+        request.onload = function () {
+            if (request.readyState == XMLHttpRequest.DONE)
+                resolve({status: request.status, data: JSON.parse(request.responseText)});
+            else resolve({status: request.status, data: null});
+        };
+        request.upload.addEventListener('progress', function (e) {
+            onProgress(e.loaded);
+        });
+        request.open('put', SERVER + URL);
+        request.setRequestHeader('Authorization', 'Token ' + authToken.get());
+        request.timeout = 45000;
+        request.send(formData);
+    });
+    return {promise, abort};
 }
