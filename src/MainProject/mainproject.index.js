@@ -8,11 +8,8 @@ import Sidebar from "./sidebar/sidebar.index";
 import {connect} from "react-redux";
 import {projectInitialize} from "./mainproject.scripts";
 import Profile from "./profile/profile.index";
-<<<<<<< HEAD
 import MapContainer from "./map/mapcontainer.index";
-=======
 import Details from "./detailsLandscapes/detailsLandscapes.index";
->>>>>>> 23caa49a2cfe643138620bea0bd1cfe490cd8d02
 
 
 const MainProject = (props) => {
