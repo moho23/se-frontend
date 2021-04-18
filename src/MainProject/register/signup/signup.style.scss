@@ -1,0 +1,81 @@
+@import "../../../utilities/references/index";
+
+.signup-main-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+
+  @include project-md {
+    flex-direction: row;
+  }
+
+  .signup-image {
+    height: 350px;
+    width: 100%;
+    flex: 1;
+    background-color: $creamLight;
+    @include project-md {
+      height: 100%;
+    }
+    box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.32);
+    padding: 30px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .signup-div {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    align-items: center;
+    height: 100vh;
+    overflow: auto;
+    justify-content: center;
+    background-color: $blueWood;
+
+    .signup {
+      width: 100%;
+      max-width: 520px;
+      padding: 30px;
+
+      .end-line {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-top: 16px;
+
+        p {
+          color: rgba($creamLight, 0.8);
+          font-weight: 500;
+
+          .signin-button {
+            color: $creamLight;
+            font-weight: bold;
+          }
+        }
+
+
+      }
+
+      .header {
+        font-weight: bold;
+        font-size: 27px;
+        color: $creamLight;
+        margin-bottom: 16px;
+        direction: rtl;
+      }
+
+      .items {
+        @include project-size(margin-bottom, 16px, 8px)
+      }
+
+      .last-item {
+        margin-top: 30px;
+      }
+    }
+  }
+}
