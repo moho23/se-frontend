@@ -1,46 +1,47 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useRef, useState} from 'react';
 import './detailsLandscapes.style.scss';
+import detailsDefaultCover from '../../assets/images/landscape-details-default.png'
+import useOnBlur from "../../scripts/useOnBlur";
 
 function Details() {
     const [sidebar, setSidebar] = useState(false);
-
+    const detailsRef = useRef();
+    useOnBlur(detailsRef, () => setSidebar(!sidebar))
     const showSidebar = () => setSidebar(!sidebar);
 
-    return (
-        <>
+    if (sidebar === false) {
+        return (
             <div>
-                <button className="test" onClick={showSidebar}>negar</button>
-                <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                    <ul className='nav-menu-items' onClick={showSidebar}>
-                        <div className="img">
-                            <div className='navbar-toggle'>
-                                <Link to='#' className='menu-bars'>
-                                    <span class="material-icons-outlined">
-                                        close
-                                    </span>
-                                </Link>
-                            </div>
-                            <img src="https://chicagobuzzmarketing.com/wp-content/uploads/2017/06/skyline-dark2.png" />
-                        </div>
-                        <div className="info">
-                            <div className="title">
-                                <i class="material-icons-outlined">title</i>
-                                <p>Title</p>
-                            </div>
-                            <div className="category">
-                                <span class="material-icons-outlined">category</span>
-                                <p>cotegory</p>
-                            </div>
-                            <div className="description">
-                                <span class="material-icons-outlined">description</span>
-                                <p>description</p>
-                            </div>
-                        </div>
-                    </ul>
-                </nav>
+                <button onClick={showSidebar}>salam</button>
             </div>
-        </>
+        )
+    }
+
+    return (
+        <div className={sidebar ? 'details-main-page is_open' : 'details-main-page'} ref={detailsRef}>
+            <div className="detail-items" onClick={showSidebar}>
+                <div className='toggle-button'>
+                    <i onClick={() => setSidebar(!sidebar)} className="material-icons-outlined">close</i>
+                </div>
+                <img src={detailsDefaultCover} alt="landscape-details"/>
+                <div className="info">
+                    <div className="info-item">
+                        <i className="material-icons-outlined">title</i>
+                        <p>رستوران مسلم</p>
+                    </div>
+                    <div className="info-item">
+                        <i className="material-icons-outlined">category</i>
+                        <p>گردشگری</p>
+                    </div>
+                    <div className="info-item last-line">
+                        <i className="material-icons-outlined">description</i>
+                        <p>
+                            کوروش دوم، کوروش بزرگ یا کوروش کبیر، که کورش هم نوشته می‌شود، همچنین سیروس و کورُس (برگردان آن از تلفظ‌های اروپایی)، بنیان‌گذار و نخستین شاه شاهنشاهی هخامنشی بود که به مدت سی سال، در بین سال‌های ۵۵۹ تا ۵۲۹ پیش از میلاد، بر نواحی گسترده‌ای از آسیا حکومت می‌کرد. کوروش در استوانهٔ خود که در بابل کشف شده، خودش را «فرزند کمبوجیه، شاه بزرگ انشان، نوادهٔ کوروش، شاه بزرگ انشان، نوادهٔ چیش‌پیش، شاه بزرگ انشان، از خانواده‌ای که همیشه پادشاه بوده‌است».
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 
