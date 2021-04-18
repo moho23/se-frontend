@@ -6,7 +6,8 @@ export const __RoutePath = {
     },
     dashboard: {
         index: "/dashboard",
-        profile: "/dashboard/profile"
+        profile: "/dashboard/profile",
+        details: "/dashboard/details",
     },
     map: {
         index: "/map",

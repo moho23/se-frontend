@@ -84,11 +84,12 @@ const Profile = (props) => {
         <div className="profile-main-page">
             <div className="back-img">
                 <div className="image-div">
-                    <img src={imageName !== null ? imageName : cover} alt="cover"/>
+                    <img src={imageName !== null ? imageName : cover} alt={firstname + ' ' + lastname}/>
                     <input type="file" accept="image/*" ref={fileRef}
                            onChange={(e) => {
                                setImage(e.target.files[0]);
                                setImageName(URL.createObjectURL(e.target.files[0]))
+                               console.log(e.target.files[0])
                            }}
                            className="edit-button"/>
                     {isEdit ? "" :

@@ -1,7 +1,8 @@
 import {authToken} from "./storage";
 import ENV from "../env.json"
 
-export const SERVER = ENV.api;
+// export const SERVER = ENV.api;
+export const SERVER = "http://45.149.76.77/api/";
 
 function generateHeader(object) {
     const header = {};
@@ -149,7 +150,7 @@ export function upload(URL, formData, onProgress) {
         request.upload.addEventListener('progress', function (e) {
             onProgress(e.loaded);
         });
-        request.open('put', ENV.api + URL);
+        request.open('put', SERVER + URL);
         request.setRequestHeader('Authorization', 'Token ' + authToken.get());
         request.timeout = 45000;
         request.send(formData);
