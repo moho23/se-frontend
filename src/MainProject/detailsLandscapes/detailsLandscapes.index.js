@@ -23,7 +23,7 @@ function Details(props) {
                 <div className='toggle-button'>
                     <i onClick={() => setSidebar(!sidebar)} className="material-icons-outlined">close</i>
                 </div>
-                <img src={detailsDefaultCover} alt="landscape-details"/>
+                <img src={props.cover ? props.cover : detailsDefaultCover} alt="landscape-details"/>
                 <div className="info">
                     <div className="info-item">
                         <i className="material-icons-outlined">title</i>
