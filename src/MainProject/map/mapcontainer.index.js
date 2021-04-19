@@ -73,7 +73,6 @@ const MapContainer = () => {
                     Map={Map}
                     userLocation 
                     onClick={reverseFunction}
-                    style={{height :'100%',position: 'absolute'}}
                 >
                 
                     <Mapir.Layer

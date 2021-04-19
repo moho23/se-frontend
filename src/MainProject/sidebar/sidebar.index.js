@@ -47,7 +47,7 @@ const Sidebar = (props) => {
                     <i className="material-icons">map</i>
                     <p>نقشه</p>
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                     to={RoutePath.dashboard.details}
                     onClick={() => setStatus(false)}
                     activeClassName="active"
@@ -55,7 +55,7 @@ const Sidebar = (props) => {
                 >
                     <i className="material-icons">person</i>
                     <p>اطلاعات مکان</p>
-                </NavLink>
+                </NavLink> */}
 
                 <span/>
 
