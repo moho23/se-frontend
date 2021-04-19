@@ -7,6 +7,7 @@ export const __APIPath = {
         profile: "account/profile/"
     },
     map:{
-        nearby:"location/find-nearby/"
+        nearby:"location/find-nearby/",
+        details:"location/details/"
     }
 };
