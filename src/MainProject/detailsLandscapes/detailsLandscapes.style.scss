@@ -9,7 +9,8 @@
   min-width: 350px;
   justify-content: center;
   position: absolute;
-  transition: all 500ms ease-in-out;
+  left: -350px;
+  transition: left 500Ms;
 
 
   &.is-open {
