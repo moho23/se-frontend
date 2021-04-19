@@ -16,3 +16,20 @@ export const authToken = {
     },
 };
 
+export const detailsSideBar = {
+    key: 'PROJECT_DETIAL_SIDEBAR',
+    get: function () {
+        const data = localStorage.getItem(detailsSideBar.key);
+        if (data) {
+            return JSON.parse(data);
+        }
+        return null;
+    },
+    set: (value) => {
+        localStorage.setItem(detailsSideBar.key, JSON.stringify(value));
+    },
+    remove: () => {
+        localStorage.removeItem(detailsSideBar.key);
+    },
+};
+

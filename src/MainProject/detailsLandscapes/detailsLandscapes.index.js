@@ -4,18 +4,18 @@ import detailsDefaultCover from '../../assets/images/landscape-details-default.p
 import useOnBlur from "../../scripts/useOnBlur";
 
 function Details(props) {
-    const [sidebar, setSidebar] = useState(false);
+    const [sidebar, setSidebar] = useState(true);
     const detailsRef = useRef();
     useOnBlur(detailsRef, () => setSidebar(!sidebar))
     const showSidebar = () => setSidebar(!sidebar);
 
-    if (sidebar === false) {
-        return (
-            <div>
-                <button onClick={showSidebar}>salam</button>
-            </div>
-        )
-    }
+    // if (sidebar === false) {
+    //     return (
+    //         <div>
+    //             <button onClick={showSidebar}>salam</button>
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className={sidebar ? 'details-main-page is_open' : 'details-main-page'} ref={detailsRef}>
