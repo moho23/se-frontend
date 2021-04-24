@@ -47,6 +47,15 @@ const Sidebar = (props) => {
                     <i className="material-icons">map</i>
                     <p>نقشه</p>
                 </NavLink>
+                <NavLink
+                    to={RoutePath.myLandscapes.index}
+                    onClick={() => setStatus(false)}
+                    activeClassName="active"
+                    className="row-item"
+                >
+                    <i className="material-icons">my_location</i>
+                    <p>مکان‌های من</p>
+                </NavLink>
                 {/* <NavLink
                     to={RoutePath.dashboard.details}
                     onClick={() => setStatus(false)}
