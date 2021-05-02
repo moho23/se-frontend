@@ -1,64 +1,123 @@
 @import "../../utilities/references/index";
+
 .card{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
     direction: rtl;
+    
+
 .card-container{
-    width:300px;
-    overflow: hidden;
+    display: flex;
+    position: relative;
+    width:330px;
+    height: 450px auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
     box-shadow: 0px 0px 15px -5px;
     transition: 0.3s;
     animation: ease-in;
-    margin: 37px;
-    direction: rtl;
-    display: flex;
-    flex-direction: column;
     &:hover{
         transform: scale(1,1);
         box-shadow: 0px 0px 15px 0px;
     }
-    .image-container img{
-        overflow:hidden;
+
+    @include project-md{
+        width:80%;
+        height: 190px auto;
+        direction: rtl;
+        flex-direction: row;
+    }
+
+    .image-container{
         height: 200px;
+    @include project-md{
+        width: 40%;
+        height: inherit;
+    }
     }
     .card-content{
         margin: 1rem;
-        margin-top: 0.5rem;
+        height: 100%;
+
         .card-title{
+            margin-top: 10px;
             margin-bottom: 0.5rem;
         }
-        h3,p{
+        h3{
             margin:0;
             padding:0;
             text-overflow: ellipsis;
-            max-width: 268px;
+            max-width: 270px;
             white-space: nowrap;
             overflow: hidden;
+
+            @include project-md{
+                max-width: 400px;
+            }
+        }
+
+        .txt-complete{
+            margin:0;
+            padding:0;
+            display: inline-block;
+            //text-overflow: ellipsis;
+            //max-width: 270px;
+            //white-space: nowrap;
+            //overflow: hidden;
+
+            @include project-md{
+                //max-width: 400px;
+            }
+        }
+
+        .txt-notcomplete{
+            margin:0;
+            padding:0;
+            text-overflow: ellipsis;
+            max-width: 270px;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            margin-bottom: 10px;
+
+            @include project-md{
+                max-width: 400px;
+            }
+        }
+
+        .card-btn{
+            //position: absolute;
+            //bottom: 0;
+            //left: 10px;
+
+            .btn{
+                display: flex;
+                flex-direction: row-reverse;
+                font-size: 11px;
+                justify-content: center;
+                background-color: $blue;
+                padding: 0.5rem;
+                margin-right: 207px;
+                max-width: 80px;
+                height: 38px;
+                transition: 0.2s;
+                border-radius: 3px;
+                &:hover{
+                    background-color: $navyLight;
+                }
+
+                @include project-md{
+                    margin-right: 370px;
+                }
+                
+            }
         }
     }
-    .btn{
-        display: flex;
-        flex-direction: row-reverse;
-        font-size: 11px;
-        justify-content: center;
-        background-color: $blue;
-        padding: 0.5rem;
-        margin-right: 207px;
-        max-width: 80px;
-        height: 38px;
-        transition: 0.2s;
-        margin-bottom: 0.5rem;
-        border-radius: 3px;
-        &:hover{
-            background-color: $navyLight;
-        }
-        
-    }
+    
 }
 }
-
-
-
-
-
-
-
-
