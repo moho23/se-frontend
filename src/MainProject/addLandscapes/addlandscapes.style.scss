@@ -1,0 +1,197 @@
+@import "src/utilities/references/index";
+
+.add-landscapes-page {
+  width: 100%;
+  display: flex;
+  background-color: $navyDark;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  height: 100%;
+
+  .header {
+    display: flex;
+    width: 100%;
+    color: $creamLight;
+
+    p {
+      display: flex;
+      justify-content: flex-start;
+      direction: rtl;
+      padding: 30px;
+      font-size: 20px;
+      font-weight: 600;
+      width: 100%;
+    }
+  }
+
+  .content {
+    display: flex;
+    width: 100%;
+    max-width: 650px !important;
+    min-width: 200px !important;
+    padding: 30px;
+    flex-direction: column;
+    height: 600px;
+    overflow-y: auto;
+
+    .map-div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 200px !important;
+      margin-top: 30px;
+      border-radius: 5px !important;
+      cursor: pointer;
+      background-color: $creamLight;
+      padding: 5px !important;
+
+      .map {
+        width: 95% !important;
+        max-width: 650px !important;
+        min-width: 200px !important;
+        height: 100% !important;
+        padding: 0 5px !important;
+        cursor: pointer !important;
+        border-radius: 5px !important;
+      }
+    }
+
+    .submit {
+      margin-top: 20px;
+      width: 100px;
+      height: 40px;
+      min-width: 0 !important;
+    }
+
+    .items {
+      width: 100%;
+
+
+      .first-line {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+
+        @include project-md {
+          flex-direction: row;
+        }
+
+        .item {
+          width: 100%;
+          padding: 5px;
+          min-width: 0 !important;
+          margin-top: 20px;
+        }
+      }
+
+      .item {
+        width: 100%;
+        padding: 5px;
+        min-width: 0 !important;
+        margin-top: 10px;
+      }
+
+    }
+
+    .item-column {
+      display: flex;
+      max-width: 650px !important;
+      min-width: 300px !important;
+      position: relative;
+      background: $orangeDark;
+      border-radius: 5px;
+      flex-direction: column;
+      margin-bottom: 20px;
+
+      .form-inputs {
+        padding-top: 20px;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        background-color: #00587a;
+
+        .name-category {
+          width: 100%;
+          display: flex;
+          margin-bottom: 20px;
+
+          .inputs {
+            width: 100%;
+          }
+        }
+      }
+
+      .banner {
+        display: flex;
+        width: 100%;
+        border-radius: 5px;
+
+        &:hover {
+          cursor: pointer;
+
+          .edit-banner {
+            position: absolute;
+            backdrop-filter: blur(5px);
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 1;
+            z-index: 10;
+
+            i {
+              @include project-size(font-size, 20px, 16px);
+              color: $white;
+              margin-left: 5px;
+            }
+
+            .text-upload-banner {
+              p {
+                @include project-size(font-size, 20px, 16px);
+                font-weight: 600;
+                color: $white;
+              }
+
+              .spin {
+                display: none;
+              }
+            }
+          }
+        }
+
+        .edit-banner {
+          position: absolute;
+          opacity: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: -1;
+          transition: opacity 300ms ease-in-out;
+          border-radius: 5px;
+        }
+
+        .banner-image {
+          display: flex;
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+
+        .spin {
+          color: $grayLight;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          @include project-size(font-size, 50px, 30px);
+          -webkit-animation: hawdam-spin 4s linear infinite;
+          -moz-animation: hawdam-spin 4s linear infinite;
+          animation: hawdam-spin 4s linear infinite;
+        }
+      }
+    }
+  }
+}
