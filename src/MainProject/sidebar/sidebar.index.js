@@ -54,7 +54,7 @@ const Sidebar = (props) => {
                     className="row-item"
                 >
                     <i className="material-icons">my_location</i>
-                    <p>مکان‌های من</p>
+                    <p>مکان ‌های من</p>
                 </NavLink>
                 {/* <NavLink
                     to={RoutePath.dashboard.details}

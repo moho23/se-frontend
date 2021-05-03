@@ -1,57 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import './myLandscapes.style.scss'
 import Button from "../../utilities/components/button/button.index";
-import { APIPath } from "../../data";
-import { get, responseValidator} from "../../scripts/api";
+import cover from '../../assets/images/landscape-details-default.png';
+import {APIPath} from "../../data";
+import {get, responseValidator} from "../../scripts/api";
 import {toast} from "react-toastify";
 
 
-const MyLandscapes = (props) => {
+const MyLandscapes = () => {
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [address, setAddres] = useState("");
-    const [check, setCheck] = useState(true)
+    const [landscapes, setLandscapes] = useState(null);
 
     useEffect(() => {
         get(APIPath.map.myLandscapes).then((data) => {
             if (responseValidator(data.status) && data.data) {
-                console.log(data.data)
+                // setLandscapes(data.data)
             } else {
                 toast.error("مجددا تلاش کنید.");
             }
         });
-    },[])
+    }, [])
 
     return (
-        <>
-            <div className='card'>
-                <div className='card-container'>
-                    {/* <div className='image-container'> */}
-                    <img className="image-container" src='https://cdn.dnaindia.com/sites/default/files/styles/full/public/2020/12/25/945556-two-penguins-comforting-each-other-viral-picture.jpg' />
-                    {/* </div> */}
-                    <div className='card-content'>
-                        <div className='card-title'>
-                            <h3>خانه</h3>
-                        </div>
-                        <div className="card-addres">
-                            <p>hi..i am addres</p>
-                        </div>
-                        <div className="card-body">
-                            {
-                                check ?
-                                    <p className="txt-notcomplete">آدرس محله دیدنی در سعادت آباد تهران در محله عمو اینآدرس محله دیدنی در سعادت آباد تهران در محله عمو اینآدرس محله دیدنی ا</p> :
-                                    <p className="txt-complete">آدرس محله دیدنی در سعادت آباد تهران در محله عمو اینآدرس محله دیدنی در سعادت آباد تهران در محله عمو اینآدرس محله دیدنی در سعادت آباد تهران در محله عمو اینآدرنتهران در محله عآدرنتهران در محله عآدرنتهران در محله عآدرنتهران در محله عآدرنتهران در محله عآدرنتهران در محله عمو اینا</p>
-                            }
-                        </div>
-                        <div className="card-btn">
-                            <Button className='btn' text='اطلاعات بیشتر' onClick={setCheck} />
-                        </div>
+        <div className='my-landscape-page'>
+            {
+                landscapes === 0 &&
+                <div className="landscapes-card">
+                    <div className="cover-div">
+                        <img alt='cover-landscapes' className="cover" src={cover}/>
+                    </div>
+                    <div className='content'>
+                        <p className="name">نام مکان</p>
+                        <p className="address">آدرس این مکان</p>
+                        <p className="description">توضیحات تکمیلی در مورد این موضوع</p>
                     </div>
                 </div>
-            </div>
-
-        </>
+            }
+            {
+                landscapes ?
+                    landscapes.map((item) => (
+                        <div className="landscapes-card">
+                            <div className="cover-div">
+                                <img alt='cover-landscapes' className="cover" src={item.cover ? item.cover : cover}/>
+                            </div>
+                            <div className='content'>
+                                <p className="name">{item.name}</p>
+                                <p className="address">{item.address}</p>
+                                <p className="description">{item.description}</p>
+                            </div>
+                        </div>
+                    )) : <p className="no-data">مکان ثبت شده ای وجود ندارد‌!</p>
+            }
+        </div>
     )
 }
 
