@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './myLandscapes.style.scss'
 import Button from "../../utilities/components/button/button.index";
-import {get} from "../../scripts/api"
 import { APIPath } from "../../data";
-import { authToken } from '../scripts/storage';
+import { get, responseValidator} from "../../scripts/api";
+import {toast} from "react-toastify";
 
 
 const MyLandscapes = (props) => {
@@ -13,12 +13,15 @@ const MyLandscapes = (props) => {
     const [address, setAddres] = useState("");
     const [check, setCheck] = useState(true)
 
-    const showLoc = () => {
-        let url = APIPath.map.myLandscapes
-        return get(url, authToken).then((data) => {
-            console.log("data", data)
-        })
-    }
+    useEffect(() => {
+        get(APIPath.map.myLandscapes).then((data) => {
+            if (responseValidator(data.status) && data.data) {
+                console.log(data.data)
+            } else {
+                toast.error("مجددا تلاش کنید.");
+            }
+        });
+    },[])
 
     return (
         <>
