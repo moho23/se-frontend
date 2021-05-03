@@ -95,14 +95,10 @@ const AddLandscapes = (props) => {
 
     return (
         <div className="add-landscapes-page">
-            {/*<div className="header">*/}
-            {/*    <p>مکان خودتو ثبت کن!</p>*/}
-            {/*</div>*/}
             <div className="content">
                 <div className="item-column">
                     <div onClick={() => fileRef.current.click()} className="banner">
                         <div className="edit-banner">
-                            {/*<p>{lang.changeBanner}</p>*/}
                             <div className="text-upload-banner">
                                 {isUploading ? (
                                     <i className="cfi cfi-loader spin"/>
@@ -161,7 +157,7 @@ const AddLandscapes = (props) => {
                             <Mapir.ZoomControl position={'bottom-left'}/>
                         </Mapir>
                     </div>
-                    <Button disabled={!isChoose || !name || !address || !category || !description} text="ثبت مکان"
+                    <Button disabled={isChoose && !name || !address || !category || !description} text="ثبت مکان"
                             className="submit"
                             onClick={onSubmitHandler}
                     />
