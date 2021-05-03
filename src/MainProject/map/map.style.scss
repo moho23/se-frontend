@@ -1,14 +1,26 @@
 @import "../../utilities/references/index";
 
-.map-main-page{
+.map-main-page {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  flex-wrap: nowrap;
+  background-color: $orangeDark;
+
+  @include project-md {
+  }
+
+  .tree-sidebar {
     display: flex;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    position: absolute;
+    width: 300px !important;
+    height: 100% !important;
+    padding: 10px;
+    font-weight: 500;
+    font-size: 20px;
+    background-color: $orangeDark;
+
     @include project-md {
-        position: absolute;
-        // height: 100%;
-        // width: 100%;
-      }
+      width: 200px;
+    }
+  }
 }

@@ -6,8 +6,11 @@ import location from "../../assets/images/volcano.svg"
 import {APIPath} from "../../data";
 import {get, responseValidator} from "../../scripts/api";
 import {detailsSideBar} from "../../scripts/storage"
-import Details from "../detailsLandscapes/detailsLandscapes.index";
-import "./map.style.scss"
+import "./map.style.scss";
+import {TreeSelect, Tree} from 'antd';
+import 'antd/dist/antd.css';
+
+const {TreeNode} = TreeSelect;
 
 const MapContainer = () => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -16,6 +19,28 @@ const MapContainer = () => {
     const [detail, setDetail] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
+    const [expandedKeys, setExpandedKeys] = useState(['volley', 'toopi']);
+    const [checkedKeys, setCheckedKeys] = useState(['places']);
+    const [selectedKeys, setSelectedKeys] = useState([]);
+    const [autoExpandParent, setAutoExpandParent] = useState(true);
+    const [value, setValue] = useState(undefined);
+
+
+    const onExpand = (expandedKeysValue) => {
+        console.log('onExpand', expandedKeysValue);
+        setExpandedKeys(expandedKeysValue);
+        setAutoExpandParent(false);
+    };
+
+    const onCheck = (checkedKeysValue) => {
+        console.log('onCheck', checkedKeysValue);
+        setCheckedKeys(checkedKeysValue);
+    };
+
+    const onSelect = (selectedKeysValue, info) => {
+        console.log('onSelect', info);
+        setSelectedKeys(selectedKeysValue);
+    };
 
     const markercordinate = (lng, lt) => {
         const temp = detailsSideBar.get()
@@ -31,13 +56,10 @@ const MapContainer = () => {
                 }
             });
         });
-
-
     }
 
     const reverseFunction = (map, e) => {
         let url = APIPath.map.nearby + `?long=${e.lngLat.lng}&lat=${e.lngLat.lat}`
-
         get(url).then((data) => {
             let array = []
             data.data.map(arr => (
@@ -66,15 +88,78 @@ const MapContainer = () => {
         setLon(e.lngLat.lng);
     }
 
+    const onChange = (value) => {
+        console.log(value);
+        setValue({value});
+    };
+
+    const treeData = [
+        {
+            title: 'sport',
+            key: 'sport',
+            children: [
+                {
+                    title: 'toopi',
+                    key: 'toopi',
+                    children: [
+                        {title: 'soccer', key: 'soccer'},
+                        {title: 'volley', key: 'volley'},
+                        {title: 'basket', key: 'basket'},
+                    ],
+                },
+                {
+                    title: 'fiziki',
+                    key: 'jodo',
+                },
+            ],
+        },
+        {
+            title: 'places',
+            key: 'places',
+        },
+    ];
+
     return (
         <div className="map-main-page">
+            {/*<Tree*/}
+            {/*    checkable*/}
+            {/*    onExpand={onExpand}*/}
+            {/*    expandedKeys={expandedKeys}*/}
+            {/*    autoExpandParent={autoExpandParent}*/}
+            {/*    onCheck={onCheck}*/}
+            {/*    checkedKeys={checkedKeys}*/}
+            {/*    onSelect={onSelect}*/}
+            {/*    selectedKeys={selectedKeys}*/}
+            {/*    className="tree-sidebar"*/}
+            {/*    treeData={treeData}*/}
+            {/*/>*/}
+            <TreeSelect
+                showSearch
+                style={{width: '100%'}}
+                value={value}
+                dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
+                placeholder="Please select"
+                allowClear
+                multiple
+                treeDefaultExpandAll
+                onChange={onChange}
+            >
+                <TreeNode value="parent 1" title="parent 1">
+                    <TreeNode value="parent 1-0" title="parent 1-0">
+                        <TreeNode value="leaf1" title="my leaf"/>
+                        <TreeNode value="leaf2" title="your leaf"/>
+                    </TreeNode>
+                    <TreeNode value="parent 1-1" title="parent 1-1">
+                        <TreeNode value="sss" title={<b style={{color: '#08c'}}>sss</b>}/>
+                    </TreeNode>
+                </TreeNode>
+            </TreeSelect>
             <Mapir
                 center={[lon, lat]}
                 Map={Map}
                 userLocation
                 onClick={reverseFunction}
             >
-
                 <Mapir.Layer
                     type="symbol"
                     layout={{"icon-image": "harbor-15"}}>
@@ -87,12 +172,12 @@ const MapContainer = () => {
                     return e
                 }) : null}
             </Mapir>
-            {detail ? <Details
-                title={detail.loc_name}
-                category={detail.category}
-                description={detail.description}
-                cover={detail.loc_picture}
-            /> : null}
+            {/*{detail ? <Details*/}
+            {/*    title={detail.loc_name}*/}
+            {/*    category={detail.category}*/}
+            {/*    description={detail.description}*/}
+            {/*    cover={detail.loc_picture}*/}
+            {/*/> : null}*/}
         </div>
     )
 }
