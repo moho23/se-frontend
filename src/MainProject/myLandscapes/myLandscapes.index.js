@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import './myLandscapes.style.scss'
-import Button from "../../utilities/components/button/button.index";
 import cover from '../../assets/images/landscape-details-default.png';
 import {APIPath} from "../../data";
 import {get, responseValidator} from "../../scripts/api";
@@ -14,7 +13,7 @@ const MyLandscapes = () => {
     useEffect(() => {
         get(APIPath.map.myLandscapes).then((data) => {
             if (responseValidator(data.status) && data.data) {
-                // setLandscapes(data.data)
+                setLandscapes(data.data)
             } else {
                 toast.error("مجددا تلاش کنید.");
             }
@@ -24,7 +23,7 @@ const MyLandscapes = () => {
     return (
         <div className='my-landscape-page'>
             {
-                landscapes === 0 &&
+                landscapes !== null &&
                 <div className="landscapes-card">
                     <div className="cover-div">
                         <img alt='cover-landscapes' className="cover" src={cover}/>
