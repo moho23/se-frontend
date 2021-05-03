@@ -53,7 +53,7 @@ const AddLandscapes = (props) => {
                     form.append("loc_name", name)
                 }
                 if (address) {
-                    form.append("firstname", address)
+                    form.append("address", address)
                 }
                 if (description) {
                     form.append("description", description)
@@ -63,16 +63,26 @@ const AddLandscapes = (props) => {
                 }
                 form.append("latitude", lat)
                 form.append("longitude", lng)
+                form.append("city", 'city')
+                form.append("state", 'state')
                 uploadTools.current = upload_post(APIPath.location.create, form, (e) => {
                     console.log(e)
                 });
                 uploadTools.current.promise.then(
                     (res => {
-                            if (responseValidator(res.status)) {
-                                props.dispatch(setUserData(res.data))
+                            if (responseValidator(res.status && res.data)) {
                                 toast.success("با موفقیت ثبت شد.")
                                 setTimeout(() => {
+                                    resolve(true)
                                 }, 1500);
+                            } else {
+                                resolve(true)
+                                setName(null)
+                                setAddress(null)
+                                setDescription(null)
+                                setCategory(null)
+                                setLang(51.41021530151241)
+                                setLat(35.72079898251745)
                             }
                         }
                     ))
@@ -125,14 +135,12 @@ const AddLandscapes = (props) => {
                     </div>
                 </div>
                 <div className="items">
-                    {/*<div className="first-line">*/}
-                    <Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"
-                           placeholder="دسته بندی را وارد کنید."/>
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
-                    {/*</div>*/}
                     <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
+                    <Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"
+                           placeholder="دسته بندی را وارد کنید."/>
                     <Input onChange={(e) => setDescription(e)} value={description} className="item" label="توضیحات"
                            placeholder="توضیحات را وارد کنید."/>
                     <div className="map-div">

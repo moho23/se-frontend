@@ -56,7 +56,7 @@ const Sidebar = (props) => {
                     className="row-item map"
                 >
                     <i className="material-icons">add</i>
-                    <p>اضافه کردن</p>
+                    <p>ثبت مکان</p>
                 </NavLink>
 
                 <span/>
