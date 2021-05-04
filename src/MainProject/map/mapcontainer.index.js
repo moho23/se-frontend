@@ -121,57 +121,51 @@ const MapContainer = () => {
 
     return (
         <div className="map-main-page">
-            {/*<Tree*/}
-            {/*    checkable*/}
-            {/*    onExpand={onExpand}*/}
-            {/*    expandedKeys={expandedKeys}*/}
-            {/*    autoExpandParent={autoExpandParent}*/}
-            {/*    onCheck={onCheck}*/}
-            {/*    checkedKeys={checkedKeys}*/}
-            {/*    onSelect={onSelect}*/}
-            {/*    selectedKeys={selectedKeys}*/}
-            {/*    className="tree-sidebar"*/}
-            {/*    treeData={treeData}*/}
-            {/*/>*/}
-            <TreeSelect
-                showSearch
-                style={{width: '100%'}}
-                value={value}
-                dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
-                placeholder="Please select"
-                allowClear
-                multiple
-                treeDefaultExpandAll
-                onChange={onChange}
-            >
-                <TreeNode value="parent 1" title="parent 1">
-                    <TreeNode value="parent 1-0" title="parent 1-0">
-                        <TreeNode value="leaf1" title="my leaf"/>
-                        <TreeNode value="leaf2" title="your leaf"/>
+            <div className="first-item">
+                <TreeSelect
+                    showSearch
+                    style={{width: '100%'}}
+                    value={value}
+                    dropdownStyle={{maxHeight: 400, overflow: 'auto', direction: "rtl"}}
+                    placeholder="انتخاب کنید"
+                    allowClear={true}
+                    multiple={true}
+                    treeDefaultExpandAll
+                    onChange={onChange}
+                    className="selector"
+                >
+                    <TreeNode value="interesting_places" title="Interesting places">
+                        <TreeNode value="religion" title="religion"/>
+                        <TreeNode value="cultural" title="cultural"/>
+                        <TreeNode value="historic" title="historic"/>
+                        <TreeNode value="industrial_facilities" title="Industrial facilities"/>
+                        <TreeNode value="natural" title="natural"/>
                     </TreeNode>
-                    <TreeNode value="parent 1-1" title="parent 1-1">
-                        <TreeNode value="sss" title={<b style={{color: '#08c'}}>sss</b>}/>
+                    <TreeNode value="accomodations" title="Accomodations">
                     </TreeNode>
-                </TreeNode>
-            </TreeSelect>
-            <Mapir
-                center={[lon, lat]}
-                Map={Map}
-                userLocation
-                onClick={reverseFunction}
-            >
-                <Mapir.Layer
-                    type="symbol"
-                    layout={{"icon-image": "harbor-15"}}>
-                </Mapir.Layer>
-                <Mapir.RotationControl/>
-                <Mapir.ScaleControl/>
-                <Mapir.ZoomControl position={'bottom-left'}/>
-                {isntClicked ? markerArray : null}
-                {locationArray ? locationArray.map(e => {
-                    return e
-                }) : null}
-            </Mapir>
+                </TreeSelect>
+            </div>
+            <div className="second-item">
+                <Mapir
+                    center={[lon, lat]}
+                    Map={Map}
+                    userLocation
+                    onClick={reverseFunction}
+                    className="mapp"
+                >
+                    <Mapir.Layer
+                        type="symbol"
+                        layout={{"icon-image": "harbor-15"}}>
+                    </Mapir.Layer>
+                    <Mapir.RotationControl/>
+                    <Mapir.ScaleControl/>
+                    <Mapir.ZoomControl position={'bottom-left'}/>
+                    {isntClicked ? markerArray : null}
+                    {locationArray ? locationArray.map(e => {
+                        return e
+                    }) : null}
+                </Mapir>
+            </div>
             {/*{detail ? <Details*/}
             {/*    title={detail.loc_name}*/}
             {/*    category={detail.category}*/}

@@ -56,7 +56,7 @@ const MainProject = (props) => {
                                     <div className="project-content">
                                         <Switch>
                                             <Route path={RoutePath.dashboard.profile} component={Profile}/>
-                                            <Route path={RoutePath.map.index} component={MapContainer}></Route>
+                                            <Route path={RoutePath.map.index} component={MapContainer} />
                                             <Route path={RoutePath.dashboard.details} component={Details}/>
                                             <Route path="*">
                                                 <Redirect to={RoutePath.dashboard.index}/>
