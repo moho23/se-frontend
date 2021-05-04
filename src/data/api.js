@@ -8,7 +8,8 @@ export const __APIPath = {
     },
     map: {
         nearby: "location/find-nearby/",
-        details: "location/details/"
+        details: "location/details/",
+        myLandscapes: "location/creator_locations/"
     },
     location: {
         create: "location/create/"

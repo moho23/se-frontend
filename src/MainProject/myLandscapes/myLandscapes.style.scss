@@ -1,0 +1,106 @@
+@import "../../utilities/references/index";
+
+.my-landscape-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  flex-direction: column;
+
+  .no-data {
+    font-size: 20px;
+    font-weight: 600;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    direction: rtl;
+  }
+
+
+  .landscapes-card {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
+    background-color: $creamLight;
+    margin-bottom: 20px;
+
+
+    @include project-md {
+      flex-direction: row-reverse;
+      height: 200px !important;
+    }
+
+    .cover-div {
+      display: flex;
+      height: 160px;
+      width: 100%;
+
+      @include project-md {
+        @include project-size(width, 300px, 200px);
+        height: 200px;
+      }
+
+      .cover {
+        background-color: $orangeDark;
+        display: flex;
+        width: 100%;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        object-fit: cover;
+
+        @include project-md {
+          border-top-right-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+    }
+
+    .content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      padding: 15px;
+
+      .name {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        font-weight: 600;
+        font-size: 18px;
+        word-break: break-word;
+        margin-bottom: 15px;
+      }
+
+      .address {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        font-weight: 500;
+        word-break: break-word;
+        font-size: 17px;
+      }
+
+      .description {
+        width: 100%;
+        height: 100px;
+        word-break: break-word;
+        font-size: 15px;
+        text-align: right;
+        overflow-y: auto;
+        margin-top: 10px;
+
+        @include project-md {
+          height: 200px;
+          overflow-y: auto;
+        }
+      }
+    }
+  }
+}

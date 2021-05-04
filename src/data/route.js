@@ -12,5 +12,8 @@ export const __RoutePath = {
     },
     map: {
         index: "/dashboard/map",
+    },
+    myLandscapes:{
+        index:"/dashboard/myLandscapes",
     }
 };
