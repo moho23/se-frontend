@@ -9,7 +9,6 @@ import Button from "../../utilities/components/button/button.index";
 import {APIPath} from "../../data";
 import {responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
-import {setUserData} from "../../redux/actions";
 import {toast} from "react-toastify";
 
 const AddLandscapes = (props) => {
@@ -65,15 +64,24 @@ const AddLandscapes = (props) => {
                 form.append("longitude", lng)
                 form.append("city", 'city')
                 form.append("state", 'state')
+                form.append('kinds', ['interesting_places'])
                 uploadTools.current = upload_post(APIPath.location.create, form, (e) => {
                     console.log(e)
                 });
                 uploadTools.current.promise.then(
                     (res => {
-                            if (responseValidator(res.status && res.data)) {
-                                toast.success("با موفقیت ثبت شد.")
+                            if (responseValidator(res.status)) {
                                 setTimeout(() => {
                                     resolve(true)
+                                    toast.success("با موفقیت ثبت شد.")
+                                    setName(null)
+                                    setAddress(null)
+                                    setDescription(null)
+                                    setCategory(null)
+                                    setLang(51.41021530151241)
+                                    setLat(35.72079898251745)
+                                    setIsChoose(false)
+                                    setImageName(null)
                                 }, 1500);
                             } else {
                                 resolve(true)
@@ -83,6 +91,8 @@ const AddLandscapes = (props) => {
                                 setCategory(null)
                                 setLang(51.41021530151241)
                                 setLat(35.72079898251745)
+                                setIsChoose(false)
+                                setImageName(null)
                             }
                         }
                     ))
@@ -157,7 +167,7 @@ const AddLandscapes = (props) => {
                             <Mapir.ZoomControl position={'bottom-left'}/>
                         </Mapir>
                     </div>
-                    <Button disabled={isChoose && !name || !address || !category || !description} text="ثبت مکان"
+                    <Button disabled={!isChoose || (!name || !address || !category || !description)} text="ثبت مکان"
                             className="submit"
                             onClick={onSubmitHandler}
                     />
