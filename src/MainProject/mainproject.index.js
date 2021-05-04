@@ -10,6 +10,7 @@ import {projectInitialize} from "./mainproject.scripts";
 import Profile from "./profile/profile.index";
 import MapContainer from "./map/mapcontainer.index";
 import Details from "./detailsLandscapes/detailsLandscapes.index";
+import ModalDetails from "./modalDetailsLand/modalDetailsLands.index"
 
 
 const MainProject = (props) => {
@@ -57,7 +58,7 @@ const MainProject = (props) => {
                                         <Switch>
                                             <Route path={RoutePath.dashboard.profile} component={Profile}/>
                                             <Route path={RoutePath.map.index} component={MapContainer}></Route>
-                                            <Route path={RoutePath.dashboard.details} component={Details}/>
+                                            <Route path={RoutePath.dashboard.details} component={ModalDetails}/>
                                             <Route path="*">
                                                 <Redirect to={RoutePath.dashboard.index}/>
                                             </Route>
