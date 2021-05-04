@@ -38,23 +38,23 @@ const MapContainer = () => {
     const [detail, setDetail] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
-    const [radius, setRadius] = useState(5000);
+    const [radius, setRadius] = useState(1000);
     const [rate, setRate] = useState('all');
     const [kinds, setKinds] = useState('');
 
-    // function markercordinate(xid) {
-    //     detailsSideBar.set(true)
-    //     let url = APIPath.map.details + xid
-    //     return new Promise((resolve) => {
-    //         get(url).then((data) => {
-    //             resolve(true);
-    //             if (responseValidator(data.status) && data.data) {
-    //                 console.log(data)
-    //                 setDetail(data.data)
-    //             }
-    //         })
-    //     })
-    // }
+    function markercordinate(xid) {
+        detailsSideBar.set(true)
+        let url = APIPath.map.details + xid
+        return new Promise((resolve) => {
+            get(url).then((data) => {
+                resolve(true);
+                if (responseValidator(data.status) && data.data) {
+                    console.log(data)
+                    setDetail(data.data)
+                }
+            })
+        })
+    }
 
     const [expandedKeys, setExpandedKeys] = useState(['volley', 'toopi']);
     const [checkedKeys, setCheckedKeys] = useState(['places']);
@@ -79,21 +79,7 @@ const MapContainer = () => {
         setSelectedKeys(selectedKeysValue);
     };
 
-    const markercordinate = (lng, lt) => {
-        const temp = detailsSideBar.get()
-        console.log(!temp)
-        detailsSideBar.set(true)
-        let url = APIPath.map.details + `?long=${lng}&lat=${lt}`
-        return new Promise((resolve) => {
-            get(url).then((data) => {
-                resolve(true);
-                if (responseValidator(data.status) && data.data) {
-                    console.log(data.data)
-                    setDetail(data.data[0])
-                }
-            });
-        });
-    }
+    
 
     const filterHandler = (rad, rat, kin) => {
         if (rad) {
