@@ -4,21 +4,20 @@ import detailsDefaultCover from '../../assets/images/landscape-details-default.p
 import useOnBlur from "../../scripts/useOnBlur";
 
 function Details(props) {
-    const [sidebar, setSidebar] = useState(false);
+    const [sidebar, setSidebar] = useState(true);
     const detailsRef = useRef();
-    useOnBlur(detailsRef, () => setSidebar(!sidebar))
+    useOnBlur(detailsRef, () => {
+        if (!sidebar) {
+            setSidebar(true)
+        }
+    })
     const showSidebar = () => setSidebar(!sidebar);
 
-    if (sidebar === false) {
-        return (
-            <div>
-                <button onClick={showSidebar}>salam</button>
-            </div>
-        )
-    }
-
+    // if (sidebar === false) {
+    //     return null;
+    // } else {
     return (
-        <div className={sidebar ? 'details-main-page is_open' : 'details-main-page'} ref={detailsRef}>
+        <div className={sidebar ? 'details-main-page is-open' : 'details-main-page'} ref={detailsRef}>
             <div className="detail-items" onClick={showSidebar}>
                 <div className='toggle-button'>
                     <i onClick={() => setSidebar(!sidebar)} className="material-icons-outlined">close</i>
@@ -41,6 +40,7 @@ function Details(props) {
             </div>
         </div>
     );
+    // }
 }
 
 export default Details;

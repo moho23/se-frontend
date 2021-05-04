@@ -9,4 +9,10 @@ export const __RoutePath = {
         profile: "/dashboard/profile",
         details: "/dashboard/details",
     },
+    map: {
+        index: "/dashboard/map",
+    },
+    myLandscapes:{
+        index:"/dashboard/myLandscapes",
+    }
 };

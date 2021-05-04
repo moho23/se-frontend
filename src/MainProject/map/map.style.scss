@@ -1,0 +1,14 @@
+@import "../../utilities/references/index";
+
+.map-main-page{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    @include project-md {
+        position: absolute;
+        // height: 100%;
+        // width: 100%;
+      }
+}
