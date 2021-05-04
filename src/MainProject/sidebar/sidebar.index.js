@@ -24,7 +24,8 @@ const Sidebar = (props) => {
     return (
         <div className={`project-sidebar-page ${status ? 'is-open' : ''}`}>
             <div className="artist-details">
-                <img src={detail && detail.profile_picture ? detail.profile_picture : static_profile} alt={detail.username}/>
+                <img src={detail && detail.profile_picture ? detail.profile_picture : static_profile}
+                     alt={detail.username}/>
                 <p>{detail && detail.username}@</p>
             </div>
             <div className="sidebar-items">
@@ -47,6 +48,7 @@ const Sidebar = (props) => {
                     <i className="material-icons">map</i>
                     <p>نقشه</p>
                 </NavLink>
+<<<<<<< HEAD
                 <NavLink
                     to={RoutePath.myLandscapes.index}
                     onClick={() => setStatus(false)}
@@ -58,13 +60,18 @@ const Sidebar = (props) => {
                 </NavLink>
                 {/* <NavLink
                     to={RoutePath.dashboard.details}
+=======
+
+                <NavLink
+                    to={RoutePath.dashboard.addLandscapes}
+>>>>>>> 8a4f23e54e2fc5098a6d0466f4702d39c14f6c6b
                     onClick={() => setStatus(false)}
                     activeClassName="active"
-                    className="row-item"
+                    className="row-item map"
                 >
-                    <i className="material-icons">person</i>
-                    <p>اطلاعات مکان</p>
-                </NavLink> */}
+                    <i className="material-icons">add</i>
+                    <p>ثبت مکان</p>
+                </NavLink>
 
                 <span/>
 
