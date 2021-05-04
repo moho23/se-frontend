@@ -23,25 +23,30 @@ const MyLandscapes = () => {
 
     return (
         <div className='my-landscape-page'>
-            {
-                landscapes !== null &&
-                <div className="landscapes-card">
-                    <div className="cover-div">
-                        <img alt='cover-landscapes' className="cover" src={cover}/>
-                    </div>
-                    <div className='content'>
-                        <p className="name">نام مکان</p>
-                        <p className="address">آدرس این مکان</p>
-                        <p className="description">توضیحات تکمیلی در مورد این موضوع</p>
-                    </div>
-                </div>
-            }
+            {/*{*/}
+            {/*    landscapes !== null &&*/}
+            {/*    <div className="landscapes-card">*/}
+            {/*        <div className="cover-div">*/}
+            {/*            <img alt='cover-landscapes' className="cover" src={cover}/>*/}
+            {/*        </div>*/}
+            {/*        <div className='content'>*/}
+            {/*            <p className="name">نام مکان</p>*/}
+            {/*            <p className="address">آدرس این مکان</p>*/}
+            {/*            <p className="description">توضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این*/}
+            {/*                موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد*/}
+            {/*                این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در*/}
+            {/*                مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی*/}
+            {/*                در مورد این موضوعتوضیحات تکمیلی در مورد این موضوع</p>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*}*/}
             {
                 landscapes ?
                     landscapes.map((item) => (
                         <div className="landscapes-card">
                             <div className="cover-div">
-                                <img alt='cover-landscapes' className="cover" src={item.loc_picture ? item.loc_picture : cover}/>
+                                <img alt='cover-landscapes' className="cover"
+                                     src={item.loc_picture ? item.loc_picture : cover}/>
                             </div>
                             <div className='content'>
                                 <p className="name">{item.loc_name}</p>
