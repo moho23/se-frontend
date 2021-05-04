@@ -60,7 +60,7 @@ const MainProject = (props) => {
                                             <Route path={RoutePath.dashboard.addLandscapes}
                                                    component={AddLandscapes}/>
                                             <Route path={RoutePath.map.index} component={MapContainer} />
-                                            <Route path={RoutePath.dashboard.details} component={Details}/>
+                                            {/*<Route path={RoutePath.dashboard.details} component={Details}/>*/}
                                             <Route path="*">
                                                 <Redirect to={RoutePath.dashboard.index}/>
                                             </Route>
