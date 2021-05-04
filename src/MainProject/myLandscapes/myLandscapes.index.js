@@ -13,6 +13,7 @@ const MyLandscapes = () => {
     useEffect(() => {
         get(APIPath.map.myLandscapes).then((data) => {
             if (responseValidator(data.status) && data.data) {
+                console.log(data.data)
                 setLandscapes(data.data)
             } else {
                 toast.error("مجددا تلاش کنید.");
@@ -40,10 +41,10 @@ const MyLandscapes = () => {
                     landscapes.map((item) => (
                         <div className="landscapes-card">
                             <div className="cover-div">
-                                <img alt='cover-landscapes' className="cover" src={item.cover ? item.cover : cover}/>
+                                <img alt='cover-landscapes' className="cover" src={item.loc_picture ? item.loc_picture : cover}/>
                             </div>
                             <div className='content'>
-                                <p className="name">{item.name}</p>
+                                <p className="name">{item.loc_name}</p>
                                 <p className="address">{item.address}</p>
                                 <p className="description">{item.description}</p>
                             </div>
