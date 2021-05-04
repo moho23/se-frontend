@@ -59,7 +59,7 @@ const MainProject = (props) => {
                                         <Switch>
                                             <Route path={RoutePath.dashboard.profile} component={Profile}/>
                                             <Route path={RoutePath.dashboard.details} component={Details}/>
-                                            <Route path={RoutePath.myLandscapes.index} component={myLandscapes}/>
+                                            <Route path={RoutePath.dashboard.myLandscapes} component={myLandscapes}/>
                                             <Route path={RoutePath.map.index} component={MapContainer}/>
                                             <Route path={RoutePath.dashboard.addLandscapes}
                                                    component={AddLandscapes}/>
