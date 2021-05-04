@@ -21,11 +21,15 @@ import restaurant from "../../assets/images/icons8-restaurant-40.png"
 import boat from "../../assets/images/icons8-ship-wheel-40.png"
 import shop from "../../assets/images/icons8-shop-40.png"
 import tourist from "../../assets/images/icons8-traveler-40.png"
-import { APIPath } from "../../data";
-import { get,responseValidator,post} from "../../scripts/api";
+import {APIPath} from "../../data";
+import {get, responseValidator, post} from "../../scripts/api";
+import location from "../../assets/images/volcano.svg"
 import {detailsSideBar} from "../../scripts/storage"
-import Details from "../detailsLandscapes/detailsLandscapes.index";
-import "./map.style.scss"
+import "./map.style.scss";
+import {TreeSelect, Tree} from 'antd';
+import 'antd/dist/antd.css';
+
+const {TreeNode} = TreeSelect;
 
 const MapContainer = () => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -38,179 +42,244 @@ const MapContainer = () => {
     const [rate, setRate] = useState('all');
     const [kinds, setKinds] = useState('');
 
-    const markercordinate=(xid)=>{
-      detailsSideBar.set(true)
-      let url = APIPath.map.details+xid
-      return new Promise((resolve) => {
-        get(url).then((data) => {
-            resolve(true);
-            if (responseValidator(data.status) && data.data) {
-                console.log(data)
-                setDetail(data.data)
-                
-                
-            }
+    // function markercordinate(xid) {
+    //     detailsSideBar.set(true)
+    //     let url = APIPath.map.details + xid
+    //     return new Promise((resolve) => {
+    //         get(url).then((data) => {
+    //             resolve(true);
+    //             if (responseValidator(data.status) && data.data) {
+    //                 console.log(data)
+    //                 setDetail(data.data)
+    //             }
+    //         })
+    //     })
+    // }
+
+    const [expandedKeys, setExpandedKeys] = useState(['volley', 'toopi']);
+    const [checkedKeys, setCheckedKeys] = useState(['places']);
+    const [selectedKeys, setSelectedKeys] = useState([]);
+    const [autoExpandParent, setAutoExpandParent] = useState(true);
+    const [value, setValue] = useState(undefined);
+
+
+    const onExpand = (expandedKeysValue) => {
+        console.log('onExpand', expandedKeysValue);
+        setExpandedKeys(expandedKeysValue);
+        setAutoExpandParent(false);
+    };
+
+    const onCheck = (checkedKeysValue) => {
+        console.log('onCheck', checkedKeysValue);
+        setCheckedKeys(checkedKeysValue);
+    };
+
+    const onSelect = (selectedKeysValue, info) => {
+        console.log('onSelect', info);
+        setSelectedKeys(selectedKeysValue);
+    };
+
+    const markercordinate = (lng, lt) => {
+        const temp = detailsSideBar.get()
+        console.log(!temp)
+        detailsSideBar.set(true)
+        let url = APIPath.map.details + `?long=${lng}&lat=${lt}`
+        return new Promise((resolve) => {
+            get(url).then((data) => {
+                resolve(true);
+                if (responseValidator(data.status) && data.data) {
+                    console.log(data.data)
+                    setDetail(data.data[0])
+                }
+            });
         });
-    });
-    
-      
-      
     }
 
-    const filterHandler=(rad,rat,kin)=>{
-      if (rad){
-        setRadius(rad)
-      }
-      if(rat){
-        setRate(rat)
-      }
-      if(kin){
-        setKinds(kinds+','+kin)
-      }
-    }
-    
-    const iconHandler=(categ)=>{
-      const splitCateg = categ.split(",")
-      if (splitCateg.includes("interesting_places")){
-        if(splitCateg.includes("architecture")){
-          return(architecture)
+    const filterHandler = (rad, rat, kin) => {
+        if (rad) {
+            setRadius(rad)
         }
-        else if(splitCateg.includes("religion")){
-          return(religion)
+        if (rat) {
+            setRate(rat)
         }
-        else if(splitCateg.includes("cultural")){
-          return(culture)
+        if (kin) {
+            setKinds(kinds + ',' + kin)
         }
-        else if(splitCateg.includes("historic")){
-          return(historic)
-        }
-        else if(splitCateg.includes("industrial_facilities")){
-          return(industry)
-        }
-        else if(splitCateg.includes("natural")){
-          return(natural)
-        }
-        else{
-          return(others)
-        }
-      }
-
-      else if (splitCateg.includes("accomodations")){
-        return(hotel)
-      }
-
-      else if (splitCateg.includes("amusements")){
-        return(amusment)
-      }
-
-      else if (splitCateg.includes("amusements")){
-        return(amusment)
-      }
-
-      else if (splitCateg.includes("sport")){
-        return(sport)
-      }
-
-      else if (splitCateg.includes("amusements")){
-        return(amusment)
-      }
-
-      else if (splitCateg.includes("tourist_facilities")){
-        if (splitCateg.includes("banks")){
-          return(bank)
-        }
-        else if (splitCateg.includes("foods")){
-          if (splitCateg.includes("restaurants") || splitCateg.includes("food_courts") || splitCateg.includes("fast_food")){
-            return(restaurant)
-          }
-          else{
-            return(cafe)
-          }
-          
-        }
-        else if (splitCateg.includes("shops")){
-          return(shop)
-        }
-        else if (splitCateg.includes("transport")){
-          if (splitCateg.includes("bicycle_rental")){
-            return(bicycle)
-          }
-          else if (splitCateg.includes("boat_sharing")){
-            return(boat)
-          }
-          else if (splitCateg.includes("charging_station") || splitCateg.includes("fuel") ){
-            return(gasstation)
-          }
-          else{
-            return(car)
-          }
-        }
-        else{
-          return(tourist)
-        }
-      }
-      else{
-        return(others)
-      }   
     }
 
-    const reverseFunction=(map,e)=> {
-        let url = APIPath.map.nearby+`?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${radius}&rate=${rate}&kinds=${kinds}`
+    const iconHandler = (categ) => {
+        const splitCateg = categ.split(",")
+        if (splitCateg.includes("interesting_places")) {
+            if (splitCateg.includes("architecture")) {
+                return (architecture)
+            } else if (splitCateg.includes("religion")) {
+                return (religion)
+            } else if (splitCateg.includes("cultural")) {
+                return (culture)
+            } else if (splitCateg.includes("historic")) {
+                return (historic)
+            } else if (splitCateg.includes("industrial_facilities")) {
+                return (industry)
+            } else if (splitCateg.includes("natural")) {
+                return (natural)
+            } else {
+                return (others)
+            }
+        } else if (splitCateg.includes("accomodations")) {
+            return (hotel)
+        } else if (splitCateg.includes("amusements")) {
+            return (amusment)
+        } else if (splitCateg.includes("amusements")) {
+            return (amusment)
+        } else if (splitCateg.includes("sport")) {
+            return (sport)
+        } else if (splitCateg.includes("amusements")) {
+            return (amusment)
+        } else if (splitCateg.includes("tourist_facilities")) {
+            if (splitCateg.includes("banks")) {
+                return (bank)
+            } else if (splitCateg.includes("foods")) {
+                if (splitCateg.includes("restaurants") || splitCateg.includes("food_courts") || splitCateg.includes("fast_food")) {
+                    return (restaurant)
+                } else {
+                    return (cafe)
+                }
+
+            } else if (splitCateg.includes("shops")) {
+                return (shop)
+            } else if (splitCateg.includes("transport")) {
+                if (splitCateg.includes("bicycle_rental")) {
+                    return (bicycle)
+                } else if (splitCateg.includes("boat_sharing")) {
+                    return (boat)
+                } else if (splitCateg.includes("charging_station") || splitCateg.includes("fuel")) {
+                    return (gasstation)
+                } else {
+                    return (car)
+                }
+            } else {
+                return (tourist)
+            }
+        } else {
+            return (others)
+        }
+    }
+
+    const reverseFunction = (map, e) => {
+        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${radius}&rate=${rate}&kinds=${kinds}`
         console.log(e.lngLat.lng)
 
         get(url).then((data) => {
-            let array=[]
-            data.data.map(arr=>(
-              array.push(<Mapir.Marker
-                coordinates={[arr.point.lon,arr.point.lat]}
-                onClick={()=>markercordinate(arr.xid)}
-                anchor="bottom"
-                Image={iconHandler(arr.kinds)}
+            let array = []
+            data.data.map(arr => (
+                array.push(<Mapir.Marker
+                    coordinates={[arr.point.lon, arr.point.lat]}
+                    onClick={() => markercordinate(arr.xid)}
+                    anchor="bottom"
+                    Image={iconHandler(arr.kinds)}
                 >
-              </Mapir.Marker>)))
+                </Mapir.Marker>)))
             setLocationArray(array)
             console.log(data)
-            })
+        })
         const array = [];
         setIsntClicked(true)
         array.push(<Mapir.Marker
-          coordinates={[e.lngLat.lng, e.lngLat.lat]}
-          onClick={()=>setIsntClicked(false)}
-          anchor="bottom"
-          Image={markerUrl}
-          >
+            coordinates={[e.lngLat.lng, e.lngLat.lat]}
+            onClick={() => setIsntClicked(false)}
+            anchor="bottom"
+            Image={markerUrl}
+        >
         </Mapir.Marker>);
         setMarkerArray(array);
         setLat(e.lngLat.lat);
         setLon(e.lngLat.lng);
-      }
+    }
+
+    const onChange = (value) => {
+        console.log(value);
+        setValue({value});
+    };
+
+    const treeData = [
+        {
+            title: 'sport',
+            key: 'sport',
+            children: [
+                {
+                    title: 'toopi',
+                    key: 'toopi',
+                    children: [
+                        {title: 'soccer', key: 'soccer'},
+                        {title: 'volley', key: 'volley'},
+                        {title: 'basket', key: 'basket'},
+                    ],
+                },
+                {
+                    title: 'fiziki',
+                    key: 'jodo',
+                },
+            ],
+        },
+        {
+            title: 'places',
+            key: 'places',
+        },
+    ];
 
     return (
         <div className="map-main-page">
-            <Mapir
+            <div className="first-item">
+                <TreeSelect
+                    showSearch
+                    style={{width: '100%'}}
+                    value={value}
+                    dropdownStyle={{maxHeight: 400, overflow: 'auto', direction: "rtl"}}
+                    placeholder="انتخاب کنید"
+                    allowClear={true}
+                    multiple={true}
+                    treeDefaultExpandAll
+                    onChange={onChange}
+                    className="selector"
+                >
+                    <TreeNode value="interesting_places" title="Interesting places">
+                        <TreeNode value="religion" title="religion"/>
+                        <TreeNode value="cultural" title="cultural"/>
+                        <TreeNode value="historic" title="historic"/>
+                        <TreeNode value="industrial_facilities" title="Industrial facilities"/>
+                        <TreeNode value="natural" title="natural"/>
+                    </TreeNode>
+                    <TreeNode value="accomodations" title="Accomodations">
+                    </TreeNode>
+                </TreeSelect>
+            </div>
+            <div className="second-item">
+                <Mapir
                     center={[lon, lat]}
                     Map={Map}
-                    userLocation 
+                    userLocation
                     onClick={reverseFunction}
+                    className="mapp"
                 >
-                
                     <Mapir.Layer
                         type="symbol"
-                        layout={{ "icon-image": "harbor-15" }}>
+                        layout={{"icon-image": "harbor-15"}}>
                     </Mapir.Layer>
-                    <Mapir.RotationControl />
-                    <Mapir.ScaleControl />
-                    <Mapir.ZoomControl position={'bottom-left'} />
-                    {isntClicked ? markerArray :null}
-                    {locationArray? locationArray.map(e=>{return e}): null}
-            </Mapir>
-            {detail? <Details 
-                title={detail.name}
-                category={detail.kinds}
-                description={detail.wikipedia_extracts.text}
-                cover={detail.image}
-                // cover={"https://upload.wikimedia.org/wikipedia/commons/1/17/2007_Sai_Park_Tehran_495226240.jpg"}
-                /> : null}
+                    <Mapir.RotationControl/>
+                    <Mapir.ScaleControl/>
+                    <Mapir.ZoomControl position={'bottom-left'}/>
+                    {isntClicked ? markerArray : null}
+                    {locationArray ? locationArray.map(e => {
+                        return e
+                    }) : null}
+                </Mapir>
+            </div>
+            {/*{detail ? <Details*/}
+            {/*    title={detail.loc_name}*/}
+            {/*    category={detail.category}*/}
+            {/*    description={detail.description}*/}
+            {/*    cover={detail.loc_picture}*/}
+            {/*/> : null}*/}
         </div>
     )
 }

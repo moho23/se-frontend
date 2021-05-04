@@ -8,8 +8,10 @@ export const __RoutePath = {
         index: "/dashboard",
         profile: "/dashboard/profile",
         details: "/dashboard/details",
+        addLandscapes: "/dashboard/add-new-landscapes",
+        myLandscapes: "/dashboard/myLandscapes",
     },
     map: {
-        index: "/map",
-    }
+        index: "/dashboard/map",
+    },
 };

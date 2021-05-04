@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import './sidebar.style.scss';
-import static_profile from "../../assets/images/static.png"
-import {NavLink} from 'react-router-dom';
+import React, {useEffect, useState} from "react";
+import "./sidebar.style.scss";
+import static_profile from "../../assets/images/static.png";
+import {NavLink} from "react-router-dom";
 import {RoutePath} from "../../data";
 import {authToken} from "../../scripts/storage";
 import {setAuth, setUserData} from "../../redux/actions";
@@ -22,9 +22,16 @@ const Sidebar = (props) => {
     }
 
     return (
-        <div className={`project-sidebar-page ${status ? 'is-open' : ''}`}>
+        <div className={`project-sidebar-page ${status ? "is-open" : ""}`}>
             <div className="artist-details">
-                <img src={detail && detail.profile_picture ? detail.profile_picture : static_profile} alt={detail.username}/>
+                <img
+                    src={
+                        detail && detail.profile_picture
+                            ? detail.profile_picture
+                            : static_profile
+                    }
+                    alt={detail.username}
+                />
                 <p>{detail && detail.username}@</p>
             </div>
             <div className="sidebar-items">
@@ -47,19 +54,31 @@ const Sidebar = (props) => {
                     <i className="material-icons">map</i>
                     <p>نقشه</p>
                 </NavLink>
+
                 <NavLink
-                    to={RoutePath.dashboard.details}
+                    to={RoutePath.dashboard.addLandscapes}
                     onClick={() => setStatus(false)}
                     activeClassName="active"
-                    className="row-item"
+                    className="row-item map"
                 >
-                    <i className="material-icons">person</i>
-                    <p>اطلاعات مکان</p>
+                    <i className="material-icons">add</i>
+                    <p>ثبت مکان</p>
                 </NavLink>
-
+                <NavLink
+                    to={RoutePath.dashboard.myLandscapes}
+                    onClick={() => setStatus(false)}
+                    activeClassName="active"
+                    className="row-item map"
+                >
+                    <i className="material-icons">gps_fixed</i>
+                    <p>مکان های من</p>
+                </NavLink>
                 <span/>
-
-                <NavLink to={RoutePath.account.signin} onClick={logout} className="row-item end-item">
+                <NavLink
+                    to={RoutePath.account.signin}
+                    onClick={logout}
+                    className="row-item end-item"
+                >
                     <i className="material-icons reverse-icon">logout</i>
                     <p>خروج</p>
                 </NavLink>

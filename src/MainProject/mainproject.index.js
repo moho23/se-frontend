@@ -10,6 +10,8 @@ import {projectInitialize} from "./mainproject.scripts";
 import Profile from "./profile/profile.index";
 import MapContainer from "./map/mapcontainer.index";
 import Details from "./detailsLandscapes/detailsLandscapes.index";
+import myLandscapes from "./myLandscapes/myLandscapes.index";
+import AddLandscapes from "./addLandscapes/addlandscapes.index";
 
 
 const MainProject = (props) => {
@@ -56,8 +58,13 @@ const MainProject = (props) => {
                                     <div className="project-content">
                                         <Switch>
                                             <Route path={RoutePath.dashboard.profile} component={Profile}/>
-                                            <Route path={RoutePath.map.index} component={MapContainer}></Route>
                                             <Route path={RoutePath.dashboard.details} component={Details}/>
+                                            <Route path={RoutePath.dashboard.myLandscapes} component={myLandscapes}/>
+                                            <Route path={RoutePath.map.index} component={MapContainer}/>
+                                            <Route path={RoutePath.dashboard.addLandscapes}
+                                                   component={AddLandscapes}/>
+                                            <Route path={RoutePath.map.index} component={MapContainer} />
+                                            {/*<Route path={RoutePath.dashboard.details} component={Details}/>*/}
                                             <Route path="*">
                                                 <Redirect to={RoutePath.dashboard.index}/>
                                             </Route>
