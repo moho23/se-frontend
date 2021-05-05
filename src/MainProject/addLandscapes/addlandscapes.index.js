@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import "./addlandscapes.style.scss";
 import {connect} from "react-redux";
-import cover from '../../assets/images/landscape-details-default.png'
+import cover from '../../assets/images/add-landscapes-default.png'
 import Input from "../../utilities/components/input/input.index";
 import Mapir from "mapir-react-component";
 import Map from "../map/mapbase.index";
