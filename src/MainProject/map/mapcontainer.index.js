@@ -42,15 +42,12 @@ const MapContainer = () => {
     const [detail, setDetail] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
-    const [radius, setRadius] = useState(1000);
-    const [rate, setRate] = useState('all');
-    const [kinds, setKinds] = useState('');
     const [searchInput, setSearchInput] = useState(null);
     const [expandedKeys, setExpandedKeys] = useState([]);
     const [checkedKeys, setCheckedKeys] = useState([]);
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [autoExpandParent, setAutoExpandParent] = useState(true);
-    const [current, setCurrent] = useState(null)
+    const [current, setCurrent] = useState("all")
     const [searchArea, setSearchArea] = useState(1000)
 
     const onSearch = value => setSearchInput(value);
@@ -70,32 +67,22 @@ const MapContainer = () => {
     }
 
     const onExpand = (expandedKeysValue) => {
-        // console.log('onExpand', expandedKeysValue);
+        console.log('onExpand', expandedKeysValue);
         setExpandedKeys(expandedKeysValue);
         setAutoExpandParent(false);
     };
 
     const onCheck = (checkedKeysValue) => {
-        // console.log('onCheck', checkedKeysValue);
+        console.log('onCheck', checkedKeysValue);
         setCheckedKeys(checkedKeysValue);
     };
 
     const onSelect = (selectedKeysValue, info) => {
-        // console.log('onSelect', info);
+        console.log('onSelect', info);
         setSelectedKeys(selectedKeysValue);
     };
 
-    const filterHandler = (rad, rat, kin) => {
-        if (rad) {
-            setRadius(rad)
-        }
-        if (rat) {
-            setRate(rat)
-        }
-        if (kin) {
-            setKinds(kinds + ',' + kin)
-        }
-    }
+    
 
     const iconHandler = (categ) => {
         const splitCateg = categ.split(",")
@@ -156,8 +143,9 @@ const MapContainer = () => {
     }
 
     const reverseFunction = (map, e) => {
-        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${radius}&rate=${rate}&kinds=${kinds}`
-        console.log(e.lngLat.lng)
+        let kinds= expandedKeys.concat(checkedKeys)
+        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
+        console.log(current)
 
         get(url).then((data) => {
             let array = []
@@ -302,9 +290,9 @@ const MapContainer = () => {
     ];
 
     const options = [
-        {label: 'کمتر شناخته شده', value: 'little_known'},
-        {label: 'معروف', value: 'very_famous'},
-        {label: 'کمترمعروف', value: 'famous'},
+        {label: 'کمتر شناخته شده', value: '3'},
+        {label: 'معروف', value: '1'},
+        {label: 'کمترمعروف', value: '2'},
         {label: 'همه مکان ها', value: 'all'},
     ];
 
