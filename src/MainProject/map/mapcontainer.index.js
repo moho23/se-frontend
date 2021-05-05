@@ -317,10 +317,11 @@ const MapContainer = () => {
                             onSearch={onSearch}/>
                     <hr/>
                     <p className="selector-label">محدوده جستجو</p>
-                    <Select defaultValue={searchArea} className="simple-selector" onChange={(e) => setSearchArea(e)}>
-                        <Option value="1000">1 کیلومتر</Option>
-                        <Option value="2000">2 کیلومتر</Option>
-                        <Option value="5000">5 کیلومتر</Option>
+                    <Select defaultValue={searchArea + ' متر'} className="simple-selector"
+                            onChange={(e) => setSearchArea(e)}>
+                        <Option style={{textAlign: "right"}} value="1000">1000 متر</Option>
+                        <Option style={{textAlign: "right"}} value="2000">2000 متر</Option>
+                        <Option style={{textAlign: "right"}} value="5000">5000 متر</Option>
                     </Select>
                     <hr/>
                     <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
