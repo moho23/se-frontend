@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from "react";
 import './myLandscapes.style.scss'
-import cover from '../../assets/images/landscape-details-default.png';
+import cover from '../../assets/images/my-land-default.svg';
 import {APIPath} from "../../data";
 import {get, responseValidator} from "../../scripts/api";
 import {toast} from "react-toastify";
+// import Button from "../../utilities/components/button/button.index";
 
 
 const MyLandscapes = () => {
 
     const [landscapes, setLandscapes] = useState(null);
-
+    const [check,setCheck]=useState(true)
+    
     useEffect(() => {
         get(APIPath.map.myLandscapes).then((data) => {
             if (responseValidator(data.status) && data.data) {
@@ -51,7 +53,8 @@ const MyLandscapes = () => {
                             <div className='content'>
                                 <p className="name">{item.loc_name}</p>
                                 <p className="address">{item.address}</p>
-                                <p className="description">{item.description}</p>
+                                <p className={check? "description" : "description-no"}>{item.description}</p>
+                                {/* <Button className='btn' text='اطلاعات بیشتر' onClick={setCheck}/> */}
                             </div>
                         </div>
                     )) : <p className="no-data">مکان ثبت شده ای وجود ندارد‌!</p>

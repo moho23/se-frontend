@@ -29,6 +29,7 @@ import {Tree} from 'antd';
 import 'antd/dist/antd.css';
 import {Input, Radio, Select} from 'antd';
 import {Steps} from 'antd';
+import ModalDetails from "../modalDetailsLand/modalDetailsLands.index"
 
 const {Step} = Steps;
 const {Option} = Select;
@@ -42,13 +43,29 @@ const MapContainer = () => {
     const [detail, setDetail] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
-    const [searchInput, setSearchInput] = useState(null);
+
+    //string[] => baba ha hast toosh
     const [expandedKeys, setExpandedKeys] = useState([]);
+    //string[] bache hayi ke check boxesh tik khorde
     const [checkedKeys, setCheckedKeys] = useState([]);
+    //string ooni ke roosh click beshe
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [autoExpandParent, setAutoExpandParent] = useState(true);
+
+    //سرچ باکس
+    const [searchInput, setSearchInput] = useState(null);
+
+    //فیلتر بر اساس محبوبیت
     const [current, setCurrent] = useState("all")
+
+    //محدوده جستجو   : radius
     const [searchArea, setSearchArea] = useState(1000)
+
+    const [name, setName] = useState(null)
+    const [image, setImage] = useState(null)
+    const [address, setAddress] = useState(null)
+    const [description, setDescription] = useState(null)
+    const [category, setCategory] = useState(null)
 
     const onSearch = value => setSearchInput(value);
 
@@ -61,7 +78,34 @@ const MapContainer = () => {
                 if (responseValidator(data.status) && data.data) {
                     console.log(data)
                     setDetail(data.data)
-                }
+
+                    if (data.data){
+                        if (data.data.address.city){
+                          setAddress(data.data.address.city)
+                          if(data.data.address.neighbourhood){
+                            setAddress(data.data.address.city+","+data.data.address.neighbourhood)
+                          }
+                          if(data.data.address.road){
+                            setAddress(data.data.address.city+","+data.data.address.neighbourhood+","+data.data.address.road)
+                          }
+                        }
+                        if(data.data.wikipedia_extracts){
+                          setDescription(data.data.wikipedia_extracts.text)
+                        }
+                        if(data.data.name){
+                          setName(data.data.name)
+                        }
+                        if(data.data.kinds){
+                          setCategory(data.data.kinds)
+                        }
+                        if(data.data.image){
+                          setImage(data.data.image)
+                        }
+                      }
+  
+                      
+                  }
+                
             })
         })
     }
@@ -143,8 +187,10 @@ const MapContainer = () => {
     }
 
     const reverseFunction = (map, e) => {
-        let kinds= expandedKeys.concat(checkedKeys)
-        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
+        let kindsarray= expandedKeys.concat(checkedKeys)
+        const kinds=kindsarray.join()
+        console.log(kinds)
+        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${""}`
         console.log(current)
 
         get(url).then((data) => {
@@ -296,6 +342,7 @@ const MapContainer = () => {
         {label: 'همه مکان ها', value: 'all'},
     ];
 
+
     return (
         <div className="map-main-page">
             <div className="content">
@@ -305,10 +352,11 @@ const MapContainer = () => {
                             onSearch={onSearch}/>
                     <hr/>
                     <p className="selector-label">محدوده جستجو</p>
-                    <Select defaultValue={searchArea} className="simple-selector" onChange={(e) => setSearchArea(e)}>
-                        <Option value="1000">1 کیلومتر</Option>
-                        <Option value="2000">2 کیلومتر</Option>
-                        <Option value="5000">5 کیلومتر</Option>
+                    <Select defaultValue={searchArea + ' متر'} className="simple-selector"
+                            onChange={(e) => setSearchArea(e)}>
+                        <Option style={{textAlign: "right"}} value="1000">1000 متر</Option>
+                        <Option style={{textAlign: "right"}} value="2000">2000 متر</Option>
+                        <Option style={{textAlign: "right"}} value="5000">5000 متر</Option>
                     </Select>
                     <hr/>
                     <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
@@ -348,14 +396,37 @@ const MapContainer = () => {
                         }) : null}
                     </Mapir>
                 </div>
+                {detail ? <ModalDetails
+                    title={name}
+                    category={category}
+                    description={description}
+                    cover={image}
+                    address={address}
+                /> : null}
+                <div className="second-item">
+                    <Mapir
+                        center={[lon, lat]}
+                        Map={Map}
+                        userLocation
+                        onClick={reverseFunction}
+                        className="mapp"
+                    >
+                        <Mapir.Layer
+                            type="symbol"
+                            layout={{"icon-image": "harbor-15"}}>
+                        </Mapir.Layer>
+                        <Mapir.RotationControl/>
+                        <Mapir.ScaleControl/>
+                        <Mapir.ZoomControl position={'bottom-left'}/>
+                        {isntClicked ? markerArray : null}
+                        {locationArray ? locationArray.map(e => {
+                            return e
+                        }) : null}
+                    </Mapir>
+                </div>
             </div>
-            {/*{detail ? <Details*/}
-            {/*    title={detail.loc_name}*/}
-            {/*    category={detail.category}*/}
-            {/*    description={detail.description}*/}
-            {/*    cover={detail.loc_picture}*/}
-            {/*/> : null}*/}
         </div>
+
     )
 }
 
