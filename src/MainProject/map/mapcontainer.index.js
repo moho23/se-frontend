@@ -22,7 +22,7 @@ import boat from "../../assets/images/icons8-ship-wheel-40.png"
 import shop from "../../assets/images/icons8-shop-40.png"
 import tourist from "../../assets/images/icons8-traveler-40.png"
 import {APIPath} from "../../data";
-import {get, responseValidator} from "../../scripts/api";
+import {get, responseValidator, post} from "../../scripts/api";
 import {detailsSideBar} from "../../scripts/storage"
 import "./map.style.scss";
 import {Tree} from 'antd';
@@ -43,62 +43,29 @@ const MapContainer = () => {
     const [detail, setDetail] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
-    const [radius, setRadius] = useState(2000);
-    const [rate, setRate] = useState('all');
-    const [kinds, setKinds] = useState('');
-    const [address,setAddress ]=useState("")
-    const [name,setName]=useState("")
-    const [description,setDescription]=useState("")
-    const [category,setCategory ]=useState("")
-    const [image,setImage ]=useState("")
 
-    function markercordinate(xid) {
-        detailsSideBar.set(true)
-        let url = APIPath.map.details + xid
-        return new Promise((resolve) => {
-            get(url).then((data) => {
-                resolve(true);
-                if (responseValidator(data.status) && data.data) {
-                    console.log(data)
-                    setDetail(data.data)
-                    if (data.data){
-                      if (data.data.address.city){
-                        setAddress(data.data.address.city)
-                        if(data.data.address.neighbourhood){
-                          setAddress(data.data.address.city+","+data.data.address.neighbourhood)
-                        }
-                        if(data.data.address.road){
-                          setAddress(data.data.address.city+","+data.data.address.neighbourhood+","+data.data.address.road)
-                        }
-                      }
-                      if(data.data.wikipedia_extracts){
-                        setDescription(data.data.wikipedia_extracts.text)
-                      }
-                      if(data.data.name){
-                        setName(data.data.name)
-                      }
-                      if(data.data.kinds){
-                        setCategory(data.data.kinds)
-                      }
-                      if(data.data.image){
-                        setImage(data.data.image)
-                      }
-                    }
-
-                    
-                }
-            })
-            
-        })
-        
-    }
-
-    const [expandedKeys, setExpandedKeys] = useState(['volley', 'toopi']);
-    const [checkedKeys, setCheckedKeys] = useState(['places']);
+    //string[] => baba ha hast toosh
+    const [expandedKeys, setExpandedKeys] = useState([]);
+    //string[] bache hayi ke check boxesh tik khorde
+    const [checkedKeys, setCheckedKeys] = useState([]);
+    //string ooni ke roosh click beshe
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [autoExpandParent, setAutoExpandParent] = useState(true);
+
+    //سرچ باکس
+    const [searchInput, setSearchInput] = useState(null);
+
+    //فیلتر بر اساس محبوبیت
     const [current, setCurrent] = useState(null)
+
+    //محدوده جستجو   : radius
     const [searchArea, setSearchArea] = useState(1000)
+
+    const [name, setName] = useState(null)
+    const [image, setImage] = useState(null)
+    const [address, setAddress] = useState(null)
+    const [description, setDescription] = useState(null)
+    const [category, setCategory] = useState(null)
 
     const onSearch = value => setSearchInput(value);
 
@@ -134,13 +101,13 @@ const MapContainer = () => {
 
     const filterHandler = (rad, rat, kin) => {
         if (rad) {
-            setRadius(rad)
+            setSearchArea(rad)
         }
         if (rat) {
-            setRate(rat)
+            setCurrent(rat)
         }
         if (kin) {
-            setKinds(kinds + ',' + kin)
+            // setKinds(kinds + ',' + kin)
         }
     }
 
@@ -203,7 +170,7 @@ const MapContainer = () => {
     }
 
     const reverseFunction = (map, e) => {
-        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${radius}&rate=${rate}&kinds=${kinds}`
+        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}`
         console.log(e.lngLat.lng)
 
         get(url).then((data) => {
@@ -213,7 +180,7 @@ const MapContainer = () => {
                     coordinates={[arr.point.lon, arr.point.lat]}
                     onClick={() => markercordinate(arr.xid)}
                     anchor="bottom"
-                    Image={iconHandler(arr.kinds)}
+                    // Image={iconHandler(arr.kinds)}
                 >
                 </Mapir.Marker>)))
             setLocationArray(array)
@@ -355,7 +322,7 @@ const MapContainer = () => {
         {label: 'همه مکان ها', value: 'all'},
     ];
 
-    
+
     return (
         <div className="map-main-page">
             <div className="content">
@@ -409,9 +376,37 @@ const MapContainer = () => {
                         }) : null}
                     </Mapir>
                 </div>
+                {detail ? <ModalDetails
+                    title={name}
+                    category={category}
+                    description={description}
+                    cover={image}
+                    address={address}
+                /> : null}
+                <div className="second-item">
+                    <Mapir
+                        center={[lon, lat]}
+                        Map={Map}
+                        userLocation
+                        onClick={reverseFunction}
+                        className="mapp"
+                    >
+                        <Mapir.Layer
+                            type="symbol"
+                            layout={{"icon-image": "harbor-15"}}>
+                        </Mapir.Layer>
+                        <Mapir.RotationControl/>
+                        <Mapir.ScaleControl/>
+                        <Mapir.ZoomControl position={'bottom-left'}/>
+                        {isntClicked ? markerArray : null}
+                        {locationArray ? locationArray.map(e => {
+                            return e
+                        }) : null}
+                    </Mapir>
+                </div>
             </div>
-            
         </div>
+
     )
 }
 
