@@ -25,10 +25,15 @@ import {APIPath} from "../../data";
 import {get, responseValidator, post} from "../../scripts/api";
 import {detailsSideBar} from "../../scripts/storage"
 import "./map.style.scss";
-import {TreeSelect, Tree} from 'antd';
+import {Tree} from 'antd';
 import 'antd/dist/antd.css';
+import {Input, Radio, Select} from 'antd';
+import {Steps} from 'antd';
 
-const {TreeNode} = TreeSelect;
+const {Step} = Steps;
+const {Option} = Select;
+
+const {Search} = Input;
 
 const MapContainer = () => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -40,10 +45,16 @@ const MapContainer = () => {
     const [radius, setRadius] = useState(1000);
     const [rate, setRate] = useState('all');
     const [kinds, setKinds] = useState('');
+    const [searchInput, setSearchInput] = useState(null);
     const [expandedKeys, setExpandedKeys] = useState([]);
     const [checkedKeys, setCheckedKeys] = useState([]);
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [autoExpandParent, setAutoExpandParent] = useState(true);
+    const [current, setCurrent] = useState(null)
+    const [searchArea, setSearchArea] = useState(1000)
+
+
+    const onSearch = value => setSearchInput(value);
 
 
     function markercordinate(xid) {
@@ -195,7 +206,7 @@ const MapContainer = () => {
                     key: 'historic',
                 },
                 {
-                    title: 'industrial_facilities',
+                    title: 'industrial facilities',
                     key: 'industrial_facilities',
                 },
                 {
@@ -227,10 +238,6 @@ const MapContainer = () => {
                         {
                             title: 'car wash',
                             key: 'car_wash',
-                        },
-                        {
-                            title: 'charging station',
-                            key: 'charging_station',
                         },
                         {
                             title: 'bicycle rental',
@@ -271,18 +278,6 @@ const MapContainer = () => {
                             key: 'food_courts',
                         },
                         {
-                            title: 'pubs',
-                            key: 'pubs',
-                        },
-                        {
-                            title: 'bars',
-                            key: 'bars',
-                        },
-                        {
-                            title: 'biergartens',
-                            key: 'biergartens',
-                        },
-                        {
                             title: 'picnic sites',
                             key: 'picnic_sites',
                         },
@@ -308,41 +303,65 @@ const MapContainer = () => {
         },
     ];
 
+    const options = [
+        {label: 'کمتر شناخته شده', value: 'little_known'},
+        {label: 'معروف', value: 'very_famous'},
+        {label: 'کمترمعروف', value: 'famous'},
+        {label: 'همه مکان ها', value: 'all'},
+    ];
+
     return (
         <div className="map-main-page">
-            <div className="first-item">
-                <Tree
-                    checkable
-                    onExpand={onExpand}
-                    expandedKeys={expandedKeys}
-                    autoExpandParent={autoExpandParent}
-                    onCheck={onCheck}
-                    checkedKeys={checkedKeys}
-                    onSelect={onSelect}
-                    selectedKeys={selectedKeys}
-                    treeData={treeData}
-                />
-            </div>
-            <div className="second-item">
-                <Mapir
-                    center={[lon, lat]}
-                    Map={Map}
-                    userLocation
-                    onClick={reverseFunction}
-                    className="mapp"
-                >
-                    <Mapir.Layer
-                        type="symbol"
-                        layout={{"icon-image": "harbor-15"}}>
-                    </Mapir.Layer>
-                    <Mapir.RotationControl/>
-                    <Mapir.ScaleControl/>
-                    <Mapir.ZoomControl position={'bottom-left'}/>
-                    {isntClicked ? markerArray : null}
-                    {locationArray ? locationArray.map(e => {
-                        return e
-                    }) : null}
-                </Mapir>
+            <div className="content">
+                <div className="first-item">
+                    <p className="search-label">جستجو</p>
+                    <Search className="search-box" placeholder="آدرس، مکان ..."
+                            onSearch={onSearch}/>
+                    <hr/>
+                    <p className="selector-label">محدوده جستجو</p>
+                    <Select defaultValue={searchArea} className="simple-selector" onChange={(e) => setSearchArea(e)}>
+                        <Option value="1000">1 کیلومتر</Option>
+                        <Option value="2000">2 کیلومتر</Option>
+                        <Option value="5000">5 کیلومتر</Option>
+                    </Select>
+                    <hr/>
+                    <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
+                    <Radio.Group className="stepper" options={options} onChange={(e) => setCurrent(e.target.value)}/>
+                    <hr/>
+                    <Tree
+                        checkable
+                        onExpand={onExpand}
+                        expandedKeys={expandedKeys}
+                        autoExpandParent={autoExpandParent}
+                        onCheck={onCheck}
+                        checkedKeys={checkedKeys}
+                        onSelect={onSelect}
+                        selectedKeys={selectedKeys}
+                        treeData={treeData}
+                        className="check-box"
+                    />
+                </div>
+                <div className="second-item">
+                    <Mapir
+                        center={[lon, lat]}
+                        Map={Map}
+                        userLocation
+                        onClick={reverseFunction}
+                        // className="mapp"
+                    >
+                        <Mapir.Layer
+                            type="symbol"
+                            layout={{"icon-image": "harbor-15"}}>
+                        </Mapir.Layer>
+                        <Mapir.RotationControl/>
+                        <Mapir.ScaleControl/>
+                        <Mapir.ZoomControl position={'bottom-left'}/>
+                        {isntClicked ? markerArray : null}
+                        {locationArray ? locationArray.map(e => {
+                            return e
+                        }) : null}
+                    </Mapir>
+                </div>
             </div>
             {/*{detail ? <Details*/}
             {/*    title={detail.loc_name}*/}
