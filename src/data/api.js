@@ -7,8 +7,8 @@ export const __APIPath = {
         profile: "account/profile/"
     },
     map: {
-        nearby: "location/find-nearby/",
-        details: "location/details/",
+        nearby: "location/get_locations/",
+        details: "location/location_detail/",
         myLandscapes: "location/creator_locations/"
     },
     location: {
