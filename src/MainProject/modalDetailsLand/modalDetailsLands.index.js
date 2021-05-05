@@ -5,7 +5,7 @@ import "./modalDetailsLands.style.scss"
 import detailsDefaultCover from '../../assets/images/landscape-details-default.png'
 
 const ModalDetails = (props) => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(props.show);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -21,9 +21,9 @@ const ModalDetails = (props) => {
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            {/* <Button type="primary" onClick={showModal}>
                 Open Modal
-            </Button>
+            </Button> */}
             <Modal title={props.title}
                    visible={isModalVisible}
                    onOk={handleOk}

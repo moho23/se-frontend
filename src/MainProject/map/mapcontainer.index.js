@@ -187,15 +187,18 @@ const MapContainer = () => {
     }
 
     const reverseFunction = (map, e) => {
-        let kindsarray= expandedKeys.concat(checkedKeys)
+        // let kindsarray= expandedKeys.concat(checkedKeys)
+        let kindsarray= checkedKeys
         const kinds=kindsarray.join()
         console.log(kinds)
-        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${""}`
+        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
         console.log(current)
 
         get(url).then((data) => {
             let array = []
-            data.data.map(arr => (
+            console.log(data)
+            if(data.data){
+                data.data.map(arr => (
                 array.push(<Mapir.Marker
                     coordinates={[arr.point.lon, arr.point.lat]}
                     onClick={() => markercordinate(arr.xid)}
@@ -204,7 +207,9 @@ const MapContainer = () => {
                 >
                 </Mapir.Marker>)))
             setLocationArray(array)
-            console.log(data)
+            console.log(data.data)
+            }
+            
         })
         const array = [];
         setIsntClicked(true)
@@ -375,33 +380,13 @@ const MapContainer = () => {
                         className="check-box"
                     />
                 </div>
-                <div className="second-item">
-                    <Mapir
-                        center={[lon, lat]}
-                        Map={Map}
-                        userLocation
-                        onClick={reverseFunction}
-                        // className="mapp"
-                    >
-                        <Mapir.Layer
-                            type="symbol"
-                            layout={{"icon-image": "harbor-15"}}>
-                        </Mapir.Layer>
-                        <Mapir.RotationControl/>
-                        <Mapir.ScaleControl/>
-                        <Mapir.ZoomControl position={'bottom-left'}/>
-                        {isntClicked ? markerArray : null}
-                        {locationArray ? locationArray.map(e => {
-                            return e
-                        }) : null}
-                    </Mapir>
-                </div>
                 {detail ? <ModalDetails
                     title={name}
                     category={category}
                     description={description}
                     cover={image}
                     address={address}
+                    show={true}
                 /> : null}
                 <div className="second-item">
                     <Mapir
@@ -409,7 +394,6 @@ const MapContainer = () => {
                         Map={Map}
                         userLocation
                         onClick={reverseFunction}
-                        className="mapp"
                     >
                         <Mapir.Layer
                             type="symbol"
@@ -424,9 +408,9 @@ const MapContainer = () => {
                         }) : null}
                     </Mapir>
                 </div>
+                
             </div>
         </div>
-
     )
 }
 
