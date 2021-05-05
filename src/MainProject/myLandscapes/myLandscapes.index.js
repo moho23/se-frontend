@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import './myLandscapes.style.scss'
-import cover from '../../assets/images/landscape-details-default.png';
+import cover from '../../assets/images/my-land-default.svg';
 import {APIPath} from "../../data";
 import {get, responseValidator} from "../../scripts/api";
 import {toast} from "react-toastify";
