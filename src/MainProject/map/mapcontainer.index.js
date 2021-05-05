@@ -56,7 +56,7 @@ const MapContainer = () => {
     const [searchInput, setSearchInput] = useState(null);
 
     //فیلتر بر اساس محبوبیت
-    const [current, setCurrent] = useState(null)
+    const [current, setCurrent] = useState('all')
 
     //محدوده جستجو   : radius
     const [searchArea, setSearchArea] = useState(1000)
@@ -170,21 +170,22 @@ const MapContainer = () => {
     }
 
     const reverseFunction = (map, e) => {
-        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}`
+        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${''}`
         console.log(e.lngLat.lng)
 
         get(url).then((data) => {
             let array = []
+            console.log(data.data)
             data.data.map(arr => (
                 array.push(<Mapir.Marker
                     coordinates={[arr.point.lon, arr.point.lat]}
                     onClick={() => markercordinate(arr.xid)}
                     anchor="bottom"
-                    // Image={iconHandler(arr.kinds)}
+                    Image={iconHandler(arr.kinds)}
                 >
                 </Mapir.Marker>)))
             setLocationArray(array)
-            console.log(data)
+            console.log(data.data)
         })
         const array = [];
         setIsntClicked(true)
@@ -383,30 +384,8 @@ const MapContainer = () => {
                     cover={image}
                     address={address}
                 /> : null}
-                <div className="second-item">
-                    <Mapir
-                        center={[lon, lat]}
-                        Map={Map}
-                        userLocation
-                        onClick={reverseFunction}
-                        className="mapp"
-                    >
-                        <Mapir.Layer
-                            type="symbol"
-                            layout={{"icon-image": "harbor-15"}}>
-                        </Mapir.Layer>
-                        <Mapir.RotationControl/>
-                        <Mapir.ScaleControl/>
-                        <Mapir.ZoomControl position={'bottom-left'}/>
-                        {isntClicked ? markerArray : null}
-                        {locationArray ? locationArray.map(e => {
-                            return e
-                        }) : null}
-                    </Mapir>
-                </div>
             </div>
         </div>
-
     )
 }
 
