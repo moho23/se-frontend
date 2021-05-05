@@ -53,9 +53,7 @@ const MapContainer = () => {
     const [current, setCurrent] = useState(null)
     const [searchArea, setSearchArea] = useState(1000)
 
-
     const onSearch = value => setSearchInput(value);
-
 
     function markercordinate(xid) {
         detailsSideBar.set(true)
@@ -72,18 +70,18 @@ const MapContainer = () => {
     }
 
     const onExpand = (expandedKeysValue) => {
-        console.log('onExpand', expandedKeysValue);
+        // console.log('onExpand', expandedKeysValue);
         setExpandedKeys(expandedKeysValue);
         setAutoExpandParent(false);
     };
 
     const onCheck = (checkedKeysValue) => {
-        console.log('onCheck', checkedKeysValue);
+        // console.log('onCheck', checkedKeysValue);
         setCheckedKeys(checkedKeysValue);
     };
 
     const onSelect = (selectedKeysValue, info) => {
-        console.log('onSelect', info);
+        // console.log('onSelect', info);
         setSelectedKeys(selectedKeysValue);
     };
 
