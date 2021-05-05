@@ -23,7 +23,6 @@ import shop from "../../assets/images/icons8-shop-40.png"
 import tourist from "../../assets/images/icons8-traveler-40.png"
 import {APIPath} from "../../data";
 import {get, responseValidator, post} from "../../scripts/api";
-import location from "../../assets/images/volcano.svg"
 import {detailsSideBar} from "../../scripts/storage"
 import "./map.style.scss";
 import {TreeSelect, Tree} from 'antd';
@@ -41,6 +40,11 @@ const MapContainer = () => {
     const [radius, setRadius] = useState(1000);
     const [rate, setRate] = useState('all');
     const [kinds, setKinds] = useState('');
+    const [expandedKeys, setExpandedKeys] = useState([]);
+    const [checkedKeys, setCheckedKeys] = useState([]);
+    const [selectedKeys, setSelectedKeys] = useState([]);
+    const [autoExpandParent, setAutoExpandParent] = useState(true);
+
 
     function markercordinate(xid) {
         detailsSideBar.set(true)
@@ -55,13 +59,6 @@ const MapContainer = () => {
             })
         })
     }
-
-    const [expandedKeys, setExpandedKeys] = useState(['volley', 'toopi']);
-    const [checkedKeys, setCheckedKeys] = useState(['places']);
-    const [selectedKeys, setSelectedKeys] = useState([]);
-    const [autoExpandParent, setAutoExpandParent] = useState(true);
-    const [value, setValue] = useState(undefined);
-
 
     const onExpand = (expandedKeysValue) => {
         console.log('onExpand', expandedKeysValue);
@@ -78,8 +75,6 @@ const MapContainer = () => {
         console.log('onSelect', info);
         setSelectedKeys(selectedKeysValue);
     };
-
-    
 
     const filterHandler = (rad, rat, kin) => {
         if (rad) {
@@ -182,62 +177,151 @@ const MapContainer = () => {
         setLon(e.lngLat.lng);
     }
 
-    const onChange = (value) => {
-        console.log(value);
-        setValue({value});
-    };
-
     const treeData = [
         {
-            title: 'sport',
-            key: 'sport',
+            title: 'interesting places',
+            key: 'interesting_places',
             children: [
                 {
-                    title: 'toopi',
-                    key: 'toopi',
-                    children: [
-                        {title: 'soccer', key: 'soccer'},
-                        {title: 'volley', key: 'volley'},
-                        {title: 'basket', key: 'basket'},
-                    ],
+                    title: 'religion',
+                    key: 'religion',
                 },
                 {
-                    title: 'fiziki',
-                    key: 'jodo',
+                    title: 'cultural',
+                    key: 'cultural',
+                },
+                {
+                    title: 'historic',
+                    key: 'historic',
+                },
+                {
+                    title: 'industrial_facilities',
+                    key: 'industrial_facilities',
+                },
+                {
+                    title: 'natural',
+                    key: 'natural',
+                },
+                {
+                    title: 'other',
+                    key: 'other',
                 },
             ],
         },
         {
-            title: 'places',
-            key: 'places',
+            title: 'tourist facilities',
+            key: 'tourist_facilities',
+            children: [
+                {
+                    title: 'transport',
+                    key: 'transport',
+                    children: [
+                        {
+                            title: 'car rental',
+                            key: 'car_rental',
+                        },
+                        {
+                            title: 'car sharing',
+                            key: 'car_sharing',
+                        },
+                        {
+                            title: 'car wash',
+                            key: 'car_wash',
+                        },
+                        {
+                            title: 'charging station',
+                            key: 'charging_station',
+                        },
+                        {
+                            title: 'bicycle rental',
+                            key: 'bicycle_rental',
+                        },
+                        {
+                            title: 'boat sharing',
+                            key: 'boat_sharing',
+                        },
+                        {
+                            title: 'fuel',
+                            key: 'fuel',
+                        },
+                    ],
+                },
+                {
+                    title: 'shops',
+                    key: 'shops',
+                },
+                {
+                    title: 'foods',
+                    key: 'foods',
+                    children: [
+                        {
+                            title: 'restaurants',
+                            key: 'restaurants',
+                        },
+                        {
+                            title: 'cafes',
+                            key: 'cafes',
+                        },
+                        {
+                            title: 'fast food',
+                            key: 'fast_food',
+                        },
+                        {
+                            title: 'food courts',
+                            key: 'food_courts',
+                        },
+                        {
+                            title: 'pubs',
+                            key: 'pubs',
+                        },
+                        {
+                            title: 'bars',
+                            key: 'bars',
+                        },
+                        {
+                            title: 'biergartens',
+                            key: 'biergartens',
+                        },
+                        {
+                            title: 'picnic sites',
+                            key: 'picnic_sites',
+                        },
+                    ],
+                },
+                {
+                    title: 'banks',
+                    key: 'banks',
+                },
+            ],
+        },
+        {
+            title: 'sport',
+            key: 'sport',
+        },
+        {
+            title: 'amusements',
+            key: 'amusements',
+        },
+        {
+            title: 'accomodations',
+            key: 'accomodations',
         },
     ];
 
     return (
         <div className="map-main-page">
             <div className="first-item">
-                <TreeSelect
-                    showSearch
-                    style={{width: '100%'}}
-                    value={value}
-                    dropdownStyle={{maxHeight: 400, overflow: 'auto', direction: "rtl"}}
-                    placeholder="انتخاب کنید"
-                    allowClear={true}
-                    multiple={true}
-                    treeDefaultExpandAll
-                    onChange={onChange}
-                    className="selector"
-                >
-                    <TreeNode value="interesting_places" title="Interesting places">
-                        <TreeNode value="religion" title="religion"/>
-                        <TreeNode value="cultural" title="cultural"/>
-                        <TreeNode value="historic" title="historic"/>
-                        <TreeNode value="industrial_facilities" title="Industrial facilities"/>
-                        <TreeNode value="natural" title="natural"/>
-                    </TreeNode>
-                    <TreeNode value="accomodations" title="Accomodations">
-                    </TreeNode>
-                </TreeSelect>
+                <Tree
+                    checkable
+                    onExpand={onExpand}
+                    expandedKeys={expandedKeys}
+                    autoExpandParent={autoExpandParent}
+                    onCheck={onCheck}
+                    checkedKeys={checkedKeys}
+                    onSelect={onSelect}
+                    selectedKeys={selectedKeys}
+                    treeData={treeData}
+                />
             </div>
             <div className="second-item">
                 <Mapir
