@@ -362,7 +362,6 @@ const MapContainer = () => {
                         Map={Map}
                         userLocation
                         onClick={reverseFunction}
-                        // className="mapp"
                     >
                         <Mapir.Layer
                             type="symbol"
