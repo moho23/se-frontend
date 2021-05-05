@@ -22,13 +22,14 @@ import boat from "../../assets/images/icons8-ship-wheel-40.png"
 import shop from "../../assets/images/icons8-shop-40.png"
 import tourist from "../../assets/images/icons8-traveler-40.png"
 import {APIPath} from "../../data";
-import {get, responseValidator, post} from "../../scripts/api";
+import {get, responseValidator} from "../../scripts/api";
 import {detailsSideBar} from "../../scripts/storage"
 import "./map.style.scss";
 import {Tree} from 'antd';
 import 'antd/dist/antd.css';
 import {Input, Radio, Select} from 'antd';
 import {Steps} from 'antd';
+import ModalDetails from "../modalDetailsLand/modalDetailsLands.index"
 
 const {Step} = Steps;
 const {Option} = Select;
@@ -42,12 +43,58 @@ const MapContainer = () => {
     const [detail, setDetail] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
-    const [radius, setRadius] = useState(1000);
+    const [radius, setRadius] = useState(2000);
     const [rate, setRate] = useState('all');
     const [kinds, setKinds] = useState('');
-    const [searchInput, setSearchInput] = useState(null);
-    const [expandedKeys, setExpandedKeys] = useState([]);
-    const [checkedKeys, setCheckedKeys] = useState([]);
+    const [address,setAddress ]=useState("")
+    const [name,setName]=useState("")
+    const [description,setDescription]=useState("")
+    const [category,setCategory ]=useState("")
+    const [image,setImage ]=useState("")
+
+    function markercordinate(xid) {
+        detailsSideBar.set(true)
+        let url = APIPath.map.details + xid
+        return new Promise((resolve) => {
+            get(url).then((data) => {
+                resolve(true);
+                if (responseValidator(data.status) && data.data) {
+                    console.log(data)
+                    setDetail(data.data)
+                    if (data.data){
+                      if (data.data.address.city){
+                        setAddress(data.data.address.city)
+                        if(data.data.address.neighbourhood){
+                          setAddress(data.data.address.city+","+data.data.address.neighbourhood)
+                        }
+                        if(data.data.address.road){
+                          setAddress(data.data.address.city+","+data.data.address.neighbourhood+","+data.data.address.road)
+                        }
+                      }
+                      if(data.data.wikipedia_extracts){
+                        setDescription(data.data.wikipedia_extracts.text)
+                      }
+                      if(data.data.name){
+                        setName(data.data.name)
+                      }
+                      if(data.data.kinds){
+                        setCategory(data.data.kinds)
+                      }
+                      if(data.data.image){
+                        setImage(data.data.image)
+                      }
+                    }
+
+                    
+                }
+            })
+            
+        })
+        
+    }
+
+    const [expandedKeys, setExpandedKeys] = useState(['volley', 'toopi']);
+    const [checkedKeys, setCheckedKeys] = useState(['places']);
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [autoExpandParent, setAutoExpandParent] = useState(true);
     const [current, setCurrent] = useState(null)
@@ -308,6 +355,7 @@ const MapContainer = () => {
         {label: 'همه مکان ها', value: 'all'},
     ];
 
+    
     return (
         <div className="map-main-page">
             <div className="content">
@@ -362,12 +410,7 @@ const MapContainer = () => {
                     </Mapir>
                 </div>
             </div>
-            {/*{detail ? <Details*/}
-            {/*    title={detail.loc_name}*/}
-            {/*    category={detail.category}*/}
-            {/*    description={detail.description}*/}
-            {/*    cover={detail.loc_picture}*/}
-            {/*/> : null}*/}
+            
         </div>
     )
 }
