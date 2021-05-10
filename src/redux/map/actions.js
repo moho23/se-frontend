@@ -1,0 +1,6 @@
+export const EXPAND='EXPAND'
+export const CHECK='CHECK'
+export const SELECT='SELECT'
+export const SEARCHAREA='SEARCHAREA'
+export const CURRENT='CURRENT'
+export const CLICKONMARKER='CLICKONMARKER'

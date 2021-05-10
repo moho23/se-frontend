@@ -4,7 +4,7 @@ import static_profile from "../../assets/images/static.png";
 import {NavLink} from "react-router-dom";
 import {RoutePath} from "../../data";
 import {authToken} from "../../scripts/storage";
-import {setAuth, setUserData} from "../../redux/actions";
+import {setAuth, setUserData} from "../../redux/register/actions";
 import {connect} from "react-redux";
 
 const Sidebar = (props) => {
@@ -88,8 +88,8 @@ const Sidebar = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    text: state.language,
-    information: state.userData,
+    text: state.register.language,
+    information: state.register.userData,
 });
 
 const connector = connect(mapStateToProps);
