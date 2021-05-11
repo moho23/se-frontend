@@ -29,12 +29,9 @@ const inintialState={
     current:"all",
     searchArea:1000,
 
-    markerArray:null,
-    name:null,
-    image:null,
-    address:null,
-    description:null,
-    category:null
+    searchMarkerArray:null,
+    modalDetailsShow:false
+    
 }
 
 const reducer=(state=inintialState,action)=>{
@@ -64,6 +61,16 @@ const reducer=(state=inintialState,action)=>{
             return{
                 ...state,
                 current:action.currentValue
+            }
+        case(Actions.ONSERACH):
+            return{
+                ...state,
+                searchMarkerArray:action.searchMarker
+            }
+        case(Actions.MODALDETAILSHOW):
+            return{
+                ...state,
+                modalDetailsShow:!state.modalDetailsShow
             }
         case(Actions.ICONHANDLER):
             const splitCateg = action.categ.split(",")

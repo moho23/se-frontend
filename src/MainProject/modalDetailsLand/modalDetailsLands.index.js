@@ -3,21 +3,10 @@ import {Modal, Button} from 'antd';
 import 'antd/dist/antd.css';
 import "./modalDetailsLands.style.scss"
 import detailsDefaultCover from '../../assets/images/landscape-details-default.png'
+import {connect} from "react-redux";
+import * as Actions from "../../redux/map/actions"
 
 const ModalDetails = (props) => {
-    const [isModalVisible, setIsModalVisible] = useState(props.show);
-
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
 
     return (
         <>
@@ -25,9 +14,9 @@ const ModalDetails = (props) => {
                 Open Modal
             </Button> */}
             <Modal title={props.title}
-                   visible={isModalVisible}
-                   onOk={handleOk}
-                   onCancel={handleCancel}
+                   visible={true}
+                   onOk={()=>props.setModal()}
+                   onCancel={()=>props.setModal()}
                    okButtonProps={{hidden: true}}
                    cancelButtonProps={{hidden: true}}>
 
@@ -55,4 +44,13 @@ const ModalDetails = (props) => {
     );
 };
 
-export default ModalDetails;
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        setModal:()=>dispatch({type:Actions.MODALDETAILSHOW}),
+        
+    }
+}
+
+
+const connector = connect(null,mapDispatchToProps);
+export default connector(ModalDetails);

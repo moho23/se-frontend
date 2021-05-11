@@ -10,7 +10,6 @@ import 'antd/dist/antd.css';
 import {Input, Radio, Select} from 'antd';
 import {Steps} from 'antd';
 import ModalDetails from "../modalDetailsLand/modalDetailsLands.index"
-import { toast } from "react-toastify";
 import Mapfilterbar from "./mapfilterbar.index"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
@@ -25,10 +24,8 @@ const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
     const [markerArray, setMarkerArray] = useState();
     const [locationArray, setLocationArray] = useState(null);
-    const [detail, setDetail] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
-    //string[] => baba ha hast toosh
     
     const [name, setName] = useState(null)
     const [image, setImage] = useState(null)
@@ -36,31 +33,7 @@ const MapContainer = (props) => {
     const [description, setDescription] = useState(null)
     const [category, setCategory] = useState(null)
 
-    const onSearch = value =>{
-
-        const searchInput = encodeURIComponent(value)
-        let url = APIPath.map.searchByName + searchInput
-        get(url).then((data)=>{
-            console.log(data)
-            if (data.data){
-                const array = [];
-                setIsntClicked(true)
-                array.push(<Mapir.Marker
-                    coordinates={[data.data.lon, data.data.lat]}
-                    onClick={() => setIsntClicked(false)}
-                    anchor="bottom"
-                    Image={markerUrl}
-                >
-                </Mapir.Marker>);
-                setMarkerArray(array);
-            }
-            else{
-                toast.warn("چنین مکانی ثبت نشده است.")
-            }
-            
-        })
-    };
-
+    
     function markercordinate(xid) {
         detailsSideBar.set(true)
         let url = APIPath.map.details + xid
@@ -69,8 +42,7 @@ const MapContainer = (props) => {
                 resolve(true);
                 if (responseValidator(data.status) && data.data) {
                     console.log(data)
-                    setDetail(data.data)
-
+                    props.setModal()
                     if (data.data){
                         if (data.data.address.city){
                           setAddress(data.data.address.city)
@@ -101,12 +73,6 @@ const MapContainer = (props) => {
             })
         })
     }
-
-    
-
-    
-
-    
 
     const reverseFunction = (map, e) => {
         // let kindsarray= expandedKeys.concat(checkedKeys)
@@ -154,7 +120,7 @@ const MapContainer = (props) => {
         <div className="map-main-page">
             <div className="content">
             <Mapfilterbar/>
-                {detail ? <ModalDetails
+                {props.modalDetailsShow ? <ModalDetails
                     title={name}
                     category={category}
                     description={description}
@@ -180,6 +146,7 @@ const MapContainer = (props) => {
                         {locationArray ? locationArray.map(e => {
                             return e
                         }) : null}
+                        {props.searchMarker}
                     </Mapir>
                 </div>
                 </div>
@@ -193,11 +160,14 @@ const mapStateToProps = (state) => ({
     autoExpandParent: state.map.autoExpandParent,
     checkedKeys: state.map.checkedKeys,
     selectedKeys: state.map.selectedKeys,
+    searchMarker: state.map.searchMarkerArray,
+    modalDetailsShow: state.map.modalDetailsShow,
 });
 
 const mapDispatchToProps=(dispatch)=>{
     return{
         iconHandler:(categ)=>dispatch({type:Actions.ICONHANDLER,categ:categ}),
+        setModal:()=>dispatch({type:Actions.MODALDETAILSHOW}),
         
     }
 }
