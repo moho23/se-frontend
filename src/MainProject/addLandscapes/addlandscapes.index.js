@@ -10,6 +10,7 @@ import {APIPath} from "../../data";
 import {responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
+import TextArea from "../../utilities/components/textarea/textarea.index";
 
 const AddLandscapes = (props) => {
     const fileRef = useRef(null)
@@ -24,6 +25,7 @@ const AddLandscapes = (props) => {
     const [category, setCategory] = useState(null)
     const [address, setAddress] = useState(null)
     const [description, setDescription] = useState(null)
+    const [type, setType] = useState(null)
     const [isChoose, setIsChoose] = useState(false)
     const uploadTools = useRef(null)
 
@@ -60,6 +62,9 @@ const AddLandscapes = (props) => {
                 if (category) {
                     form.append("email", category)
                 }
+                if (type) {
+                    form.append("type", type)
+                }
                 form.append("latitude", lat)
                 form.append("longitude", lng)
                 form.append("city", 'city')
@@ -78,6 +83,7 @@ const AddLandscapes = (props) => {
                                     setAddress(null)
                                     setDescription(null)
                                     setCategory(null)
+                                    setType(null)
                                     setLang(51.41021530151241)
                                     setLat(35.72079898251745)
                                     setIsChoose(false)
@@ -89,6 +95,7 @@ const AddLandscapes = (props) => {
                                 setAddress(null)
                                 setDescription(null)
                                 setCategory(null)
+                                setType(type)
                                 setLang(51.41021530151241)
                                 setLat(35.72079898251745)
                                 setIsChoose(false)
@@ -142,12 +149,16 @@ const AddLandscapes = (props) => {
                 </div>
                 <div className="items">
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
-                           placeholder="نام را وارد کنید."/>
-                    <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
-                           placeholder="آدرس را وارد کنید."/>
-                    <Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"
+                            placeholder="نام را وارد کنید."/>
+                    <div className="detail-items">
+                        <Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"
                            placeholder="دسته بندی را وارد کنید."/>
-                    <Input onChange={(e) => setDescription(e)} value={description} className="item" label="توضیحات"
+                        <Input onChange={(e) => setType(e)} value={type} className="item" label="نوع"
+                            placeholder="نوع آدرس خود را مشخص کنید."/>
+                    </div>
+                    <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
+                            placeholder="آدرس را وارد کنید."/>
+                    <TextArea onChange={(e) => setDescription(e)} value={description} className="item" label="توضیحات"
                            placeholder="توضیحات را وارد کنید."/>
                     <div className="map-div">
                         <Mapir

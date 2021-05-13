@@ -34,7 +34,7 @@
     padding: 30px;
     flex-direction: column;
     height: 600px;
-    overflow-y: auto;
+    //overflow-y: auto;
 
     .map-div {
       display: flex;
@@ -68,15 +68,23 @@
 
     .items {
       width: 100%;
-
-
-      .first-line {
-        display: flex;
+      padding-bottom: 50px;
+        
+      .detail-items{
+        flex: 1;
         width: 100%;
+        display: flex;
         flex-direction: column;
+        margin-top: 16px;
+
+
+      // .first-line {
+      //   display: flex;
+      //   width: 100%;
+      //   flex-direction: column;
 
         @include project-md {
-          flex-direction: row;
+          flex-direction: row-reverse;
         }
 
         .item {
@@ -92,8 +100,9 @@
         padding: 5px;
         min-width: 0 !important;
         margin-top: 10px;
+        direction: rtl;
+        
       }
-
     }
 
     .item-column {
