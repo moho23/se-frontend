@@ -94,7 +94,6 @@ const MapContainer = (props) => {
             console.log(data)
             if(data.data){
                 data.data.map(arr => (
-                console.log(props.icon),
                 array.push(<Mapir.Marker
                     coordinates={[arr.point.lon, arr.point.lat]}
                     onClick={() => markercordinate(arr.xid)}

@@ -20,25 +20,25 @@ import shop from "../../assets/images/icons8-shop-40.png"
 import tourist from "../../assets/images/icons8-traveler-40.png"
 
 // import { LazyLoadImage } from 'react-lazy-load-image-component';
-// const sport = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-basketball-40.png"} /></div>);
-// const historic = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-archeology-40.png"} /></div>);
-// const bicycle = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-bicycle-40.png"} /></div>);
-// const cafe = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-cafe-40.png"} /></div>);
-// const others = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-camera-40.png"} /></div>);
-// const car = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-car-40.png"} /></div>);
-// const amusment = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-carousel-40.png"} /></div>);
-// const culture = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-colosseum-40.png"} /></div>);
-// const natural = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-forest-40.png"} /></div>);
-// const gasstation = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-gas-station-40.png"} /></div>);
-// const hotel = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-hotel-bed-40.png"} /></div>);
-// const bank = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-money-bag-40.png"} /></div>);
-// const religion = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-mosque-40.png"} /></div>);
-// const architecture = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-obelisk-40.png"} /></div>);
-// const industry = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-power-plant-40.png"} /></div>);
-// const restaurant = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-restaurant-40.png"} /></div>);
-// const boat = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-ship-wheel-40.png"} /></div>);
-// const shop = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-shop-40.png"} /></div>);
-// const tourist = () => ( <div> <LazyLoadImage  src={"../../assets/images/icons8-traveler-40.png"} /></div>);
+// const sport = () => (  <LazyLoadImage  src={"../../assets/images/icons8-basketball-40.png"} />);
+// const historic = () => ( <LazyLoadImage  src={"../../assets/images/icons8-archeology-40.png"} />);
+// const bicycle = () => (  <LazyLoadImage  src={"../../assets/images/icons8-bicycle-40.png"} />);
+// const cafe = () => (  <LazyLoadImage  src={"../../assets/images/icons8-cafe-40.png"} />);
+// const others = () => (  <LazyLoadImage  src={"../../assets/images/icons8-camera-40.png"} />);
+// const car = () => (  <LazyLoadImage  src={"../../assets/images/icons8-car-40.png"} />);
+// const amusment = () => (  <LazyLoadImage  src={"../../assets/images/icons8-carousel-40.png"} />);
+// const culture = () => (  <LazyLoadImage  src={"../../assets/images/icons8-colosseum-40.png"} />);
+// const natural = () => (  <LazyLoadImage  src={"../../assets/images/icons8-forest-40.png"} />);
+// const gasstation = () => (  <LazyLoadImage  src={"../../assets/images/icons8-gas-station-40.png"} />);
+// const hotel = () => (  <LazyLoadImage  src={"../../assets/images/icons8-hotel-bed-40.png"} />);
+// const bank = () => (  <LazyLoadImage  src={"../../assets/images/icons8-money-bag-40.png"} />);
+// const religion = () => (  <LazyLoadImage  src={"../../assets/images/icons8-mosque-40.png"} />);
+// const architecture = () => (  <LazyLoadImage  src={"../../assets/images/icons8-obelisk-40.png"} />);
+// const industry = () => (  <LazyLoadImage  src={"../../assets/images/icons8-power-plant-40.png"} />);
+// const restaurant = () => (  <LazyLoadImage  src={"../../assets/images/icons8-restaurant-40.png"} />);
+// const boat = () => ( <LazyLoadImage  src={"../../assets/images/icons8-ship-wheel-40.png"} />);
+// const shop = () => ( <LazyLoadImage  src={"../../assets/images/icons8-shop-40.png"} />);
+// const tourist = () => (  <LazyLoadImage  src={"../../assets/images/icons8-traveler-40.png"} />);
 
 
 const iconHandler = (categ) => {
