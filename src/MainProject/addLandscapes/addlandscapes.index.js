@@ -60,7 +60,7 @@ const AddLandscapes = (props) => {
                     form.append("description", description)
                 }
                 if (category) {
-                    form.append("email", category)
+                    form.append("category", category)
                 }
                 if (type) {
                     form.append("type", type)
