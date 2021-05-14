@@ -9,10 +9,10 @@ import {connect} from "react-redux";
 import {projectInitialize} from "./mainproject.scripts";
 import Profile from "./profile/profile.index";
 import MapContainer from "./map/mapcontainer.index";
-import Details from "./detailsLandscapes/detailsLandscapes.index";
 import ModalDetails from "./modalDetailsLand/modalDetailsLands.index"
 import myLandscapes from "./myLandscapes/myLandscapes.index";
 import AddLandscapes from "./addLandscapes/addlandscapes.index";
+
 
 
 const MainProject = (props) => {
@@ -82,7 +82,7 @@ const MainProject = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    isAuth: state.authStatus,
+    isAuth: state.register.authStatus,
 });
 const connector = connect(mapStateToProps);
 export default connector(MainProject);

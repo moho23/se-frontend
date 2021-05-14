@@ -7,7 +7,7 @@ import Button from "../../utilities/components/button/button.index";
 import {responseValidator, upload} from "../../scripts/api";
 import {APIPath} from "../../data";
 import {toast} from "react-toastify";
-import {setUserData} from "../../redux/actions";
+import {setUserData} from "../../redux/register/actions";
 
 const Profile = (props) => {
 
@@ -133,7 +133,7 @@ const Profile = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    userData: state.userData,
+    userData: state.register.userData,
 });
 const connector = connect(mapStateToProps);
 export default connector(Profile);

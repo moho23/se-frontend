@@ -179,7 +179,7 @@ const AddLandscapes = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    user: state.userData
+    user: state.register.userData
 });
 const connector = connect(mapStateToProps);
 export default connector(AddLandscapes);
