@@ -7,18 +7,11 @@ import {get, responseValidator} from "../../scripts/api";
 import {detailsSideBar} from "../../scripts/storage"
 import "./map.style.scss";
 import 'antd/dist/antd.css';
-import {Input, Radio, Select} from 'antd';
-import {Steps} from 'antd';
 import ModalDetails from "../modalDetailsLand/modalDetailsLands.index"
 import Mapfilterbar from "./mapfilterbar.index"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
-
-
-const {Step} = Steps;
-const {Option} = Select;
-
-const {Search} = Input;
+import iconHandler from "./iconhandler.index"
 
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -35,6 +28,7 @@ const MapContainer = (props) => {
 
     
     function markercordinate(xid) {
+        console.log("details")
         detailsSideBar.set(true)
         let url = APIPath.map.details + xid
         return new Promise((resolve) => {
@@ -75,28 +69,40 @@ const MapContainer = (props) => {
     }
 
     const reverseFunction = (map, e) => {
-        // let kindsarray= expandedKeys.concat(checkedKeys)
-        let kindsarray= props.checkedKeys
-        const kinds=kindsarray.join()
-        console.log(kinds)
-        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${props.searchArea}&rate=${props.current}&kinds=${kinds}`
-        console.log(props.current)
+        e.preventDefault();
+        console.log("checkedKeys=",props.checkedKeys)
+        console.log("searchArea=",props.searchArea)
+        console.log("current=",props.current)
+        let checkedKeys=props.checkedKeys
+        let searchArea=props.searchArea
+        let current=props.current
+        if(!checkedKeys){
+            checkedKeys=[]
+        }
+        if(!searchArea){
+            searchArea=1000
+        }
+        if(!current){
+            current="all"
+        }
+        const kinds=checkedKeys.join()
+        // console.log("kinds=",kinds)
+        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
 
         get(url).then((data) => {
             let array = []
             console.log(data)
             if(data.data){
-                console.log(data.data)
                 data.data.map(arr => (
+                console.log(props.icon),
                 array.push(<Mapir.Marker
                     coordinates={[arr.point.lon, arr.point.lat]}
                     onClick={() => markercordinate(arr.xid)}
                     anchor="bottom"
-                    Image={props.iconHandler(arr.kinds)}
+                    Image={iconHandler(arr.kinds)}
                 >
                 </Mapir.Marker>)))
             setLocationArray(array)
-            console.log(data.data)
             }
             
         })
@@ -126,7 +132,6 @@ const MapContainer = (props) => {
                     description={description}
                     cover={image}
                     address={address}
-                    show={true}
                 /> : null}
                 <div className="second-item">
                     <Mapir
@@ -162,11 +167,12 @@ const mapStateToProps = (state) => ({
     selectedKeys: state.map.selectedKeys,
     searchMarker: state.map.searchMarkerArray,
     modalDetailsShow: state.map.modalDetailsShow,
+    current: state.map.current,
+    
 });
 
 const mapDispatchToProps=(dispatch)=>{
     return{
-        iconHandler:(categ)=>dispatch({type:Actions.ICONHANDLER,categ:categ}),
         setModal:()=>dispatch({type:Actions.MODALDETAILSHOW}),
         
     }
