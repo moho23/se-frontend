@@ -26,9 +26,60 @@ const MapContainer = (props) => {
     const [description, setDescription] = useState(null)
     const [category, setCategory] = useState(null)
 
+    const englishCategorytoPersian ={
+        "interesting_places": "مکان های دیدنی",
+        "religion":"مذهبی",
+        "cultural":"فرهنگی",
+        "historic":"تاریخی",
+        "industrial_facilities":"امکانات صنعتی",
+        "natural":"طبیعت",
+        "other":"سایر",
+        "tourist_facilities":"امکانات توریستی",
+        "transport":"وسایل نقلیه",
+        "shops":"فروشگاه",
+        "foods":"غذا خوری",
+        "banks":"بانک",
+        "car_rental":"اجاره ماشین",
+        "car_sharing":"اجاره ماشین",
+        "car_wash":"کارواش",
+        "bicycle_rental":"اجاره دوچرخه",
+        "boat_sharing":"لنگرگاه",
+        "fuel":"پمپ سوخت",
+        "restaurants":"رستوران",
+        "cafes":"کافی شاپ",
+        "fast_food":"فست فود",
+        "food_courts":"فود کورت",
+        "picnic_sites":"محوطه پیکنیک",
+        "sport":"ورزشی",
+        "amusements":"سرگرمی",
+        "accomodations":"اقامتگاه",
+    }
+
+
+    const categoryHandler=(categ)=>{
+        let splitcateg = categ.split(",");
+        // console.log(splitcateg)
+        const persianCategArray=[]
+        splitcateg.map(cat=>
+            {
+                if(englishCategorytoPersian[cat]){
+                    persianCategArray.push(englishCategorytoPersian[cat])
+                }
+            }
+            )
+        // console.log(persianCategArray)
+        const persianCategString=persianCategArray.join()
+        // console.log(persianCategString)
+        return(persianCategString)
+    }
     
     function markercordinate(xid) {
-        console.log("details")
+        setName(null)
+        setImage(null)
+        setAddress(null)
+        setDescription(null)
+        setCategory(null)
+        // console.log("details")
         detailsSideBar.set(true)
         let url = APIPath.map.details + xid
         return new Promise((resolve) => {
@@ -54,10 +105,17 @@ const MapContainer = (props) => {
                           setName(data.data.name)
                         }
                         if(data.data.kinds){
-                          setCategory(data.data.kinds)
+                            // categoryHandler(data.data.kinds)
+                            setCategory(categoryHandler(data.data.kinds))
                         }
                         if(data.data.image){
-                          setImage(data.data.image)
+                            if(!data.data.image[0]){
+                                setImage(null)
+                            }
+                            else{
+                                setImage(data.data.image)
+                            }
+                            
                         }
                       }
   
@@ -94,7 +152,6 @@ const MapContainer = (props) => {
             console.log(data)
             if(data.data){
                 data.data.map(arr => (
-                console.log(props.icon),
                 array.push(<Mapir.Marker
                     coordinates={[arr.point.lon, arr.point.lat]}
                     onClick={() => markercordinate(arr.xid)}
