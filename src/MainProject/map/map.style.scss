@@ -61,6 +61,19 @@
         direction: rtl;
       }
 
+      .around-places {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .around {
+          margin-left: 5px;
+          display: flex;
+          direction: rtl;
+        }
+      }
+
       .search-box {
         direction: rtl;
       }
