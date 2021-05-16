@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import "./map.style.scss";
-import {Tree} from 'antd';
+import {Checkbox, Tooltip, Tree} from 'antd';
 import 'antd/dist/antd.css';
 import {Input, Radio, Select} from 'antd';
 import * as Actions from "../../redux/map/actions"
 import {connect} from "react-redux";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import markerUrl from "../../assets/images/mapmarker.svg"
 import Mapir from "mapir-react-component";
 import {get} from "../../scripts/api";
@@ -18,8 +18,6 @@ const {Search} = Input;
 
 const Mapfilterbar = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
-
-
 
 
     const treeData = [
@@ -144,13 +142,13 @@ const Mapfilterbar = (props) => {
         {label: 'همه مکان ها', value: 'all'},
     ];
 
-    const onSearch = value =>{
+    const onSearch = value => {
 
         const searchInput = encodeURIComponent(value)
         let url = APIPath.map.searchByName + searchInput
-        get(url).then((data)=>{
+        get(url).then((data) => {
             console.log(data)
-            if (data.data){
+            if (data.data) {
                 const array = [];
                 setIsntClicked(true)
                 array.push(<Mapir.Marker
@@ -160,51 +158,62 @@ const Mapfilterbar = (props) => {
                     Image={markerUrl}
                 >
                 </Mapir.Marker>);
-                if(isntClicked){
+                if (isntClicked) {
                     props.onSearch(array);
-                }
-                else{
+                } else {
                     props.onSearch(null);
                 }
-            }
-            else{
+            } else {
                 toast.warn("چنین مکانی ثبت نشده است.")
             }
-            
+
         })
     };
 
     return (
-                <div className="first-item">
-                    <p className="search-label">جستجو</p>
-                    <Search className="search-box" placeholder="آدرس، مکان ..."
-                            onSearch={onSearch}/>
-                    <hr/>
-                    <p className="selector-label">محدوده جستجو</p>
-                    <Select defaultValue={props.searchArea + ' متر'} className="simple-selector"
-                            onChange={(e) => props.setSearchArea(e)}>
-                        <Option style={{textAlign: "right"}} value="1000">1000 متر</Option>
-                        <Option style={{textAlign: "right"}} value="2000">2000 متر</Option>
-                        <Option style={{textAlign: "right"}} value="5000">5000 متر</Option>
-                    </Select>
-                    <hr/>
-                    <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
-                    <Radio.Group className="stepper" options={options} onChange={(e) => props.setCurrent(e.target.value)}/>
-                    <hr/>
-                    <Tree
-                        checkable
-                        onExpand={(e)=>props.onExpand(e)}
-                        expandedKeys={props.expandedKeys}
-                        autoExpandParent={props.autoExpandParent}
-                        onCheck={(e)=>props.onCheck(e)}
-                        checkedKeys={props.checkedKeys}
-                        onSelect={(e)=>props.onSelect(e)}
-                        selectedKeys={props.selectedKeys}
-                        treeData={treeData}
-                        className="check-box"
-                    />
-                </div>
-    )}
+        <div className="first-item">
+            <p className="search-label">جستجو</p>
+            <Search className="search-box" placeholder="آدرس، مکان ..."
+                    onSearch={onSearch}/>
+            <hr/>
+            <p className="selector-label">محدوده جستجو</p>
+            <Select defaultValue={props.searchArea + ' متر'} className="simple-selector"
+                    onChange={(e) => props.setSearchArea(e)}>
+                <Option style={{textAlign: "right"}} value="1000">1000 متر</Option>
+                <Option style={{textAlign: "right"}} value="2000">2000 متر</Option>
+                <Option style={{textAlign: "right"}} value="5000">5000 متر</Option>
+            </Select>
+            <hr/>
+            <div className="around-places">
+                <Tooltip className="tool-tip" title={<p>با زدن این تیک
+                    میتوانید قابلیت جستجوی مکان های اطراف مکان مورد نظرتان را فعال کنید
+                    همچنین میتوانید فیلترهای مورد نظرتان را فعال کنید
+                    و بعد از کلیک روی نقشه
+                    مکان های اطراف آن مکان را ببینید</p>}>
+                    <p>جستجو مکان های اطراف</p>
+                </Tooltip>
+                {/*onChange={e => setNearPlacesActive(e.target.checked)}*/}
+                <Checkbox className="around"/>
+            </div>
+            <hr/>
+            <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
+            <Radio.Group className="stepper" options={options} onChange={(e) => props.setCurrent(e.target.value)}/>
+            <hr/>
+            <Tree
+                checkable
+                onExpand={(e) => props.onExpand(e)}
+                expandedKeys={props.expandedKeys}
+                autoExpandParent={props.autoExpandParent}
+                onCheck={(e) => props.onCheck(e)}
+                checkedKeys={props.checkedKeys}
+                onSelect={(e) => props.onSelect(e)}
+                selectedKeys={props.selectedKeys}
+                treeData={treeData}
+                className="check-box"
+            />
+        </div>
+    )
+}
 
 const mapStateToProps = (state) => ({
     searchArea: state.map.searchArea,
@@ -214,16 +223,16 @@ const mapStateToProps = (state) => ({
     selectedKeys: state.map.selectedKeys,
 });
 
-const mapDispatchToProps=(dispatch)=>{
-    return{
-        onExpand:(expandedKeysValue)=>dispatch({type:Actions.EXPAND,expandedKeysValue:expandedKeysValue}),
-        onCheck:(checkedKeysValue)=>dispatch({type:Actions.CHECK,checkedKeysValue:checkedKeysValue}),
-        onSelect:(selectedKeysValue)=>dispatch({type:Actions.SELECT,selectedKeysValue:selectedKeysValue}),
-        setSearchArea:(searchareaValue)=>dispatch({type:Actions.SEARCHAREA,searchareaValue:searchareaValue}),
-        setCurrent:(currentValue)=>dispatch({type:Actions.CURRENT,currentValue:currentValue}),
-        onSearch:(searchMarker)=>dispatch({type:Actions.ONSERACH,searchMarker:searchMarker}),
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onExpand: (expandedKeysValue) => dispatch({type: Actions.EXPAND, expandedKeysValue: expandedKeysValue}),
+        onCheck: (checkedKeysValue) => dispatch({type: Actions.CHECK, checkedKeysValue: checkedKeysValue}),
+        onSelect: (selectedKeysValue) => dispatch({type: Actions.SELECT, selectedKeysValue: selectedKeysValue}),
+        setSearchArea: (searchareaValue) => dispatch({type: Actions.SEARCHAREA, searchareaValue: searchareaValue}),
+        setCurrent: (currentValue) => dispatch({type: Actions.CURRENT, currentValue: currentValue}),
+        onSearch: (searchMarker) => dispatch({type: Actions.ONSERACH, searchMarker: searchMarker}),
     }
 }
 
-const connector = connect(mapStateToProps,mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(Mapfilterbar);
