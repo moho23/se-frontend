@@ -10,6 +10,8 @@ import {APIPath} from "../../data";
 import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
+import TextArea from "../../utilities/components/textarea/textarea.index";
+import Dropdown from "../../utilities/components/dropdown/dropDown.index";
 
 const AddLandscapes = (props) => {
     const fileRef = useRef(null)
@@ -27,12 +29,15 @@ const AddLandscapes = (props) => {
     const [type, setType] = useState(null)
     const [isChoose, setIsChoose] = useState(false)
     const uploadTools = useRef(null)
+    const dropDownData = [];
 
     useEffect(() => {
         get(APIPath.map.categories).then(res => {
             if (responseValidator(res.status) && res.data) {
                 console.log(res.data);
-                setCategory(res.data);
+                res.data.map((item) =>
+                    dropDownData.push({id: item.id, title: item.title})
+                )
             }
         })
     }, [])
@@ -68,16 +73,15 @@ const AddLandscapes = (props) => {
                     form.append("description", description)
                 }
                 if (category) {
-                    form.append("category", category)
+                    form.append('kinds', [category])
                 }
-                if (type) {
-                    form.append("type", type)
-                }
+                // if (type) {
+                //     form.append("type", type)
+                // }
                 form.append("latitude", lat)
                 form.append("longitude", lng)
                 form.append("city", 'city')
                 form.append("state", 'state')
-                form.append('kinds', ['interesting_places'])
                 uploadTools.current = upload_post(APIPath.location.create, form, (e) => {
                     console.log(e)
                 });
@@ -148,7 +152,7 @@ const AddLandscapes = (props) => {
                         {isUploading ? (
                             <i className="cfi cfi-loader banner-image spin"/>
                         ) : (
-                            <img src={imageName !== null ? imageName : cover}
+                            <img src={imageName ? imageName : cover}
                                  alt="picture"
                                  className="banner-image"
                             />
@@ -158,12 +162,15 @@ const AddLandscapes = (props) => {
                 <div className="items">
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
-                    <div className="detail-items">
-                        <Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"
-                               placeholder="دسته بندی را وارد کنید."/>
-                        <Input onChange={(e) => setType(e)} value={type} className="item" label="نوع"
-                               placeholder="نوع آدرس خود را مشخص کنید."/>
-                    </div>
+                    {/*<div className="detail-items">*/}
+                    {/*<Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"*/}
+                    {/*       placeholder="دسته بندی را وارد کنید."/>*/}
+                    <Dropdown  placeholder="دسته بندی را وارد کنید." options={dropDownData} onChange={(e) => setCategory(e.title)}
+                              className="item" label="دسته بندی" />
+                        {/*    <Input onChange={(e) => setType(e)} value={type} className="item" label="نوع"*/}
+                        {/*           placeholder="نوع آدرس خود را مشخص کنید."/>*/}
+                        {/*</div>             placeholder="دسته بندی را وارد کنید."/>
+                   */}
                     <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
                     <TextArea onChange={(e) => setDescription(e)} value={description} className="item" label="توضیحات"
