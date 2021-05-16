@@ -1,0 +1,110 @@
+@import '../../references/index';
+
+.dropdown-menu {
+  display: flex;
+  z-index: 100;
+  align-items: center;
+  background-color: #ffffff;
+  outline: none;
+  flex-direction: column;
+  font-size: 16px;
+  color: $black;
+  max-height: 200px;
+  overflow: auto;
+  font-weight: 500;
+  border: none;
+  border-radius: 0 0 5px 5px;
+  direction: rtl;
+  min-width: 220px;
+
+  .dropdown-items {
+    display: flex;
+    width: 100% !important;
+    padding: 5px 10px 5px 0px;
+
+    .dropdown-item {
+      font-size: 16px;
+      color: $grayDark;
+      width: 100%;
+      justify-content: flex-end;
+      cursor: pointer;
+
+      &.first-item {
+        border-bottom: 1px solid rgba($creamLight, 0.5);
+        padding-top: 6px;
+        background-color: red;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+      }
+
+      &.last-item {
+        border-top: 1px solid rgba($creamLight, 0.5);
+        padding-top: 6px;
+        padding-bottom: 6px;
+        margin-top: 6px;
+      }
+    }
+  }
+}
+
+.project-drop-down {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  .label {
+    display: flex;
+    width: 100%;
+    color: $creamLight;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    direction: rtl;
+    text-align: right;
+  }
+
+  .dropdown-box {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 18px;
+    background-color: $creamLight;
+    outline: none;
+    font-size: 16px;
+    color: $black;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    direction: rtl;
+    min-width: 220px;
+
+
+    span {
+      font-size: 14px;
+      color: $black;
+
+      &.dropdown-PH {
+        color: $gray;
+      }
+    }
+  }
+
+  p.input-error {
+    text-align: inherit;
+    margin-top: 6px;
+    font-size: 10px;
+    color: $red;
+    padding: 0 13px;
+    transition: 0.2s;
+  }
+
+  .required-star {
+    font-size: 14px;
+    color: $red;
+    padding: 0 0 0 6px;
+    @include rtl {
+      padding: 0 6px 0 0;
+    }
+  }
+}

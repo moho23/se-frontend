@@ -1,33 +1,86 @@
 @import "../../utilities/references/index";
 
 .map-main-page {
-  display: flex;
   width: 100%;
+  display: flex;
+  background-color: $white;
+  align-items: center;
   flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  height: 100%;
 
-  .first-item {
-    width: 100%;
-    padding: 20px;
-    overflow: hidden;
-
-    .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-      cursor: text;
-      direction: rtl;
-    }
-  }
-
-  .second-item {
-    width: 100%;
+  .content {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-y: hidden;
+    width: 100%;
+    flex-direction: column;
+    overflow-y: auto;
 
-    .mapp {
-      display: flex;
-      overflow-y: hidden;
-      width: 80% !important;
-      max-height: 700px !important;
+    .first-item {
+      width: 240px;
+      height: 100%;
+      float: left;
+      position: absolute;
+      top: 0px;
+      overflow-y: auto;
+      padding: 15px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+      z-index: 10;
+
+      .stepper {
+        width: 100%;
+        direction: rtl;
+        flex-direction: column;
+      }
+
+      .search-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: $navyLight;
+        direction: rtl;
+      }
+
+      .stepper-label {
+        font-weight: 600;
+        direction: rtl;
+        margin-bottom: 10px;
+        color: $navyLight;
+      }
+
+      .selector-label {
+        width: 100%;
+        color: $navyLight;
+        font-weight: 600;
+        direction: rtl;
+        margin-bottom: 10px;
+      }
+
+      .simple-selector {
+        width: 100%;
+        display: flex;
+        direction: rtl;
+      }
+
+      .search-box {
+        direction: rtl;
+      }
+
+      .check-box {
+        display: flex;
+        width: 100%;
+        overflow: auto;
+      }
+    }
+
+    .second-item {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 240px;
+      top: 0;
+      overflow: hidden;
+
     }
   }
+
 }

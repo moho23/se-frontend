@@ -10,7 +10,7 @@ import {post, get, responseValidator} from "../../../scripts/api";
 import {toast} from "react-toastify";
 import {authToken} from "../../../scripts/storage";
 import {connect} from "react-redux";
-import {setAuth, setUserData} from "../../../redux/actions";
+import {setAuth, setUserData} from "../../../redux/register/actions";
 
 const Login = (props) => {
     const [email, setEmail] = useState(null)
@@ -79,7 +79,7 @@ const Login = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    information: state.userData,
+    information: state.register.userData,
 });
 
 const connector = connect(mapStateToProps);

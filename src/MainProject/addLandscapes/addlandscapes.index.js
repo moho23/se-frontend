@@ -10,11 +10,6 @@ import {APIPath} from "../../data";
 import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
-import TextArea from "../../utilities/components/textarea/textarea.index";
-import {Select} from 'antd';
-import 'antd/dist/antd.css';
-
-const {Option} = Select;
 
 const AddLandscapes = (props) => {
     const fileRef = useRef(null)
@@ -203,7 +198,7 @@ const AddLandscapes = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    user: state.userData
+    user: state.register.userData
 });
 const connector = connect(mapStateToProps);
 export default connector(AddLandscapes);
