@@ -11,7 +11,9 @@ import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
-import Dropdown from "../../utilities/components/dropdown/dropDown.index";
+import {Checkbox} from 'antd';
+import DropdownSelect from "../../utilities/components/dropdown/dropDown.index";
+import 'antd/dist/antd.css';
 
 const AddLandscapes = (props) => {
     const fileRef = useRef(null)
@@ -26,7 +28,7 @@ const AddLandscapes = (props) => {
     const [category, setCategory] = useState(null)
     const [address, setAddress] = useState(null)
     const [description, setDescription] = useState(null)
-    const [type, setType] = useState(null)
+    const [type, setType] = useState(false)
     const [isChoose, setIsChoose] = useState(false)
     const uploadTools = useRef(null)
     const dropDownData = [];
@@ -35,9 +37,11 @@ const AddLandscapes = (props) => {
         get(APIPath.map.categories).then(res => {
             if (responseValidator(res.status) && res.data) {
                 console.log(res.data);
-                res.data.map((item) =>
-                    dropDownData.push({id: item.id, title: item.title})
+                res.data.map((item, index) => {
+                        dropDownData.push(item.title);
+                    }
                 )
+                console.log(dropDownData)
             }
         })
     }, [])
@@ -75,9 +79,9 @@ const AddLandscapes = (props) => {
                 if (category) {
                     form.append('kinds', [category])
                 }
-                // if (type) {
-                //     form.append("type", type)
-                // }
+                if (type) {
+                    form.append("type", type)
+                }
                 form.append("latitude", lat)
                 form.append("longitude", lng)
                 form.append("city", 'city')
@@ -121,6 +125,8 @@ const AddLandscapes = (props) => {
         }
     }
 
+    const [catButton, setCatButton] = useState("interesting_places")
+
 
     return (
         <div className="add-landscapes-page">
@@ -162,15 +168,17 @@ const AddLandscapes = (props) => {
                 <div className="items">
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
-                    {/*<div className="detail-items">*/}
-                    {/*<Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"*/}
-                    {/*       placeholder="دسته بندی را وارد کنید."/>*/}
-                    <Dropdown  placeholder="دسته بندی را وارد کنید." options={dropDownData} onChange={(e) => setCategory(e.title)}
-                              className="item" label="دسته بندی" />
-                        {/*    <Input onChange={(e) => setType(e)} value={type} className="item" label="نوع"*/}
-                        {/*           placeholder="نوع آدرس خود را مشخص کنید."/>*/}
-                        {/*</div>             placeholder="دسته بندی را وارد کنید."/>
-                   */}
+                    <div className="detail-items">
+                        {/*<Input onChange={(e) => setType(e)} value={type} className="item" label="نوع"*/}
+                        {/*       placeholder="نوع آدرس خود را مشخص کنید."/>*/}
+                        <p>دسته بندی</p>
+                        <DropdownSelect onChange={(e) => setCatButton(e)}
+                                        render={(e) => <p>{e}</p>}
+                                        options={dropDownData}
+                        >
+                            <Button className="tessst" text={catButton}/>
+                        </DropdownSelect>
+                    </div>
                     <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
                     <TextArea onChange={(e) => setDescription(e)} value={description} className="item" label="توضیحات"
@@ -193,10 +201,19 @@ const AddLandscapes = (props) => {
                             <Mapir.ZoomControl position={'bottom-left'}/>
                         </Mapir>
                     </div>
-                    <Button disabled={!isChoose || (!name || !address || !category || !description)} text="ثبت مکان"
-                            className="submit"
-                            onClick={onSubmitHandler}
-                    />
+                    <div className="end-line">
+                        <Button disabled={!isChoose || (!name || !address || !category || !description)} text="ثبت مکان"
+                                className="submit"
+                                onClick={onSubmitHandler}
+                        />
+                        <span/>
+                        <div className="check-box">
+                            <p>این مکان به صورت خصوصی ثبت شود</p>
+                            <Checkbox checked={type} onChange={(e) => {
+                                setType(e.target.checked);
+                            }} className="checkbox"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
