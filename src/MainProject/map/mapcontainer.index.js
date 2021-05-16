@@ -15,6 +15,7 @@ import iconHandler from "./iconhandler.index"
 
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
+    const [isSearchByRadius, setIsSearchByRadius] = useState(null);
     const [markerArray, setMarkerArray] = useState();
     const [locationArray, setLocationArray] = useState(null);
     const [lat, setLat] = useState(35.72);
@@ -25,6 +26,9 @@ const MapContainer = (props) => {
     const [address, setAddress] = useState(null)
     const [description, setDescription] = useState(null)
     const [category, setCategory] = useState(null)
+
+    
+
 
     const englishCategorytoPersian ={
         "interesting_places": "مکان های دیدنی",
@@ -126,43 +130,51 @@ const MapContainer = (props) => {
         })
     }
 
-    const reverseFunction = (map, e) => {
+    const handleIsSearchByRadius=(mapfilterData)=>{
+        setIsSearchByRadius(mapfilterData)
+    }
+
+    const onMapClicked = (map, e) => {
         e.preventDefault();
         console.log("checkedKeys=",props.checkedKeys)
         console.log("searchArea=",props.searchArea)
         console.log("current=",props.current)
-        let checkedKeys=props.checkedKeys
-        let searchArea=props.searchArea
-        let current=props.current
-        if(!checkedKeys){
-            checkedKeys=[]
-        }
-        if(!searchArea){
-            searchArea=1000
-        }
-        if(!current){
-            current="all"
-        }
-        const kinds=checkedKeys.join()
-        // console.log("kinds=",kinds)
-        let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
-
-        get(url).then((data) => {
-            let array = []
-            console.log(data)
-            if(data.data){
-                data.data.map(arr => (
-                array.push(<Mapir.Marker
-                    coordinates={[arr.point.lon, arr.point.lat]}
-                    onClick={() => markercordinate(arr.xid)}
-                    anchor="bottom"
-                    Image={iconHandler(arr.kinds)}
-                >
-                </Mapir.Marker>)))
-            setLocationArray(array)
+        console.log("mapcontainer=",isSearchByRadius)
+        if (isSearchByRadius){
+            let checkedKeys=props.checkedKeys
+            let searchArea=props.searchArea
+            let current=props.current
+            if(!checkedKeys){
+                checkedKeys=[]
             }
-            
-        })
+            if(!searchArea){
+                searchArea=1000
+            }
+            if(!current){
+                current="all"
+            }
+            const kinds=checkedKeys.join()
+            // console.log("kinds=",kinds)
+            let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
+    
+            get(url).then((data) => {
+                let array = []
+                console.log(data)
+                if(data.data){
+                    data.data.map(arr => (
+                    array.push(<Mapir.Marker
+                        coordinates={[arr.point.lon, arr.point.lat]}
+                        onClick={() => markercordinate(arr.xid)}
+                        anchor="bottom"
+                        Image={iconHandler(arr.kinds)}
+                    >
+                    </Mapir.Marker>)))
+                setLocationArray(array)
+                }
+                
+            })
+        }
+
         const array = [];
         setIsntClicked(true)
         array.push(<Mapir.Marker
@@ -182,7 +194,7 @@ const MapContainer = (props) => {
     return (
         <div className="map-main-page">
             <div className="content">
-            <Mapfilterbar/>
+            <Mapfilterbar isRadius={handleIsSearchByRadius}/>
                 {props.modalDetailsShow ? <ModalDetails
                     title={name}
                     category={category}
@@ -195,7 +207,7 @@ const MapContainer = (props) => {
                         center={[lon, lat]}
                         Map={Map}
                         userLocation
-                        onClick={reverseFunction}
+                        onClick={onMapClicked}
                     >
                         <Mapir.Layer
                             type="symbol"
