@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, } from "react";
 import "./sidebar.style.scss";
 import static_profile from "../../assets/images/static.png";
-import {NavLink} from "react-router-dom";
+import {NavLink,useHistory} from "react-router-dom";
 import {RoutePath} from "../../data";
 import {authToken} from "../../scripts/storage";
 import {setAuth, setUserData} from "../../redux/register/actions";
@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 const Sidebar = (props) => {
     const [status, setStatus] = useState(props.isOpen);
     const detail = props.information;
+    const history=useHistory()
 
     useEffect(() => {
         setStatus(props.isOpen);
@@ -24,7 +25,7 @@ const Sidebar = (props) => {
     return (
         <div className={`project-sidebar-page ${status ? "is-open" : ""}`}>
             <div className="artist-details">
-                <img
+            <img onClick={()=> history.push(RoutePath.dashboard.profile) }
                     src={
                         detail && detail.profile_picture
                             ? detail.profile_picture
@@ -35,7 +36,7 @@ const Sidebar = (props) => {
                 <p>{detail && detail.username}@</p>
             </div>
             <div className="sidebar-items">
-                <NavLink
+                {/* <NavLink
                     to={RoutePath.dashboard.profile}
                     onClick={() => setStatus(false)}
                     activeClassName="active"
@@ -43,7 +44,7 @@ const Sidebar = (props) => {
                 >
                     <i className="material-icons">person</i>
                     <p>پروفایل</p>
-                </NavLink>
+                </NavLink> */}
 
                 <NavLink
                     to={RoutePath.map.index}
