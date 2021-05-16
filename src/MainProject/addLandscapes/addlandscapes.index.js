@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "./addlandscapes.style.scss";
 import {connect} from "react-redux";
 import cover from '../../assets/images/add-landscapes-default.png'
@@ -7,10 +7,14 @@ import Mapir from "mapir-react-component";
 import Map from "../map/mapbase.index";
 import Button from "../../utilities/components/button/button.index";
 import {APIPath} from "../../data";
-import {responseValidator, upload_post} from "../../scripts/api";
+import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
+import {Select} from 'antd';
+import 'antd/dist/antd.css';
+
+const {Option} = Select;
 
 const AddLandscapes = (props) => {
     const fileRef = useRef(null)
@@ -28,6 +32,15 @@ const AddLandscapes = (props) => {
     const [type, setType] = useState(null)
     const [isChoose, setIsChoose] = useState(false)
     const uploadTools = useRef(null)
+
+    useEffect(() => {
+        get(APIPath.map.categories).then(res => {
+            if (responseValidator(res.status) && res.data) {
+                console.log(res.data);
+                setCategory(res.data);
+            }
+        })
+    }, [])
 
     const reverseFunction = (map, e) => {
         setIsChoose(true)
@@ -149,17 +162,17 @@ const AddLandscapes = (props) => {
                 </div>
                 <div className="items">
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
-                            placeholder="نام را وارد کنید."/>
+                           placeholder="نام را وارد کنید."/>
                     <div className="detail-items">
                         <Input onChange={(e) => setCategory(e)} value={category} className="item" label="دسته بندی"
-                           placeholder="دسته بندی را وارد کنید."/>
+                               placeholder="دسته بندی را وارد کنید."/>
                         <Input onChange={(e) => setType(e)} value={type} className="item" label="نوع"
-                            placeholder="نوع آدرس خود را مشخص کنید."/>
+                               placeholder="نوع آدرس خود را مشخص کنید."/>
                     </div>
                     <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
-                            placeholder="آدرس را وارد کنید."/>
+                           placeholder="آدرس را وارد کنید."/>
                     <TextArea onChange={(e) => setDescription(e)} value={description} className="item" label="توضیحات"
-                           placeholder="توضیحات را وارد کنید."/>
+                              placeholder="توضیحات را وارد کنید."/>
                     <div className="map-div">
                         <Mapir
                             center={[lng, lat]}

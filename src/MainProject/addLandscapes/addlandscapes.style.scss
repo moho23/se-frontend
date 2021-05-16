@@ -30,7 +30,8 @@
     width: 100%;
     max-width: 650px !important;
     min-width: 200px !important;
-    padding: 30px;
+    //padding: 30px;
+    margin-top: 45px;
     flex-direction: column;
     height: 600px;
     //overflow-y: auto;
@@ -68,8 +69,8 @@
     .items {
       width: 100%;
       padding-bottom: 50px;
-        
-      .detail-items{
+
+      .detail-items {
         flex: 1;
         width: 100%;
         display: flex;
@@ -93,7 +94,7 @@
         min-width: 0 !important;
         margin-top: 10px;
         direction: rtl;
-        
+
       }
     }
 
