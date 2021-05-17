@@ -18,6 +18,7 @@ const {Search} = Input;
 
 const Mapfilterbar = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
+    const [desableFilters, setDesableFilters] = useState(true);
 
 
     const treeData = [
@@ -170,6 +171,12 @@ const Mapfilterbar = (props) => {
         })
     };
 
+    const setNearPlacesActive=(e)=>{
+        // console.log(e)
+        props.isRadius(e)
+        setDesableFilters(!e)
+    }
+
     return (
         <div className="first-item">
             <p className="search-label">جستجو</p>
@@ -177,7 +184,7 @@ const Mapfilterbar = (props) => {
                     onSearch={onSearch}/>
             <hr/>
             <p className="selector-label">محدوده جستجو</p>
-            <Select defaultValue={props.searchArea + ' متر'} className="simple-selector"
+            <Select defaultValue={props.searchArea + ' متر'} disabled={desableFilters} className="simple-selector"
                     onChange={(e) => props.setSearchArea(e)}>
                 <Option style={{textAlign: "right"}} value="1000">1000 متر</Option>
                 <Option style={{textAlign: "right"}} value="2000">2000 متر</Option>
@@ -192,12 +199,12 @@ const Mapfilterbar = (props) => {
                     مکان های اطراف آن مکان را ببینید</p>}>
                     <p>جستجو مکان های اطراف</p>
                 </Tooltip>
-                {/*onChange={e => setNearPlacesActive(e.target.checked)}*/}
-                <Checkbox className="around"/>
+                
+                <Checkbox className="around" onChange={e => setNearPlacesActive(e.target.checked)}/>
             </div>
             <hr/>
             <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
-            <Radio.Group className="stepper" options={options} onChange={(e) => props.setCurrent(e.target.value)}/>
+            <Radio.Group className="stepper" disabled={desableFilters} options={options} onChange={(e) => props.setCurrent(e.target.value)}/>
             <hr/>
             <Tree
                 checkable
@@ -210,6 +217,7 @@ const Mapfilterbar = (props) => {
                 selectedKeys={props.selectedKeys}
                 treeData={treeData}
                 className="check-box"
+                disabled={desableFilters}
             />
         </div>
     )
