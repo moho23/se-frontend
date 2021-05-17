@@ -5,14 +5,12 @@ import cover from '../../assets/images/add-landscapes-default.png'
 import Input from "../../utilities/components/input/input.index";
 import Mapir from "mapir-react-component";
 import Map from "../map/mapbase.index";
-// import Button from "../../utilities/components/button/button.index";
 import {APIPath} from "../../data";
 import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
 import {Checkbox, Dropdown, Menu, Progress, Button} from 'antd';
-import DropdownSelect from "../../utilities/components/dropdown/dropDown.index";
 import 'antd/dist/antd.css';
 
 const AddLandscapes = (props) => {
