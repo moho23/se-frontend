@@ -10,7 +10,8 @@ export const __APIPath = {
         nearby: "location/get_locations/",
         details: "location/location_detail/",
         myLandscapes: "location/creator_locations/",
-        searchByName: "location/search_by_name/"
+        categories: "location/categories/",
+        searchByName: "location/search_by_name/",
     },
     location: {
         create: "location/create/"
