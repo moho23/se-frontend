@@ -5,13 +5,13 @@ import cover from '../../assets/images/add-landscapes-default.png'
 import Input from "../../utilities/components/input/input.index";
 import Mapir from "mapir-react-component";
 import Map from "../map/mapbase.index";
-import Button from "../../utilities/components/button/button.index";
+// import Button from "../../utilities/components/button/button.index";
 import {APIPath} from "../../data";
 import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
-import {Checkbox} from 'antd';
+import {Checkbox, Dropdown, Menu, Progress, Button} from 'antd';
 import DropdownSelect from "../../utilities/components/dropdown/dropDown.index";
 import 'antd/dist/antd.css';
 
@@ -22,7 +22,6 @@ const AddLandscapes = (props) => {
     const [isUploading, setIsUploading] = useState(null)
     const [lat, setLat] = useState(35.72079898251745);
     const [lng, setLang] = useState(51.41021530151241);
-    const [detail, setDetail] = useState(null);
     const [markerArray, setMarkerArray] = useState();
     const [name, setName] = useState(null)
     const [category, setCategory] = useState(null)
@@ -31,17 +30,15 @@ const AddLandscapes = (props) => {
     const [type, setType] = useState(false)
     const [isChoose, setIsChoose] = useState(false)
     const uploadTools = useRef(null)
-    const dropDownData = [];
+    const [dropDownData, setDropDownData] = useState(null);
+    const [visible, setVisible] = useState(false);
+    const [catButton, setCatButton] = useState(null)
+
 
     useEffect(() => {
         get(APIPath.map.categories).then(res => {
             if (responseValidator(res.status) && res.data) {
-                console.log(res.data);
-                res.data.map((item, index) => {
-                        dropDownData.push(item.title);
-                    }
-                )
-                console.log(dropDownData)
+                setDropDownData(res.data)
             }
         })
     }, [])
@@ -65,10 +62,10 @@ const AddLandscapes = (props) => {
             return new Promise((resolve) => {
                 const form = new FormData();
                 if (image) {
-                    form.append("loc_picture", image)
+                    form.append("image", image)
                 }
                 if (name) {
-                    form.append("loc_name", name)
+                    form.append("name", name)
                 }
                 if (address) {
                     form.append("address", address)
@@ -98,8 +95,10 @@ const AddLandscapes = (props) => {
                                     setName(null)
                                     setAddress(null)
                                     setDescription(null)
-                                    setCategory(null)
                                     setType(null)
+                                    setCatButton(null)
+                                    setCategory(null)
+                                    setType(false)
                                     setLang(51.41021530151241)
                                     setLat(35.72079898251745)
                                     setIsChoose(false)
@@ -111,7 +110,8 @@ const AddLandscapes = (props) => {
                                 setAddress(null)
                                 setDescription(null)
                                 setCategory(null)
-                                setType(type)
+                                setType(false)
+                                setCatButton(null)
                                 setLang(51.41021530151241)
                                 setLat(35.72079898251745)
                                 setIsChoose(false)
@@ -125,8 +125,29 @@ const AddLandscapes = (props) => {
         }
     }
 
-    const [catButton, setCatButton] = useState("interesting_places")
-
+    const menu = (
+        <Menu style={{maxHeight: "200px", overflow: "auto"}}>
+            {
+                dropDownData && dropDownData.map((item, index) => (
+                    <div key={index} onClick={(e) => {
+                        setCategory([index]);
+                        setCatButton(e.target.innerText);
+                        setVisible(false)
+                    }}
+                         style={{
+                             width: "100%",
+                             display: "flex",
+                             justifyContent: "flex-end",
+                             fontWeight: 500,
+                             cursor: "pointer",
+                             padding: "5px 10px 5px 5px"
+                         }}>
+                        {item.title}
+                    </div>
+                ))
+            }
+        </Menu>
+    );
 
     return (
         <div className="add-landscapes-page">
@@ -169,19 +190,17 @@ const AddLandscapes = (props) => {
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
                     <div className="detail-items">
-                        {/*<Input onChange={(e) => setType(e)} value={type} className="item" label="نوع"*/}
-                        {/*       placeholder="نوع آدرس خود را مشخص کنید."/>*/}
                         <p>دسته بندی</p>
-                        <DropdownSelect onChange={(e) => setCatButton(e)}
-                                        render={(e) => <p>{e}</p>}
-                                        options={dropDownData}
-                        >
-                            <Button className="tessst" text={catButton}/>
-                        </DropdownSelect>
+                        <Dropdown arrow={true} visible={visible} trigger="click" overlay={menu}
+                                  placement="bottomCenter">
+                            <Button onClick={() => setVisible(!visible)} dir="rtl"
+                                    className={catButton ? "cat-button selected" : "cat-button"}>{catButton ? catButton : "دسته بندی را انتخاب کنید."}</Button>
+                        </Dropdown>
                     </div>
                     <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
-                    <TextArea onChange={(e) => setDescription(e)} value={description} className="item" label="توضیحات"
+                    <TextArea onChange={(e) => setDescription(e)} value={description} className="item"
+                              label="توضیحات"
                               placeholder="توضیحات را وارد کنید."/>
                     <div className="map-div">
                         <Mapir
@@ -202,10 +221,8 @@ const AddLandscapes = (props) => {
                         </Mapir>
                     </div>
                     <div className="end-line">
-                        <Button disabled={!isChoose || (!name || !address || !category || !description)} text="ثبت مکان"
-                                className="submit"
-                                onClick={onSubmitHandler}
-                        />
+                        <Button disabled={!isChoose || (!name || !address || !category || !description)}
+                                onClick={onSubmitHandler} className="submit">ثبت مکان</Button>
                         <span/>
                         <div className="check-box">
                             <p>این مکان به صورت خصوصی ثبت شود</p>

@@ -58,7 +58,6 @@
       }
     }
 
-
     .items {
       width: 100%;
       padding-bottom: 50px;
@@ -69,13 +68,32 @@
         flex-direction: column;
         margin-top: 20px;
 
-        .tessst {
+        span {
+          display: flex;
           width: 100%;
-          color: $gray;
+          flex: 1;
+        }
+
+        .selected {
+          color: $black !important;
+        }
+
+
+        .cat-button {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
           background-color: $creamLight;
           font-size: 16px;
           margin-bottom: 6px;
-          font-weight: 600;
+          height: 44px;
+          padding: 0 18px;
+          outline: none;
+          color: $gray;
+          font-weight: 500;
+          border: none;
+          border-radius: 5px;
         }
 
         p {
@@ -86,12 +104,6 @@
           direction: rtl;
           text-align: right;
         }
-
-        .item {
-          width: 100%;
-          min-width: 0 !important;
-          margin-top: 20px;
-        }
       }
 
       .item {
@@ -99,7 +111,6 @@
         min-width: 0 !important;
         margin-top: 10px;
         direction: rtl;
-
       }
 
       .end-line {
@@ -132,9 +143,21 @@
         }
 
         .submit {
-          width: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
           height: 40px;
+          color: $creamLight;
           font-size: 15px;
+          background-color: $orangeDark;
+          border: none;
+          font-weight: bold;
+
+          &:disabled {
+            background-color: $gray;
+            color: $grayLight;
+          }
         }
       }
     }
