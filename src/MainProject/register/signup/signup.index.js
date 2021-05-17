@@ -8,6 +8,7 @@ import signup from "../../../assets/images/signup5.svg"
 import {post, responseValidator} from "../../../scripts/api";
 import {Link, useHistory} from "react-router-dom";
 import {APIPath, RoutePath} from "../../../data";
+import  "./states"
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -51,6 +52,10 @@ const Signup = () => {
         }
     }
 
+    const menu = {
+
+    }
+
     return (
         <div className="signup-main-page">
             <div className="signup-image d-md-block d-none">
@@ -65,8 +70,8 @@ const Signup = () => {
                            placeholder="ایمیل خود را وارد کنید."/>
                     <Input className="items" label="نام کاربری" onChange={(e) => setUsername(e)}
                            placeholder="نام کاربری خود را وارد کنید."/>
-                    <Input className="items" label="شهر" onChange={(e) => setCity(e)}
-                           placeholder="شهر خود را وارد کنید."/>
+                    <Input className="items" label="استان" onChange={(e) => setCity(e)}
+                           placeholder="استان خود را انتخاب کنید."/>
                     <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
                            placeholder="رمز خود را وارد کنید."/>
                     <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}

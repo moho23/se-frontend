@@ -10,7 +10,6 @@ import {APIPath} from "../../data";
 import {responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
-import Dropdown from "../../utilities/components/dropdown/dropDown.index";
 
 const AddLandscapes = (props) => {
     const fileRef = useRef(null)
