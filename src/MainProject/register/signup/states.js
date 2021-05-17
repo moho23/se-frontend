@@ -1,4 +1,4 @@
-export const States = [
+export const StatesList = [
     {
         "id": 1,
         "name": "آذربایجان شرقی",

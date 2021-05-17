@@ -1,14 +1,16 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import "./signup.style.scss"
 import Input from "../../../utilities/components/input/input.index"
-import Button from "../../../utilities/components/button/button.index"
 import {emailValidation, usernameValidation} from "../../../scripts/validations";
 import {toast} from "react-toastify";
 import signup from "../../../assets/images/signup5.svg"
 import {post, responseValidator} from "../../../scripts/api";
 import {Link, useHistory} from "react-router-dom";
 import {APIPath, RoutePath} from "../../../data";
-import  "./states"
+import "./states";
+import {Dropdown, Menu, Button} from "antd";
+import {StatesList} from "./states";
+import useOnBlur from "../../../scripts/useOnBlur";
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -16,7 +18,9 @@ const Signup = () => {
     const [city, setCity] = useState(null)
     const [password, setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)
-
+    const [visible, setVisible] = useState(false);
+    const [stateButton, setStateButton] = useState(null);
+    const ddRef = useRef(null)
     const history = useHistory();
 
     function submit() {
@@ -52,9 +56,33 @@ const Signup = () => {
         }
     }
 
-    const menu = {
+    const menu = (
+        <Menu style={{maxHeight: "250px", overflow: "auto"}}>
+            {
+                StatesList && StatesList.map((item, index) => (
+                    <div key={index} onClick={(e) => {
+                        setCity(e.target.innerText);
+                        setStateButton(e.target.innerText);
+                        console.log(e.target.innerText)
+                    }}
+                         style={{
+                             width: "100%",
+                             display: "flex",
+                             justifyContent: "flex-end",
+                             fontWeight: 500,
+                             cursor: "pointer",
+                             padding: "10px 10px",
+                         }}
 
-    }
+                    >
+                        {item.slug}
+                    </div>
+                ))
+            }
+        </Menu>
+    );
+
+    useOnBlur(ddRef, () => setVisible(false))
 
     return (
         <div className="signup-main-page">
@@ -70,13 +98,19 @@ const Signup = () => {
                            placeholder="ایمیل خود را وارد کنید."/>
                     <Input className="items" label="نام کاربری" onChange={(e) => setUsername(e)}
                            placeholder="نام کاربری خود را وارد کنید."/>
-                    <Input className="items" label="استان" onChange={(e) => setCity(e)}
-                           placeholder="استان خود را انتخاب کنید."/>
+                    <div className="detail-items">
+                        <p>استان</p>
+                        <Dropdown arrow={true} visible={visible} trigger="click" overlay={menu}
+                                  placement="bottomCenter">
+                            <Button ref={ddRef} onClick={() => setVisible(!visible)} dir="rtl"
+                                    className={stateButton ? "state-button selected" : "state-button"}>{stateButton ? stateButton : "استان خود را انتخاب کنید."}</Button>
+                        </Dropdown>
+                    </div>
                     <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
                            placeholder="رمز خود را وارد کنید."/>
                     <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}
                            placeholder="رمز خود را تکرار کنید."/>
-                    <Button className="last-item" text="ثبت نام" onClick={submit}/>
+                    <Button className="last-item" onClick={submit}>ثبت نام</Button>
                     <div className="end-line">
                         <p>
                             قبلا ثبت نام کردی؟ <Link to={RoutePath.account.signin}
