@@ -43,7 +43,56 @@ import tourist from "../../assets/images/icons8-traveler-40.png"
 
 const iconHandler = (categ) => {
     const splitCateg = categ.split(",")
-    if (splitCateg.includes("interesting_places")) {
+    if (splitCateg.includes("tourist_facilities")) {
+        if (splitCateg.includes("banks")) {
+            return (bank)
+        } 
+        else if (splitCateg.includes("foods")) {
+            if (splitCateg.includes("restaurants") || splitCateg.includes("food_courts") || splitCateg.includes("fast_food")) {
+                return (restaurant)
+            } 
+            else {
+                return (cafe)
+            }
+
+        } 
+        else if (splitCateg.includes("shops")) {
+            return (shop)
+        } 
+        else if (splitCateg.includes("transport")) {
+            if (splitCateg.includes("bicycle_rental")) {
+                return (bicycle)
+            } 
+            else if (splitCateg.includes("boat_sharing")) {
+                return (boat)
+            } 
+            else if (splitCateg.includes("charging_station") || splitCateg.includes("fuel")) {
+                return (gasstation)
+            } 
+            else {
+                return (car)
+            }
+        } 
+        else {
+            return (tourist)
+        }
+    }
+    else if (splitCateg.includes("accomodations")) {
+        return (hotel)
+    } 
+    else if (splitCateg.includes("amusements")) {
+        return (amusment)
+    } 
+    else if (splitCateg.includes("amusements")) {
+        return (amusment)
+    } 
+    else if (splitCateg.includes("sport")) {
+        return (sport)
+    } 
+    else if (splitCateg.includes("amusements")) {
+        return (amusment)
+    } 
+    else if (splitCateg.includes("interesting_places")) {
         if (splitCateg.includes("architecture")) {
             return (architecture)
         } else if (splitCateg.includes("religion")) {
@@ -59,42 +108,8 @@ const iconHandler = (categ) => {
         } else {
             return (others)
         }
-    } else if (splitCateg.includes("accomodations")) {
-        return (hotel)
-    } else if (splitCateg.includes("amusements")) {
-        return (amusment)
-    } else if (splitCateg.includes("amusements")) {
-        return (amusment)
-    } else if (splitCateg.includes("sport")) {
-        return (sport)
-    } else if (splitCateg.includes("amusements")) {
-        return (amusment)
-    } else if (splitCateg.includes("tourist_facilities")) {
-        if (splitCateg.includes("banks")) {
-            return (bank)
-        } else if (splitCateg.includes("foods")) {
-            if (splitCateg.includes("restaurants") || splitCateg.includes("food_courts") || splitCateg.includes("fast_food")) {
-                return (restaurant)
-            } else {
-                return (cafe)
-            }
-
-        } else if (splitCateg.includes("shops")) {
-            return (shop)
-        } else if (splitCateg.includes("transport")) {
-            if (splitCateg.includes("bicycle_rental")) {
-                return (bicycle)
-            } else if (splitCateg.includes("boat_sharing")) {
-                return (boat)
-            } else if (splitCateg.includes("charging_station") || splitCateg.includes("fuel")) {
-                return (gasstation)
-            } else {
-                return (car)
-            }
-        } else {
-            return (tourist)
-        }
-    } else {
+    } 
+    else {
         return (others)
     }
 }
