@@ -10,7 +10,7 @@ import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
-import {Checkbox, Dropdown, Menu, Progress, Button} from 'antd';
+import {Checkbox, Dropdown, Menu, Progress, Button, Spin} from 'antd';
 import 'antd/dist/antd.css';
 
 const AddLandscapes = (props) => {
@@ -126,7 +126,7 @@ const AddLandscapes = (props) => {
     const menu = (
         <Menu style={{maxHeight: "200px", overflow: "auto"}}>
             {
-                dropDownData && dropDownData.map((item, index) => (
+                dropDownData ? dropDownData.map((item, index) => (
                     <div key={index} onClick={(e) => {
                         setCategory([index]);
                         setCatButton(e.target.innerText);
@@ -142,7 +142,15 @@ const AddLandscapes = (props) => {
                          }}>
                         {item.title}
                     </div>
-                ))
+                )) : <div style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "10px 10px",
+                    justifyContent: "center"
+                }}>
+                    <Spin/>
+                </div>
             }
         </Menu>
     );
@@ -236,8 +244,10 @@ const AddLandscapes = (props) => {
 }
 
 
-const mapStateToProps = (state) => ({
-    user: state.register.userData
-});
+const mapStateToProps = (state) => (
+    {
+        user: state.register.userData
+    }
+);
 const connector = connect(mapStateToProps);
 export default connector(AddLandscapes);
