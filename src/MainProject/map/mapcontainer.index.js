@@ -13,6 +13,37 @@ import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
 import iconHandler from "./iconhandler.index"
 
+
+export const englishCategorytoPersian ={
+    "interesting_places": "مکان های دیدنی",
+    "religion":"مذهبی",
+    "cultural":"فرهنگی",
+    "historic":"تاریخی",
+    "industrial_facilities":"امکانات صنعتی",
+    "natural":"طبیعت",
+    "other":"سایر",
+    "tourist_facilities":"امکانات توریستی",
+    "transport":"وسایل نقلیه",
+    "shops":"فروشگاه",
+    "foods":"غذا خوری",
+    "banks":"بانک",
+    "car_rental":"اجاره ماشین",
+    "car_sharing":"اجاره ماشین",
+    "car_wash":"کارواش",
+    "bicycle_rental":"اجاره دوچرخه",
+    "boat_sharing":"لنگرگاه",
+    "fuel":"پمپ سوخت",
+    "restaurants":"رستوران",
+    "cafes":"کافی شاپ",
+    "fast_food":"فست فود",
+    "food_courts":"فود کورت",
+    "picnic_sites":"محوطه پیکنیک",
+    "sport":"ورزشی",
+    "amusements":"سرگرمی",
+    "accomodations":"اقامتگاه",
+}
+
+
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
     const [isSearchByRadius, setIsSearchByRadius] = useState(null);
@@ -30,34 +61,34 @@ const MapContainer = (props) => {
     
 
 
-    const englishCategorytoPersian ={
-        "interesting_places": "مکان های دیدنی",
-        "religion":"مذهبی",
-        "cultural":"فرهنگی",
-        "historic":"تاریخی",
-        "industrial_facilities":"امکانات صنعتی",
-        "natural":"طبیعت",
-        "other":"سایر",
-        "tourist_facilities":"امکانات توریستی",
-        "transport":"وسایل نقلیه",
-        "shops":"فروشگاه",
-        "foods":"غذا خوری",
-        "banks":"بانک",
-        "car_rental":"اجاره ماشین",
-        "car_sharing":"اجاره ماشین",
-        "car_wash":"کارواش",
-        "bicycle_rental":"اجاره دوچرخه",
-        "boat_sharing":"لنگرگاه",
-        "fuel":"پمپ سوخت",
-        "restaurants":"رستوران",
-        "cafes":"کافی شاپ",
-        "fast_food":"فست فود",
-        "food_courts":"فود کورت",
-        "picnic_sites":"محوطه پیکنیک",
-        "sport":"ورزشی",
-        "amusements":"سرگرمی",
-        "accomodations":"اقامتگاه",
-    }
+    // const englishCategorytoPersian ={
+    //     "interesting_places": "مکان های دیدنی",
+    //     "religion":"مذهبی",
+    //     "cultural":"فرهنگی",
+    //     "historic":"تاریخی",
+    //     "industrial_facilities":"امکانات صنعتی",
+    //     "natural":"طبیعت",
+    //     "other":"سایر",
+    //     "tourist_facilities":"امکانات توریستی",
+    //     "transport":"وسایل نقلیه",
+    //     "shops":"فروشگاه",
+    //     "foods":"غذا خوری",
+    //     "banks":"بانک",
+    //     "car_rental":"اجاره ماشین",
+    //     "car_sharing":"اجاره ماشین",
+    //     "car_wash":"کارواش",
+    //     "bicycle_rental":"اجاره دوچرخه",
+    //     "boat_sharing":"لنگرگاه",
+    //     "fuel":"پمپ سوخت",
+    //     "restaurants":"رستوران",
+    //     "cafes":"کافی شاپ",
+    //     "fast_food":"فست فود",
+    //     "food_courts":"فود کورت",
+    //     "picnic_sites":"محوطه پیکنیک",
+    //     "sport":"ورزشی",
+    //     "amusements":"سرگرمی",
+    //     "accomodations":"اقامتگاه",
+    // }
 
 
     const categoryHandler=(categ)=>{
@@ -97,13 +128,22 @@ const MapContainer = (props) => {
                           setAddress(data.data.address.city)
                           if(data.data.address.neighbourhood){
                             setAddress(data.data.address.city+","+data.data.address.neighbourhood)
+                            if(data.data.address.road){
+                                setAddress(data.data.address.city+","+data.data.address.neighbourhood+","+data.data.address.road)
+                              }
                           }
-                          if(data.data.address.road){
+                          else if(data.data.address.road){
                             setAddress(data.data.address.city+","+data.data.address.neighbourhood+","+data.data.address.road)
                           }
                         }
+                        else if(data.data.address){
+                            setAddress(data.data.address)
+                        }
                         if(data.data.wikipedia_extracts){
                           setDescription(data.data.wikipedia_extracts.text)
+                        }
+                        else if(data.data.description){
+                            setDescription(data.data.description)
                         }
                         if(data.data.name){
                           setName(data.data.name)
