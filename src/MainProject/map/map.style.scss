@@ -121,27 +121,13 @@
         .check-box {
           display: flex;
           width: 100%;
+          justify-content: flex-start;
           overflow: auto;
+          direction: rtl;
         }
       }
     }
   }
-
-  //.test {
-  //  position: absolute;
-  //  top: 10px;
-  //  left: 250px;
-  //  background-color: white;
-  //  z-index: 10000;
-  //
-  //  &.change-width {
-  //    left: 10px !important;
-  //    top: 10px !important
-  //  }
-  //
-  //  transition: right 300ms linear;
-  //}
-
   .second-item {
     height: 100%;
     overflow: hidden;
