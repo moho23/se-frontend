@@ -13,6 +13,36 @@ import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
 import iconHandler from "./iconhandler.index"
 
+export const englishCategorytoPersian ={
+    "interesting_places": "مکان های دیدنی",
+    "religion":"مذهبی",
+    "cultural":"فرهنگی",
+    "historic":"تاریخی",
+    "industrial_facilities":"امکانات صنعتی",
+    "natural":"طبیعت",
+    "other":"سایر",
+    "tourist_facilities":"امکانات توریستی",
+    "transport":"وسایل نقلیه",
+    "shops":"فروشگاه",
+    "foods":"غذا خوری",
+    "banks":"بانک",
+    "car_rental":"اجاره ماشین",
+    "car_sharing":"اجاره ماشین",
+    "car_wash":"کارواش",
+    "bicycle_rental":"اجاره دوچرخه",
+    "boat_sharing":"لنگرگاه",
+    "fuel":"پمپ سوخت",
+    "restaurants":"رستوران",
+    "cafes":"کافی شاپ",
+    "fast_food":"فست فود",
+    "food_courts":"فود کورت",
+    "picnic_sites":"محوطه پیکنیک",
+    "sport":"ورزشی",
+    "amusements":"سرگرمی",
+    "accomodations":"اقامتگاه",
+}
+
+
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
     const [isSearchByRadius, setIsSearchByRadius] = useState(null);
@@ -26,35 +56,6 @@ const MapContainer = (props) => {
     const [description, setDescription] = useState(null)
     const [category, setCategory] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
-
-    const englishCategorytoPersian = {
-        "interesting_places": "مکان های دیدنی",
-        "religion": "مذهبی",
-        "cultural": "فرهنگی",
-        "historic": "تاریخی",
-        "industrial_facilities": "امکانات صنعتی",
-        "natural": "طبیعت",
-        "other": "سایر",
-        "tourist_facilities": "امکانات توریستی",
-        "transport": "وسایل نقلیه",
-        "shops": "فروشگاه",
-        "foods": "غذا خوری",
-        "banks": "بانک",
-        "car_rental": "اجاره ماشین",
-        "car_sharing": "اجاره ماشین",
-        "car_wash": "کارواش",
-        "bicycle_rental": "اجاره دوچرخه",
-        "boat_sharing": "لنگرگاه",
-        "fuel": "پمپ سوخت",
-        "restaurants": "رستوران",
-        "cafes": "کافی شاپ",
-        "fast_food": "فست فود",
-        "food_courts": "فود کورت",
-        "picnic_sites": "محوطه پیکنیک",
-        "sport": "ورزشی",
-        "amusements": "سرگرمی",
-        "accomodations": "اقامتگاه",
-    }
 
     const categoryHandler = (categ) => {
         let splitcateg = categ.split(",");
@@ -87,21 +88,30 @@ const MapContainer = (props) => {
                 if (responseValidator(data.status) && data.data) {
                     console.log(data)
                     props.setModal()
-                    if (data.data) {
-                        if (data.data.address.city) {
-                            setAddress(data.data.address.city)
-                            if (data.data.address.neighbourhood) {
-                                setAddress(data.data.address.city + "," + data.data.address.neighbourhood)
-                            }
-                            if (data.data.address.road) {
-                                setAddress(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
-                            }
+                    if (data.data){
+                        if (data.data.address.city){
+                          setAddress(data.data.address.city)
+                          if(data.data.address.neighbourhood){
+                            setAddress(data.data.address.city+","+data.data.address.neighbourhood)
+                            if(data.data.address.road){
+                                setAddress(data.data.address.city+","+data.data.address.neighbourhood+","+data.data.address.road)
+                              }
+                          }
+                          else if(data.data.address.road){
+                            setAddress(data.data.address.city+","+data.data.address.neighbourhood+","+data.data.address.road)
+                          }
                         }
-                        if (data.data.wikipedia_extracts) {
-                            setDescription(data.data.wikipedia_extracts.text)
+                        else if(data.data.address){
+                            setAddress(data.data.address)
                         }
-                        if (data.data.name) {
-                            setName(data.data.name)
+                        if(data.data.wikipedia_extracts){
+                          setDescription(data.data.wikipedia_extracts.text)
+                        }
+                        else if(data.data.description){
+                            setDescription(data.data.description)
+                        }
+                        if(data.data.name){
+                          setName(data.data.name)
                         }
                         if (data.data.kinds) {
                             // categoryHandler(data.data.kinds)
@@ -150,25 +160,36 @@ const MapContainer = (props) => {
             const kinds = checkedKeys.join()
             // console.log("kinds=",kinds)
             let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
-
+            
             get(url).then((data) => {
-                let array = []
+                let loc_array = []
                 console.log(data)
-                if (data.data) {
-                    data.data.map(arr => (
-                        array.push(<Mapir.Marker
-                            coordinates={[arr.point.lon, arr.point.lat]}
-                            onClick={() => markercordinate(arr.xid)}
-                            anchor="bottom"
-                            Image={iconHandler(arr.kinds)}
-                        >
-                        </Mapir.Marker>)))
-                    setLocationArray(array)
+                let isPublic=true
+                let user=false
+                if(data.data){
+                    data.data.map(arr => {
+                    isPublic=true
+                    user=false
+                    if(arr.creator_username){
+                        user=true
+                        if(arr.is_private){
+                            isPublic=false
+                        }
+                    }
+                    loc_array.push(<Mapir.Marker
+                        coordinates={[arr.point.lon, arr.point.lat]}
+                        onClick={() => markercordinate(arr.xid)}
+                        anchor="bottom"
+                        Image={iconHandler(arr.kinds,user,isPublic)}
+                    >
+                    </Mapir.Marker>)
+                    })
                 }
-
+                setLocationArray(loc_array)
+                
             })
+            
         }
-
         const array = [];
         setIsntClicked(true)
         array.push(<Mapir.Marker

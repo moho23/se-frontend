@@ -11,7 +11,7 @@ import Mapir from "mapir-react-component";
 import {get} from "../../scripts/api";
 import {APIPath} from "../../data";
 import Button from "../../utilities/components/button/button.index";
-
+import {englishCategorytoPersian} from "./mapcontainer.index"
 
 const {Option} = Select;
 
@@ -28,115 +28,111 @@ const Mapfilterbar = (props) => {
 
     const treeData = [
         {
-            title: 'interesting places',
+            title: englishCategorytoPersian['interesting_places'],
             key: 'interesting_places',
             children: [
                 {
-                    title: 'religion',
+                    title: englishCategorytoPersian['religion'],
                     key: 'religion',
                 },
                 {
-                    title: 'cultural',
+                    title: englishCategorytoPersian['cultural'],
                     key: 'cultural',
                 },
                 {
-                    title: 'historic',
+                    title: englishCategorytoPersian['historic'],
                     key: 'historic',
                 },
                 {
-                    title: 'industrial facilities',
+                    title: englishCategorytoPersian['industrial_facilities'],
                     key: 'industrial_facilities',
                 },
                 {
-                    title: 'natural',
+                    title: englishCategorytoPersian['natural'],
                     key: 'natural',
                 },
                 {
-                    title: 'other',
+                    title: englishCategorytoPersian['other'],
                     key: 'other',
                 },
             ],
         },
         {
-            title: 'tourist facilities',
+            title: englishCategorytoPersian['tourist_facilities'],
             key: 'tourist_facilities',
             children: [
                 {
-                    title: 'transport',
+                    title: englishCategorytoPersian['transport'],
                     key: 'transport',
                     children: [
                         {
-                            title: 'car rental',
+                            title: englishCategorytoPersian['car_rental'],
                             key: 'car_rental',
                         },
                         {
-                            title: 'car sharing',
+                            title: englishCategorytoPersian['car_sharing'],
                             key: 'car_sharing',
                         },
                         {
-                            title: 'car wash',
+                            title: englishCategorytoPersian['car_wash'],
                             key: 'car_wash',
                         },
                         {
-                            title: 'bicycle rental',
+                            title: englishCategorytoPersian['bicycle_rental'],
                             key: 'bicycle_rental',
                         },
                         {
-                            title: 'boat sharing',
+                            title: englishCategorytoPersian['boat_sharing'],
                             key: 'boat_sharing',
                         },
                         {
-                            title: 'fuel',
+                            title: englishCategorytoPersian['fuel'],
                             key: 'fuel',
                         },
                     ],
                 },
                 {
-                    title: 'shops',
+                    title: englishCategorytoPersian['shops'],
                     key: 'shops',
                 },
                 {
-                    title: 'foods',
+                    title: englishCategorytoPersian['foods'],
                     key: 'foods',
                     children: [
                         {
-                            title: 'restaurants',
+                            title: englishCategorytoPersian['restaurants'],
                             key: 'restaurants',
                         },
                         {
-                            title: 'cafes',
+                            title: englishCategorytoPersian['cafes'],
                             key: 'cafes',
                         },
                         {
-                            title: 'fast food',
+                            title: englishCategorytoPersian['fast_food'],
                             key: 'fast_food',
                         },
                         {
-                            title: 'food courts',
+                            title: englishCategorytoPersian['food_courts'],
                             key: 'food_courts',
-                        },
-                        {
-                            title: 'picnic sites',
-                            key: 'picnic_sites',
                         },
                     ],
                 },
                 {
-                    title: 'banks',
+                    title: englishCategorytoPersian['banks'],
                     key: 'banks',
                 },
             ],
         },
         {
-            title: 'sport',
+            title: englishCategorytoPersian['sport'],
             key: 'sport',
         },
         {
-            title: 'amusements',
+            title: englishCategorytoPersian['amusements'],
             key: 'amusements',
         },
         {
-            title: 'accomodations',
+            title: englishCategorytoPersian['accomodations'],
             key: 'accomodations',
         },
     ];
