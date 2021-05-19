@@ -3,18 +3,19 @@
 .main-project {
   display: flex;
   width: 100%;
+  overflow: hidden;
   height: 100vh;
   position: relative;
-  overflow: auto;
   flex-direction: row-reverse;
 
   .project-main-sidebar-items {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     width: 100%;
 
     .project-content {
-      overflow-y: auto;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -22,10 +23,6 @@
       height: calc(100% - 40px);
       box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.32);
       background-color: $creamLight;
-      //padding: 24px 22px;
-      //@include project-md {
-      //  padding: 52px 36px;
-      //}
     }
 
     .project-responsive-header {
