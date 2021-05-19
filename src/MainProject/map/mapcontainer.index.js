@@ -196,25 +196,36 @@ const MapContainer = (props) => {
             const kinds=checkedKeys.join()
             // console.log("kinds=",kinds)
             let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
-    
+            
             get(url).then((data) => {
-                let array = []
+                let loc_array = []
                 console.log(data)
+                let isPublic=true
+                let user=false
                 if(data.data){
-                    data.data.map(arr => (
-                    array.push(<Mapir.Marker
+                    data.data.map(arr => {
+                    isPublic=true
+                    user=false
+                    if(arr.creator_username){
+                        user=true
+                        if(arr.is_private){
+                            isPublic=false
+                        }
+                    }
+                    loc_array.push(<Mapir.Marker
                         coordinates={[arr.point.lon, arr.point.lat]}
                         onClick={() => markercordinate(arr.xid)}
                         anchor="bottom"
-                        Image={iconHandler(arr.kinds)}
+                        Image={iconHandler(arr.kinds,user,isPublic)}
                     >
-                    </Mapir.Marker>)))
-                setLocationArray(array)
+                    </Mapir.Marker>)
+                    })
                 }
+                setLocationArray(loc_array)
                 
             })
+            
         }
-
         const array = [];
         setIsntClicked(true)
         array.push(<Mapir.Marker
