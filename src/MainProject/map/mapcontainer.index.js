@@ -13,7 +13,6 @@ import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
 import iconHandler from "./iconhandler.index"
 
-
 export const englishCategorytoPersian ={
     "interesting_places": "مکان های دیدنی",
     "religion":"مذهبی",
@@ -51,63 +50,29 @@ const MapContainer = (props) => {
     const [locationArray, setLocationArray] = useState(null);
     const [lat, setLat] = useState(35.72);
     const [lon, setLon] = useState(51.42);
-    
     const [name, setName] = useState(null)
     const [image, setImage] = useState(null)
     const [address, setAddress] = useState(null)
     const [description, setDescription] = useState(null)
     const [category, setCategory] = useState(null)
+    const [isOpen, setIsOpen] = useState(false);
 
-    
-
-
-    // const englishCategorytoPersian ={
-    //     "interesting_places": "مکان های دیدنی",
-    //     "religion":"مذهبی",
-    //     "cultural":"فرهنگی",
-    //     "historic":"تاریخی",
-    //     "industrial_facilities":"امکانات صنعتی",
-    //     "natural":"طبیعت",
-    //     "other":"سایر",
-    //     "tourist_facilities":"امکانات توریستی",
-    //     "transport":"وسایل نقلیه",
-    //     "shops":"فروشگاه",
-    //     "foods":"غذا خوری",
-    //     "banks":"بانک",
-    //     "car_rental":"اجاره ماشین",
-    //     "car_sharing":"اجاره ماشین",
-    //     "car_wash":"کارواش",
-    //     "bicycle_rental":"اجاره دوچرخه",
-    //     "boat_sharing":"لنگرگاه",
-    //     "fuel":"پمپ سوخت",
-    //     "restaurants":"رستوران",
-    //     "cafes":"کافی شاپ",
-    //     "fast_food":"فست فود",
-    //     "food_courts":"فود کورت",
-    //     "picnic_sites":"محوطه پیکنیک",
-    //     "sport":"ورزشی",
-    //     "amusements":"سرگرمی",
-    //     "accomodations":"اقامتگاه",
-    // }
-
-
-    const categoryHandler=(categ)=>{
+    const categoryHandler = (categ) => {
         let splitcateg = categ.split(",");
         // console.log(splitcateg)
-        const persianCategArray=[]
-        splitcateg.map(cat=>
-            {
-                if(englishCategorytoPersian[cat]){
+        const persianCategArray = []
+        splitcateg.map(cat => {
+                if (englishCategorytoPersian[cat]) {
                     persianCategArray.push(englishCategorytoPersian[cat])
                 }
             }
-            )
+        )
         // console.log(persianCategArray)
-        const persianCategString=persianCategArray.join()
+        const persianCategString = persianCategArray.join()
         // console.log(persianCategString)
-        return(persianCategString)
+        return (persianCategString)
     }
-    
+
     function markercordinate(xid) {
         setName(null)
         setImage(null)
@@ -148,52 +113,51 @@ const MapContainer = (props) => {
                         if(data.data.name){
                           setName(data.data.name)
                         }
-                        if(data.data.kinds){
+                        if (data.data.kinds) {
                             // categoryHandler(data.data.kinds)
                             setCategory(categoryHandler(data.data.kinds))
                         }
-                        if(data.data.image){
-                            if(!data.data.image[0]){
+                        if (data.data.image) {
+                            if (!data.data.image[0]) {
                                 setImage(null)
-                            }
-                            else{
+                            } else {
                                 setImage(data.data.image)
                             }
-                            
+
                         }
-                      }
-  
-                      
-                  }
-                
+                    }
+
+
+                }
+
             })
         })
     }
 
-    const handleIsSearchByRadius=(mapfilterData)=>{
+    const handleIsSearchByRadius = (mapfilterData) => {
         setIsSearchByRadius(mapfilterData)
     }
 
     const onMapClicked = (map, e) => {
         e.preventDefault();
-        console.log("checkedKeys=",props.checkedKeys)
-        console.log("searchArea=",props.searchArea)
-        console.log("current=",props.current)
-        console.log("mapcontainer=",isSearchByRadius)
-        if (isSearchByRadius){
-            let checkedKeys=props.checkedKeys
-            let searchArea=props.searchArea
-            let current=props.current
-            if(!checkedKeys){
-                checkedKeys=[]
+        console.log("checkedKeys=", props.checkedKeys)
+        console.log("searchArea=", props.searchArea)
+        console.log("current=", props.current)
+        console.log("mapcontainer=", isSearchByRadius)
+        if (isSearchByRadius) {
+            let checkedKeys = props.checkedKeys
+            let searchArea = props.searchArea
+            let current = props.current
+            if (!checkedKeys) {
+                checkedKeys = []
             }
-            if(!searchArea){
-                searchArea=1000
+            if (!searchArea) {
+                searchArea = 1000
             }
-            if(!current){
-                current="all"
+            if (!current) {
+                current = "all"
             }
-            const kinds=checkedKeys.join()
+            const kinds = checkedKeys.join()
             // console.log("kinds=",kinds)
             let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
             
@@ -240,42 +204,38 @@ const MapContainer = (props) => {
         setLon(e.lngLat.lng);
     }
 
-    
-
     return (
         <div className="map-main-page">
-            <div className="content">
-            <Mapfilterbar isRadius={handleIsSearchByRadius}/>
-                {props.modalDetailsShow ? <ModalDetails
-                    title={name}
-                    category={category}
-                    description={description}
-                    cover={image}
-                    address={address}
-                /> : null}
-                <div className="second-item">
-                    <Mapir
-                        center={[lon, lat]}
-                        Map={Map}
-                        userLocation
-                        onClick={onMapClicked}
-                    >
-                        <Mapir.Layer
-                            type="symbol"
-                            layout={{"icon-image": "harbor-15"}}>
-                        </Mapir.Layer>
-                        <Mapir.RotationControl/>
-                        <Mapir.ScaleControl/>
-                        <Mapir.ZoomControl position={'bottom-left'}/>
-                        {isntClicked ? markerArray : null}
-                        {locationArray ? locationArray.map(e => {
-                            return e
-                        }) : null}
-                        {props.searchMarker}
-                    </Mapir>
-                </div>
-                </div>
+            <Mapfilterbar isFilterOpen={isOpen} isRadius={handleIsSearchByRadius}/>
+            {props.modalDetailsShow ? <ModalDetails
+                title={name}
+                category={category}
+                description={description}
+                cover={image}
+                address={address}
+            /> : null}
+            <div className="second-item">
+                <Mapir
+                    center={[lon, lat]}
+                    Map={Map}
+                    userLocation
+                    onClick={onMapClicked}
+                >
+                    <Mapir.Layer
+                        type="symbol"
+                        layout={{"icon-image": "harbor-15"}}>
+                    </Mapir.Layer>
+                    <Mapir.RotationControl/>
+                    <Mapir.ScaleControl/>
+                    <Mapir.ZoomControl position={'bottom-left'}/>
+                    {isntClicked ? markerArray : null}
+                    {locationArray ? locationArray.map(e => {
+                        return e
+                    }) : null}
+                    {props.searchMarker}
+                </Mapir>
             </div>
+        </div>
     )
 }
 
@@ -288,15 +248,14 @@ const mapStateToProps = (state) => ({
     searchMarker: state.map.searchMarkerArray,
     modalDetailsShow: state.map.modalDetailsShow,
     current: state.map.current,
-    
+
 });
 
-const mapDispatchToProps=(dispatch)=>{
-    return{
-        setModal:()=>dispatch({type:Actions.MODALDETAILSHOW}),
-        
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
     }
 }
 
-const connector = connect(mapStateToProps,mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(MapContainer);

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./map.style.scss";
 import {Checkbox, Tooltip, Tree} from 'antd';
 import 'antd/dist/antd.css';
@@ -10,6 +10,7 @@ import markerUrl from "../../assets/images/mapmarker.svg"
 import Mapir from "mapir-react-component";
 import {get} from "../../scripts/api";
 import {APIPath} from "../../data";
+import Button from "../../utilities/components/button/button.index";
 import {englishCategorytoPersian} from "./mapcontainer.index"
 
 const {Option} = Select;
@@ -19,7 +20,11 @@ const {Search} = Input;
 const Mapfilterbar = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
     const [desableFilters, setDesableFilters] = useState(true);
+    const [status, setStatus] = useState(props.isFilterOpen);
 
+    useEffect(() => {
+        setStatus(props.isFilterOpen);
+    }, [props.isFilterOpen]);
 
     const treeData = [
         {
@@ -167,54 +172,64 @@ const Mapfilterbar = (props) => {
         })
     };
 
-    const setNearPlacesActive=(e)=>{
+    const setNearPlacesActive = (e) => {
         // console.log(e)
         props.isRadius(e)
         setDesableFilters(!e)
     }
 
     return (
-        <div className="first-item">
-            <p className="search-label">جستجو</p>
-            <Search className="search-box" placeholder="آدرس، مکان ..."
-                    onSearch={onSearch}/>
-            <hr/>
-            <p className="selector-label">محدوده جستجو</p>
-            <Select defaultValue={props.searchArea + ' متر'} disabled={desableFilters} className="simple-selector"
-                    onChange={(e) => props.setSearchArea(e)}>
-                <Option style={{textAlign: "right"}} value="1000">1000 متر</Option>
-                <Option style={{textAlign: "right"}} value="2000">2000 متر</Option>
-                <Option style={{textAlign: "right"}} value="5000">5000 متر</Option>
-            </Select>
-            <hr/>
-            <div className="around-places">
-                <Tooltip className="tool-tip" title={<p>با زدن این تیک
-                    میتوانید قابلیت جستجوی مکان های اطراف مکان مورد نظرتان را فعال کنید
-                    همچنین میتوانید فیلترهای مورد نظرتان را فعال کنید
-                    و بعد از کلیک روی نقشه
-                    مکان های اطراف آن مکان را ببینید</p>}>
-                    <p>جستجو مکان های اطراف</p>
-                </Tooltip>
-                
-                <Checkbox className="around" onChange={e => setNearPlacesActive(e.target.checked)}/>
+        <div className={`main-filter-bar ${status ? "is-open" : ""}`}>
+            <div className="filterBar-container">
+                <div className={`trigger-div d-md-none d-block ${status ? "change-width" : ""}`}>
+                    <Button className="trigger" onClick={() => setStatus(!status)}
+                            text={<i className="material-icons icon">dehaze</i>}/>
+                </div>
+                <div className="content">
+                    <p className="search-label">جستجو</p>
+                    <Search className="search-box" placeholder="آدرس، مکان ..."
+                            onSearch={onSearch}/>
+                    <hr/>
+                    <p className="selector-label">محدوده جستجو</p>
+                    <Select defaultValue={props.searchArea + ' متر'} disabled={desableFilters}
+                            className="simple-selector"
+                            onChange={(e) => props.setSearchArea(e)}>
+                        <Option style={{textAlign: "right"}} value="1000">1000 متر</Option>
+                        <Option style={{textAlign: "right"}} value="2000">2000 متر</Option>
+                        <Option style={{textAlign: "right"}} value="5000">5000 متر</Option>
+                    </Select>
+                    <hr/>
+                    <div className="around-places">
+                        <Tooltip className="tool-tip" title={<p>با زدن این تیک
+                            میتوانید قابلیت جستجوی مکان های اطراف مکان مورد نظرتان را فعال کنید
+                            همچنین میتوانید فیلترهای مورد نظرتان را فعال کنید
+                            و بعد از کلیک روی نقشه
+                            مکان های اطراف آن مکان را ببینید</p>}>
+                            <p>جستجو مکان های اطراف</p>
+                        </Tooltip>
+
+                        <Checkbox className="around" onChange={e => setNearPlacesActive(e.target.checked)}/>
+                    </div>
+                    <hr/>
+                    <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
+                    <Radio.Group className="stepper" disabled={desableFilters} options={options}
+                                 onChange={(e) => props.setCurrent(e.target.value)}/>
+                    <hr/>
+                    <Tree
+                        checkable
+                        onExpand={(e) => props.onExpand(e)}
+                        expandedKeys={props.expandedKeys}
+                        autoExpandParent={props.autoExpandParent}
+                        onCheck={(e) => props.onCheck(e)}
+                        checkedKeys={props.checkedKeys}
+                        onSelect={(e) => props.onSelect(e)}
+                        selectedKeys={props.selectedKeys}
+                        treeData={treeData}
+                        className="check-box"
+                        disabled={desableFilters}
+                    />
+                </div>
             </div>
-            <hr/>
-            <p className="stepper-label">فیلتر بر اساس محبوبیت</p>
-            <Radio.Group className="stepper" disabled={desableFilters} options={options} onChange={(e) => props.setCurrent(e.target.value)}/>
-            <hr/>
-            <Tree
-                checkable
-                onExpand={(e) => props.onExpand(e)}
-                expandedKeys={props.expandedKeys}
-                autoExpandParent={props.autoExpandParent}
-                onCheck={(e) => props.onCheck(e)}
-                checkedKeys={props.checkedKeys}
-                onSelect={(e) => props.onSelect(e)}
-                selectedKeys={props.selectedKeys}
-                treeData={treeData}
-                className="check-box"
-                disabled={desableFilters}
-            />
         </div>
     )
 }
