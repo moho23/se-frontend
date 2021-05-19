@@ -1,17 +1,18 @@
 import React, {useState, useEffect} from "react";
 import './myLandscapes.style.scss'
-import cover from '../../assets/images/my-land-default.svg';
-import {APIPath} from "../../data";
+import cover from '../../assets/images/add-landscapes-default.png';
+import {APIPath, RoutePath} from "../../data";
 import {get, responseValidator} from "../../scripts/api";
 import {toast} from "react-toastify";
-// import Button from "../../utilities/components/button/button.index";
+import {Link} from "react-router-dom";
+import noData from "../../assets/images/undraw_not_found_60pq.svg"
 
 
 const MyLandscapes = () => {
 
     const [landscapes, setLandscapes] = useState(null);
-    const [check,setCheck]=useState(true)
-    
+    const [check, setCheck] = useState(true)
+
     useEffect(() => {
         get(APIPath.map.myLandscapes).then((data) => {
             if (responseValidator(data.status) && data.data) {
@@ -25,39 +26,25 @@ const MyLandscapes = () => {
 
     return (
         <div className='my-landscape-page'>
-            {/*{*/}
-            {/*    landscapes !== null &&*/}
-            {/*    <div className="landscapes-card">*/}
-            {/*        <div className="cover-div">*/}
-            {/*            <img alt='cover-landscapes' className="cover" src={cover}/>*/}
-            {/*        </div>*/}
-            {/*        <div className='content'>*/}
-            {/*            <p className="name">نام مکان</p>*/}
-            {/*            <p className="address">آدرس این مکان</p>*/}
-            {/*            <p className="description">توضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این*/}
-            {/*                موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد*/}
-            {/*                این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در*/}
-            {/*                مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی در مورد این موضوعتوضیحات تکمیلی*/}
-            {/*                در مورد این موضوعتوضیحات تکمیلی در مورد این موضوع</p>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*}*/}
             {
                 landscapes ?
                     landscapes.map((item) => (
                         <div className="landscapes-card">
                             <div className="cover-div">
                                 <img alt='cover-landscapes' className="cover"
-                                     src={item.loc_picture ? item.loc_picture : cover}/>
+                                     src={item.image[0] ? item.image[0] : cover}/>
                             </div>
                             <div className='content'>
-                                <p className="name">{item.loc_name}</p>
+                                <p className="name">{item.name}</p>
                                 <p className="address">{item.address}</p>
-                                <p className={check? "description" : "description-no"}>{item.description}</p>
-                                {/* <Button className='btn' text='اطلاعات بیشتر' onClick={setCheck}/> */}
+                                <p className={check ? "description" : "description-no"}>{item.description}</p>
                             </div>
                         </div>
-                    )) : <p className="no-data">مکان ثبت شده ای وجود ندارد‌!</p>
+                    )) : <div className="no-data">
+                        <img src={noData} alt="no-data"/>
+                        <p>!متاسفانه مکان ثبت شده ای نداری</p>
+                        <Link className="to-add-landscape" to={RoutePath.dashboard.addLandscapes}>مکان خودتو ثبت کن</Link>
+                    </div>
             }
         </div>
     )

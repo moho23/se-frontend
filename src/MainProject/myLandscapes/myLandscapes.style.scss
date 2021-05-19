@@ -8,12 +8,36 @@
   flex-direction: column;
 
   .no-data {
-    font-size: 20px;
-    font-weight: 600;
-    width: 100%;
-    height: 100px;
     display: flex;
-    direction: rtl;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35px;
+    padding: 30px;
+    border-radius: 10px;
+
+    img {
+      @include project-size(width, 450px, 250px);
+      @include project-size(height, 450px, 250px);
+    }
+
+    p {
+      display: flex;
+      justify-content: center;
+      font-size: 18px;
+      color: $orangeDark;
+      font-weight: 500;
+    }
+
+    .to-add-landscape {
+      margin-top: 10px;
+      font-size: 16px;
+      display: flex;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: white;
+    }
   }
 
 
@@ -49,8 +73,7 @@
         background-color: $creamLight;
         display: flex;
         width: 100%;
-        border-top-right-radius: 5px;
-        border-top-left-radius: 5px;
+        border-radius: 5px;
         object-fit: cover;
 
         @include project-md {
@@ -103,7 +126,7 @@
         // max-width: 270px;
         // white-space: nowrap;
         // overflow: hidden;
-        
+
 
         @include project-md {
           height: 100px;
@@ -122,27 +145,27 @@
       //   padding-right: 5px;
       // }
 
-    //   .btn{
-    //     display: flex;
-    //     flex-direction: row-reverse;
-    //     font-size: 11px;
-    //     justify-content: center;
-    //     background-color: $blue;
-    //     padding: 0.5rem;
-    //     margin-right: 207px;
-    //     max-width: 80px;
-    //     height: 38px;
-    //     transition: 0.2s;
-    //     border-radius: 3px;
-    //     &:hover{
-    //         background-color: $navyLight;
-    //     }
+      //   .btn{
+      //     display: flex;
+      //     flex-direction: row-reverse;
+      //     font-size: 11px;
+      //     justify-content: center;
+      //     background-color: $blue;
+      //     padding: 0.5rem;
+      //     margin-right: 207px;
+      //     max-width: 80px;
+      //     height: 38px;
+      //     transition: 0.2s;
+      //     border-radius: 3px;
+      //     &:hover{
+      //         background-color: $navyLight;
+      //     }
 
-    //     @include project-md{
-    //         margin-right: 370px;
-    //     }
+      //     @include project-md{
+      //         margin-right: 370px;
+      //     }
 
-    // }
+      // }
     }
   }
 }
