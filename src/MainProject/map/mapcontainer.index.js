@@ -12,36 +12,7 @@ import Mapfilterbar from "./mapfilterbar.index"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
 import iconHandler from "./iconhandler.index"
-
-export const englishCategorytoPersian = {
-    "interesting_places": "مکان های دیدنی",
-    "religion": "مذهبی",
-    "cultural": "فرهنگی",
-    "historic": "تاریخی",
-    "industrial_facilities": "امکانات صنعتی",
-    "natural": "طبیعت",
-    "other": "سایر",
-    "tourist_facilities": "امکانات توریستی",
-    "transport": "وسایل نقلیه",
-    "shops": "فروشگاه",
-    "foods": "غذا خوری",
-    "banks": "بانک",
-    "car_rental": "اجاره ماشین",
-    "car_sharing": "اجاره ماشین",
-    "car_wash": "کارواش",
-    "bicycle_rental": "اجاره دوچرخه",
-    "boat_sharing": "لنگرگاه",
-    "fuel": "پمپ سوخت",
-    "restaurants": "رستوران",
-    "cafes": "کافی شاپ",
-    "fast_food": "فست فود",
-    "food_courts": "فود کورت",
-    "picnic_sites": "محوطه پیکنیک",
-    "sport": "ورزشی",
-    "amusements": "سرگرمی",
-    "accomodations": "اقامتگاه",
-}
-
+import {EnglishCategoryToPersian} from "./translateCategory";
 
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -62,8 +33,8 @@ const MapContainer = (props) => {
         // console.log(splitcateg)
         const persianCategArray = []
         splitcateg.map(cat => {
-                if (englishCategorytoPersian[cat]) {
-                    persianCategArray.push(englishCategorytoPersian[cat])
+                if (EnglishCategoryToPersian[cat]) {
+                    persianCategArray.push(EnglishCategoryToPersian[cat])
                 }
             }
         )

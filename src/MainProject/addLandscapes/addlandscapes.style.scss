@@ -68,32 +68,59 @@
         flex-direction: column;
         margin-top: 20px;
 
-        span {
-          display: flex;
-          width: 100%;
-          flex: 1;
+        .ant-select-item-option-content {
+          display: flex !important;
+          width: 100% !important;
+          justify-content: flex-end !important;
         }
 
-        .selected {
-          color: $black !important;
-        }
-
-
-        .cat-button {
-          width: 100%;
+        .multi-select {
           display: flex;
           align-items: center;
-          justify-content: flex-end;
-          background-color: $creamLight;
-          font-size: 16px;
-          margin-bottom: 6px;
           height: 44px;
-          padding: 0 18px;
+          background-color: $creamLight;
           outline: none;
-          color: $gray;
+          font-size: 16px;
+          color: $black;
           font-weight: 500;
           border: none;
           border-radius: 5px;
+          direction: rtl;
+          min-width: 220px;
+
+          .item {
+            display: flex !important;
+            width: 100% !important;
+            justify-content: flex-end !important;
+            margin-right: 10px;
+          }
+
+          .ant-select-item-option-content {
+            display: flex !important;
+            width: 100% !important;
+            justify-content: flex-end !important;
+          }
+
+          .ant-select-selector {
+            width: 100% !important;
+            height: 100%;
+            background-color: $creamLight;
+            outline: none;
+            font-size: 16px;
+            color: $black;
+            font-weight: 500;
+            border: none;
+            border-radius: 5px;
+          }
+
+          span {
+            display: flex;
+            align-items: center;
+            color: $gray !important;
+            background-color: $creamLight;
+            padding: 0 !important;
+            padding-right: 2px !important;
+          }
         }
 
         p {
