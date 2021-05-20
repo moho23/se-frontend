@@ -75,7 +75,7 @@ const AddLandscapes = (props) => {
                     form.append('kinds', [category])
                 }
                 if (type) {
-                    form.append("type", type)
+                    form.append("is_private", type)
                 }
                 form.append("latitude", lat)
                 form.append("longitude", lng)
@@ -128,7 +128,7 @@ const AddLandscapes = (props) => {
             {
                 dropDownData ? dropDownData.map((item, index) => (
                     <div key={index} onClick={(e) => {
-                        setCategory([index]);
+                        setCategory([index+1]);
                         setCatButton(e.target.innerText);
                         setVisible(false)
                     }}
