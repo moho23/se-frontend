@@ -1,0 +1,129 @@
+@import "src/utilities/references/index";
+
+.driver-modal-page {
+  z-index: 9999999 !important;
+
+  .ant-modal-title {
+    margin-right: 20px;
+  }
+
+  .driver-modal {
+    display: flex;
+    width: 100%;
+    cursor: move;
+    margin-top: 25px;
+    flex-direction: column;
+
+    .first-line {
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      .item {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        padding: 5px;
+
+        .label {
+          display: flex;
+          justify-content: flex-end;
+          color: $blueWood;
+          font-weight: 500;
+          font-size: 16px;
+          margin-bottom: 5px;
+        }
+
+        &.ant-picker-footer {
+          background-color: red !important;
+        }
+
+        .ant-btn-primary {
+          border: none !important;
+          display: none !important;
+        }
+
+        .description {
+          display: flex;
+          width: 100%;
+          align-items: center;
+
+          i {
+            font-size: 16px;
+            color: $gray;
+            transition: 500ms ease-in-out;
+            cursor: pointer;
+          }
+
+          .label {
+            display: flex;
+            justify-content: flex-end;
+            color: $blueWood;
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 5px;
+          }
+        }
+
+        .places {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          outline: none;
+          height: 40px;
+          //border: none;
+          border: 2px solid #d4e8f1;
+          border-radius: 5px;
+          color: $grayDark;
+          background: $blueLight;
+          cursor: pointer;
+
+          &:hover {
+            color: $grayDark;
+          }
+
+          &.selected {
+            color: $grayDark;
+            font-weight: 500;
+          }
+        }
+      }
+
+      //span {
+      //  display: flex;
+      //  width: 100%;
+      //  flex: 1;
+      //}
+    }
+
+  }
+
+  .footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .submit {
+      display: flex;
+      outline: none;
+      border-radius: 5px;
+      border: 1px solid green;
+      font-weight: 500;
+      color: green;
+
+      &:hover {
+        color: green;
+      }
+    }
+
+    .cancel {
+      display: flex;
+      background-color: $orangeDark;
+      color: $white;
+      outline: none;
+      border: none;
+      font-weight: 500;
+      border-radius: 5px;
+    }
+  }
+}
