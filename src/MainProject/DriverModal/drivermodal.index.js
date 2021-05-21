@@ -297,7 +297,8 @@ const DriverModal = (props) => {
                                 onFocus={onFocusHandler}
                             />
                             {status &&
-                            <Calendar isGregorian={false} value={datePickerValue} onChange={onDatePickChange}/>}
+                            <Calendar onClickOutside={() => setStatus(false)} isGregorian={false} value={datePickerValue}
+                                      onChange={onDatePickChange}/>}
                         </div>
                     </div>
                 </div>

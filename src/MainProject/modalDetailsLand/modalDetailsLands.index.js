@@ -67,20 +67,24 @@ const ModalDetails = (props) => {
                 <img src={props.cover ? props.cover : detailsDefaultCover} alt="landscape-details"/>
             </div>
             <div className="info">
-                <div className="info-item">
-                    <i className="material-icons-outlined">category</i>
-                    <p>{props.category}</p>
-                </div>
-
-                <div className="info-item">
-                    <i className="material-icons-outlined">place</i>
-                    <p>{props.address}</p>
-                </div>
-
-                <div className="info-item last-line">
-                    <i className="material-icons-outlined">description</i>
-                    <p>{props.description}</p>
-                </div>
+                {
+                    props.category && <div className="info-item">
+                        <i className="material-icons-outlined">category</i>
+                        <p>{props.category}</p>
+                    </div>
+                }
+                {
+                    props.address && <div className="info-item">
+                        <i className="material-icons-outlined">place</i>
+                        <p>{props.address}</p>
+                    </div>
+                }
+                {
+                    props.description && <div className="info-item last-line">
+                        <i className="material-icons-outlined">description</i>
+                        <p>{props.description}</p>
+                    </div>
+                }
             </div>
         </Modal>
     );
