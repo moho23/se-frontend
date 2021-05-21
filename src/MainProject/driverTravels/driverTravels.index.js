@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 
 
+
 const DriverTravels = () => {
 
     const [travels, setTravels] = useState(null);
@@ -38,12 +39,11 @@ const DriverTravels = () => {
                             </div>
                             
                             <div className='content'>
-                                <p className="source">{item.source}</p>
-                                
-                                <p className="destination">{item.destination}</p>
+                                <p className="source">از {item.source}</p>
+                                <p className="destination">به {item.destination}</p>
                                 <p className="traveler">تعداد مسافر: {item.fellow_traveler_num}</p>
                                 <p className="cities">{item.cities.join()}</p>
-                                {item.creator_gender == "f" ? <p className="gender">خانم</p> : <p className="gender">آقا</p>}
+                                {item.creator_gender == "f" ? <p className="gender">زن</p> : <p className="gender">مرد</p>}
                                 <p className={check ? "description" : "description-no"}>{item.description}</p>
                             </div>
                             
@@ -54,6 +54,9 @@ const DriverTravels = () => {
                         {/* <Link className="to-add-travels" to={RoutePath.dashboard.index}>سفر خودتو ثبت کن</Link> */}
                     </div>
             }
+            <div className="grid"/>
+            <div className="grid"/>
+            <div className="grid"/>
         </div>
     )
 }
