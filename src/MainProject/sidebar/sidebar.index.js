@@ -74,6 +74,15 @@ const Sidebar = (props) => {
                     <i className="material-icons">gps_fixed</i>
                     <p>مکان های من</p>
                 </NavLink>
+                <NavLink
+                    to={RoutePath.dashboard.driverTravels}
+                    onClick={() => setStatus(false)}
+                    activeClassName="active"
+                    className="row-item map"
+                >
+                    <i className="material-icons">explore</i>
+                    <p>سفرهای من</p>
+                </NavLink>
                 <span/>
                 <NavLink
                     to={RoutePath.account.signin}
