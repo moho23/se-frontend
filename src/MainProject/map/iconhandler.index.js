@@ -38,6 +38,26 @@ import boat1 from "../../assets/images/icons8-ship-wheel-50 (1).png"
 import shop1 from "../../assets/images/icons8-shop-50 (1).png"
 import tourist1 from "../../assets/images/icons8-traveler-50 (1).png"
 
+import sport2 from "../../assets/images/icons8-sport-50.png"
+import historic2 from "../../assets/images/icons8-greek-pillar-base-50.png"
+import bicycle2 from "../../assets/images/icons8-bicycle-50.png"
+import cafe2 from "../../assets/images/icons8-cafe-50.png"
+import others2 from "../../assets/images/icons8-camera-50.png"
+import car2 from "../../assets/images/icons8-car-50.png"
+import amusment2 from "../../assets/images/icons8-theme-park-50.png"
+import culture2 from "../../assets/images/icons8-paisley-50.png"
+import natural2 from "../../assets/images/icons8-forest-50.png"
+import gasstation2 from "../../assets/images/icons8-gas-station-50.png"
+import hotel2 from "../../assets/images/icons8-sleeping-in-bed-50.png"
+import bank2 from "../../assets/images/icons8-money-bag-50.png"
+import religion2 from "../../assets/images/icons8-lilith-symbol-50.png"
+import architecture2 from "../../assets/images/icons8-brandenburg-gate-50.png"
+import industry2 from "../../assets/images/icons8-nuclear-power-plant-50.png"
+import restaurant2 from "../../assets/images/icons8-dining-room-50.png"
+import boat2 from "../../assets/images/icons8-ship-wheel-50.png"
+import shop2 from "../../assets/images/icons8-shop-50.png"
+import tourist2 from "../../assets/images/icons8-traveler-50.png"
+
 
 
 const iconHandler = (categ,user,isPublic) => {
@@ -187,72 +207,72 @@ const iconHandler = (categ,user,isPublic) => {
     else if(user & !isPublic){
         if (splitCateg.includes("tourist_facilities")) {
             if (splitCateg.includes("banks")) {
-                return (bank)
+                return (bank2)
             } 
             else if (splitCateg.includes("foods")) {
                 if (splitCateg.includes("restaurants") || splitCateg.includes("food_courts") || splitCateg.includes("fast_food")) {
-                    return (restaurant)
+                    return (restaurant2)
                 } 
                 else {
-                    return (cafe)
+                    return (cafe2)
                 }
     
             } 
             else if (splitCateg.includes("shops")) {
-                return (shop)
+                return (shop2)
             } 
             else if (splitCateg.includes("transport")) {
                 if (splitCateg.includes("bicycle_rental")) {
-                    return (bicycle)
+                    return (bicycle2)
                 } 
                 else if (splitCateg.includes("boat_sharing")) {
-                    return (boat)
+                    return (boat2)
                 } 
                 else if (splitCateg.includes("charging_station") || splitCateg.includes("fuel")) {
-                    return (gasstation)
+                    return (gasstation2)
                 } 
                 else {
-                    return (car)
+                    return (car2)
                 }
             } 
             else {
-                return (tourist)
+                return (tourist2)
             }
         }
         else if (splitCateg.includes("accomodations")) {
-            return (hotel)
+            return (hotel2)
         } 
         else if (splitCateg.includes("amusements")) {
-            return (amusment)
+            return (amusment2)
         } 
         else if (splitCateg.includes("amusements")) {
-            return (amusment)
+            return (amusment2)
         } 
         else if (splitCateg.includes("sport")) {
-            return (sport)
+            return (sport2)
         } 
         else if (splitCateg.includes("amusements")) {
-            return (amusment)
+            return (amusment2)
         } 
         else if (splitCateg.includes("interesting_places")) {
             if (splitCateg.includes("architecture")) {
-                return (architecture)
+                return (architecture2)
             } else if (splitCateg.includes("religion")) {
-                return (religion)
+                return (religion2)
             } else if (splitCateg.includes("cultural")) {
-                return (culture)
+                return (culture2)
             } else if (splitCateg.includes("historic")) {
-                return (historic)
+                return (historic2)
             } else if (splitCateg.includes("industrial_facilities")) {
-                return (industry)
+                return (industry2)
             } else if (splitCateg.includes("natural")) {
-                return (natural)
+                return (natural2)
             } else {
-                return (others)
+                return (others2)
             }
         } 
         else {
-            return (others)
+            return (others2)
         }
     }
     
