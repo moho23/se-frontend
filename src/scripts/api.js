@@ -1,5 +1,5 @@
 import {authToken} from "./storage";
-import ENV from "../env.json"
+// import ENV from "../env.json"
 
 // export const SERVER = ENV.api;
 export const SERVER = "http://45.149.76.77:8000/api/";
