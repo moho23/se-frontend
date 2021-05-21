@@ -10,6 +10,7 @@ export const __RoutePath = {
         details: "/dashboard/details",
         addLandscapes: "/dashboard/new-landscape",
         myLandscapes: "/dashboard/myLandscapes",
+        driverTravels: "/dashboard/driverTravels"
     },
     map: {
         index: "/dashboard/map",
