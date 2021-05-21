@@ -46,7 +46,7 @@ const MyLandscapes = () => {
                 landscapes &&
                 landscapes.length === 0 && <div className="no-data">
                     <img src={noData} alt="no-data"/>
-                    <p>!متاسفانه مکان ثبت شده ای نداری</p>
+                    <p>متاسفانه مکان ثبت شده ای نداری</p>
                     <Link className="to-add-landscape" to={RoutePath.dashboard.addLandscapes}>مکان خودتو ثبت کن</Link>
                 </div>
             }
