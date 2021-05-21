@@ -11,7 +11,7 @@ import Mapir from "mapir-react-component";
 import {get} from "../../scripts/api";
 import {APIPath} from "../../data";
 import Button from "../../utilities/components/button/button.index";
-import {englishCategorytoPersian} from "./mapcontainer.index"
+import {TreeData} from "./treeData";
 
 const {Option} = Select;
 
@@ -25,117 +25,6 @@ const Mapfilterbar = (props) => {
     useEffect(() => {
         setStatus(props.isFilterOpen);
     }, [props.isFilterOpen]);
-
-    const treeData = [
-        {
-            title: englishCategorytoPersian['interesting_places'],
-            key: 'interesting_places',
-            children: [
-                {
-                    title: englishCategorytoPersian['religion'],
-                    key: 'religion',
-                },
-                {
-                    title: englishCategorytoPersian['cultural'],
-                    key: 'cultural',
-                },
-                {
-                    title: englishCategorytoPersian['historic'],
-                    key: 'historic',
-                },
-                {
-                    title: englishCategorytoPersian['industrial_facilities'],
-                    key: 'industrial_facilities',
-                },
-                {
-                    title: englishCategorytoPersian['natural'],
-                    key: 'natural',
-                },
-                {
-                    title: englishCategorytoPersian['other'],
-                    key: 'other',
-                },
-            ],
-        },
-        {
-            title: englishCategorytoPersian['tourist_facilities'],
-            key: 'tourist_facilities',
-            children: [
-                {
-                    title: englishCategorytoPersian['transport'],
-                    key: 'transport',
-                    children: [
-                        {
-                            title: englishCategorytoPersian['car_rental'],
-                            key: 'car_rental',
-                        },
-                        {
-                            title: englishCategorytoPersian['car_sharing'],
-                            key: 'car_sharing',
-                        },
-                        {
-                            title: englishCategorytoPersian['car_wash'],
-                            key: 'car_wash',
-                        },
-                        {
-                            title: englishCategorytoPersian['bicycle_rental'],
-                            key: 'bicycle_rental',
-                        },
-                        {
-                            title: englishCategorytoPersian['boat_sharing'],
-                            key: 'boat_sharing',
-                        },
-                        {
-                            title: englishCategorytoPersian['fuel'],
-                            key: 'fuel',
-                        },
-                    ],
-                },
-                {
-                    title: englishCategorytoPersian['shops'],
-                    key: 'shops',
-                },
-                {
-                    title: englishCategorytoPersian['foods'],
-                    key: 'foods',
-                    children: [
-                        {
-                            title: englishCategorytoPersian['restaurants'],
-                            key: 'restaurants',
-                        },
-                        {
-                            title: englishCategorytoPersian['cafes'],
-                            key: 'cafes',
-                        },
-                        {
-                            title: englishCategorytoPersian['fast_food'],
-                            key: 'fast_food',
-                        },
-                        {
-                            title: englishCategorytoPersian['food_courts'],
-                            key: 'food_courts',
-                        },
-                    ],
-                },
-                {
-                    title: englishCategorytoPersian['banks'],
-                    key: 'banks',
-                },
-            ],
-        },
-        {
-            title: englishCategorytoPersian['sport'],
-            key: 'sport',
-        },
-        {
-            title: englishCategorytoPersian['amusements'],
-            key: 'amusements',
-        },
-        {
-            title: englishCategorytoPersian['accomodations'],
-            key: 'accomodations',
-        },
-    ];
 
     const options = [
         {label: 'کمتر شناخته شده', value: '3'},
@@ -173,7 +62,6 @@ const Mapfilterbar = (props) => {
     };
 
     const setNearPlacesActive = (e) => {
-        // console.log(e)
         props.isRadius(e)
         setDesableFilters(!e)
     }
@@ -224,7 +112,7 @@ const Mapfilterbar = (props) => {
                         checkedKeys={props.checkedKeys}
                         onSelect={(e) => props.onSelect(e)}
                         selectedKeys={props.selectedKeys}
-                        treeData={treeData}
+                        treeData={TreeData}
                         className="check-box"
                         disabled={desableFilters}
                     />

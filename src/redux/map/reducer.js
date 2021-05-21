@@ -1,67 +1,64 @@
 import * as Actions from './actions'
 
-
-const inintialState={
-    expandedKeys:[],
-    checkedKeys:[],
-    selectedKeys:[],
-    autoExpandParent:true,
-    current:"all",
-    searchArea:1000,
-
-    searchMarkerArray:null,
-    modalDetailsShow:false,
-    
+const initialState = {
+    expandedKeys: [],
+    checkedKeys: [],
+    selectedKeys: [],
+    autoExpandParent: true,
+    current: "all",
+    searchArea: 1000,
+    searchMarkerArray: null,
+    modalDetailsShow: false,
+    driverModalShow: false,
 }
 
-const reducer=(state=inintialState,action)=>{
-    switch(action.type){
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
         case(Actions.EXPAND):
-            return{
+            return {
                 ...state,
-                expandedKeys:action.expandedKeysValue,
-                autoExpandParent:false
-            }   
+                expandedKeys: action.expandedKeysValue,
+                autoExpandParent: false
+            }
         case(Actions.CHECK):
-            console.log("action",action.checkedKeysValue)
-            return{
+            console.log("action", action.checkedKeysValue)
+            return {
                 ...state,
-                checkedKeys:action.checkedKeysValue
+                checkedKeys: action.checkedKeysValue
             }
         case(Actions.SELECT):
-            return{
+            return {
                 ...state,
-                selectedKeys:action.selectedKeysValue
+                selectedKeys: action.selectedKeysValue
             }
         case(Actions.SEARCHAREA):
-            return{
+            return {
                 ...state,
-                searchArea:action.searchareaValue
+                searchArea: action.searchareaValue
             }
         case(Actions.CURRENT):
-            return{
+            return {
                 ...state,
-                current:action.currentValue
+                current: action.currentValue
             }
         case(Actions.ONSERACH):
-            return{
+            return {
                 ...state,
-                searchMarkerArray:action.searchMarker
+                searchMarkerArray: action.searchMarker
             }
         case(Actions.MODALDETAILSHOW):
-            return{
+            return {
                 ...state,
-                modalDetailsShow:!state.modalDetailsShow
+                modalDetailsShow: !state.modalDetailsShow
             }
-    
+        case(Actions.DRIVERMODALSHOW):
+            return {
+                ...state,
+                driverModalShow: !state.driverModalShow
+            }
         default:
             return state
-
     }
-
-
-
-    
 }
 
 export default reducer

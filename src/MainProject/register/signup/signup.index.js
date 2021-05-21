@@ -61,9 +61,9 @@ const Signup = () => {
             {
                 StatesList && StatesList.map((item, index) => (
                     <div key={index} onClick={(e) => {
-                        setCity(e.target.innerText);
-                        setStateButton(e.target.innerText);
-                        console.log(e.target.innerText)
+                        setCity(e.target?.innerText);
+                        setStateButton(e.target?.innerText);
+                        console.log(e.target?.innerText)
                     }}
                          style={{
                              width: "100%",
