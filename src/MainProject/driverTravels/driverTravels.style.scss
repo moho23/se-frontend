@@ -20,11 +20,11 @@
   }
   .no-data {
     display: flex;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 35px;
-    padding: 30px;
     border-radius: 10px;
 
     img {
@@ -33,21 +33,12 @@
     }
 
     p {
+      margin-top: -25px;
       display: flex;
       justify-content: center;
       font-size: 18px;
       color: $orangeDark;
-      font-weight: 500;
-    }
-
-    .to-add-travels {
-      margin-top: 10px;
-      font-size: 16px;
-      display: flex;
       font-weight: 600;
-      padding: 10px;
-      border-radius: 10px;
-      background-color: white;
     }
   }
 
