@@ -6,6 +6,38 @@
   height: 100%;
   position: relative;
 
+  .hitchhike {
+    position: absolute;
+    right: 10px;
+    top: 110px;
+    z-index: 1000;
+
+    @include project-md {
+      right: 20px;
+      top: 20px;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $blueWood;
+      border: 2px solid $gray0;
+      background-color: $white;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+
+      @include project-md {
+        width: 50px;
+        font-size: 30px !important;
+        height: 50px;
+      }
+    }
+  }
+
   .main-filter-bar {
     background-color: white;
     width: 100%;
@@ -16,7 +48,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    //overflow-y: auto;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
     z-index: 1000;
     transition: left 300ms linear;
@@ -43,9 +74,9 @@
         .trigger {
           color: $blueWood;
           background-color: $white;
-          width: 29px;
-          height: 29px;
-          border-radius: 10px;
+          width: 30px;
+          height: 30px;
+          border: 2px solid $gray0;
 
           .icon {
             font-size: 20px;
@@ -128,6 +159,7 @@
       }
     }
   }
+
   .second-item {
     height: 100%;
     overflow: hidden;

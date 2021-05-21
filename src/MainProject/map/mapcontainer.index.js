@@ -12,36 +12,9 @@ import Mapfilterbar from "./mapfilterbar.index"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
 import iconHandler from "./iconhandler.index"
-
-export const englishCategorytoPersian = {
-    "interesting_places": "مکان های دیدنی",
-    "religion": "مذهبی",
-    "cultural": "فرهنگی",
-    "historic": "تاریخی",
-    "industrial_facilities": "امکانات صنعتی",
-    "natural": "طبیعت",
-    "other": "سایر",
-    "tourist_facilities": "امکانات توریستی",
-    "transport": "وسایل نقلیه",
-    "shops": "فروشگاه",
-    "foods": "غذا خوری",
-    "banks": "بانک",
-    "car_rental": "اجاره ماشین",
-    "car_sharing": "اجاره ماشین",
-    "car_wash": "کارواش",
-    "bicycle_rental": "اجاره دوچرخه",
-    "boat_sharing": "لنگرگاه",
-    "fuel": "پمپ سوخت",
-    "restaurants": "رستوران",
-    "cafes": "کافی شاپ",
-    "fast_food": "فست فود",
-    "food_courts": "فود کورت",
-    "picnic_sites": "محوطه پیکنیک",
-    "sport": "ورزشی",
-    "amusements": "سرگرمی",
-    "accomodations": "اقامتگاه",
-}
-
+import {EnglishCategoryToPersian} from "./translateCategory";
+import {Tooltip} from "antd";
+import DriverModal from "../DriverModal/drivermodal.index";
 
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -62,8 +35,8 @@ const MapContainer = (props) => {
         // console.log(splitcateg)
         const persianCategArray = []
         splitcateg.map(cat => {
-                if (englishCategorytoPersian[cat]) {
-                    persianCategArray.push(englishCategorytoPersian[cat])
+                if (EnglishCategoryToPersian[cat]) {
+                    persianCategArray.push(EnglishCategoryToPersian[cat])
                 }
             }
         )
@@ -120,13 +93,9 @@ const MapContainer = (props) => {
                             } else {
                                 setImage(data.data.image)
                             }
-
                         }
                     }
-
-
                 }
-
             })
         })
     }
@@ -178,6 +147,7 @@ const MapContainer = (props) => {
                             onClick={() => markercordinate(arr.xid)}
                             anchor="bottom"
                             Image={iconHandler(arr.kinds, user, isPublic)}
+                            style={{cursor: "pointer"}}
                         >
                         </Mapir.Marker>)
                     })
@@ -211,9 +181,14 @@ const MapContainer = (props) => {
                 cover={image}
                 address={address}
             /> : null}
-            {/*<div className="hitchhike">*/}
-            {/*    <i className="material-icons">person</i>*/}
-            {/*</div>*/}
+            {props.driverModalShow ? <DriverModal/> : null}
+            <div className="hitchhike">
+                <Tooltip style={{direction: "rtl"}} placement="left"
+                         title="سفیر هیچ هایک">
+                    <i onClick={() => props.setDriverModal()} className="material-icons icon">thumb_down_alt</i>
+                    {/*<img onClick={() => props.setDriverModal()} className="sss" src={hitchhiker} alt="mmd"/>*/}
+                </Tooltip>
+            </div>
             <div className="second-item">
                 <Mapir
                     center={[lon, lat]}
@@ -247,13 +222,14 @@ const mapStateToProps = (state) => ({
     selectedKeys: state.map.selectedKeys,
     searchMarker: state.map.searchMarkerArray,
     modalDetailsShow: state.map.modalDetailsShow,
+    driverModalShow: state.map.driverModalShow,
     current: state.map.current,
-
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
         setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
+        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
     }
 }
 

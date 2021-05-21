@@ -5,13 +5,17 @@ import cover from '../../assets/images/add-landscapes-default.png'
 import Input from "../../utilities/components/input/input.index";
 import Mapir from "mapir-react-component";
 import Map from "../map/mapbase.index";
-import {APIPath} from "../../data";
+import {APIPath, RoutePath} from "../../data";
 import {get, responseValidator, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
-import {Checkbox, Dropdown, Menu, Progress, Button, Spin} from 'antd';
+import {Checkbox, Button, Spin, Select} from 'antd';
 import 'antd/dist/antd.css';
+import {EnglishCategoryToPersian} from "../map/translateCategory";
+import {useHistory} from "react-router-dom";
+
+const {Option} = Select;
 
 const AddLandscapes = (props) => {
     const fileRef = useRef(null)
@@ -29,8 +33,7 @@ const AddLandscapes = (props) => {
     const [isChoose, setIsChoose] = useState(false)
     const uploadTools = useRef(null)
     const [dropDownData, setDropDownData] = useState(null);
-    const [visible, setVisible] = useState(false);
-    const [catButton, setCatButton] = useState(null)
+    const history = useHistory()
 
 
     useEffect(() => {
@@ -72,7 +75,9 @@ const AddLandscapes = (props) => {
                     form.append("description", description)
                 }
                 if (category) {
-                    form.append('kinds', [category])
+                    category.map((item) => {
+                        form.append('kinds', item)
+                    })
                 }
                 if (type) {
                     form.append("is_private", type)
@@ -94,13 +99,13 @@ const AddLandscapes = (props) => {
                                     setAddress(null)
                                     setDescription(null)
                                     setType(null)
-                                    setCatButton(null)
                                     setCategory(null)
                                     setType(false)
                                     setLang(51.41021530151241)
                                     setLat(35.72079898251745)
                                     setIsChoose(false)
                                     setImageName(null)
+                                    history.push(RoutePath.dashboard.myLandscapes)
                                 }, 1500);
                             } else {
                                 resolve(true)
@@ -109,7 +114,6 @@ const AddLandscapes = (props) => {
                                 setDescription(null)
                                 setCategory(null)
                                 setType(false)
-                                setCatButton(null)
                                 setLang(51.41021530151241)
                                 setLat(35.72079898251745)
                                 setIsChoose(false)
@@ -123,37 +127,41 @@ const AddLandscapes = (props) => {
         }
     }
 
-    const menu = (
-        <Menu style={{maxHeight: "200px", overflow: "auto"}}>
-            {
-                dropDownData ? dropDownData.map((item, index) => (
-                    <div key={index} onClick={(e) => {
-                        setCategory([index+1]);
-                        setCatButton(e.target.innerText);
-                        setVisible(false)
-                    }}
-                         style={{
-                             width: "100%",
-                             display: "flex",
-                             justifyContent: "flex-end",
-                             fontWeight: 500,
-                             cursor: "pointer",
-                             padding: "5px 10px 5px 5px"
-                         }}>
-                        {item.title}
-                    </div>
-                )) : <div style={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    padding: "10px 10px",
-                    justifyContent: "center"
-                }}>
-                    <Spin/>
-                </div>
+    function handleChange(value) {
+        let temp = value
+        let data = []
+        for (let i = 0; i < temp.length; i++) {
+            for (let j = 0; j < dropDownData.length; j++) {
+                let object = dropDownData[j];
+                if (temp[i] == object.title) {
+                    data.push(object.id)
+                }
             }
-        </Menu>
-    );
+        }
+
+        let category = data;
+        category && category.map((item) => {
+            if (1 < item && item < 8) {
+                data.push(1)
+            }
+            if (9 < item && item < 16) {
+                data.push(8)
+                data.push(9)
+            }
+            if (17 < item && item < 22) {
+                data.push(17)
+                data.push(8)
+            }
+            if (item === 16) {
+                data.push(8)
+            }
+            if (item === 22) {
+                data.push(8)
+            }
+        })
+        let uniqueData = [...new Set(data)];
+        setCategory(uniqueData)
+    }
 
     return (
         <div className="add-landscapes-page">
@@ -197,11 +205,33 @@ const AddLandscapes = (props) => {
                            placeholder="نام را وارد کنید."/>
                     <div className="detail-items">
                         <p>دسته بندی</p>
-                        <Dropdown arrow={true} visible={visible} trigger="click" overlay={menu}
-                                  placement="bottomCenter">
-                            <Button onClick={() => setVisible(!visible)} dir="rtl"
-                                    className={catButton ? "cat-button selected" : "cat-button"}>{catButton ? catButton : "دسته بندی را انتخاب کنید."}</Button>
-                        </Dropdown>
+                        <Select
+                            onChange={(e) => e.length < 4 ? handleChange(e) : toast.error('تعداد مجاز انتخاب دسته بندی حداکثر ۳ است')}
+                            mode="tags"
+                            className="multi-select"
+                            onSelect={(e) => e.length <= 3}
+                            placeholder="دسته بندی را انتخاب کنید."
+                            showSearch={false}
+                            searchValue={''}
+                            maxTagCount="responsive"
+                            tokenSeparators={[',']}>
+                            {
+                                dropDownData ? dropDownData.map((item, index) => (
+                                        <Option className="item" value={item.title}
+                                                key={index}><span style={{
+                                            width: "100%",
+                                            display: "flex",
+                                            justifyContent: "flex-end",
+                                            paddingRight: "10px",
+                                            fontSize: "16px",
+                                            fontWeight: 500
+                                        }}>{EnglishCategoryToPersian[item.title]}</span></Option>)) :
+                                    <div>
+                                        <p style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>داده ای
+                                            برای نمایش وجود ندارد</p>
+                                    </div>
+                            }
+                        </Select>
                     </div>
                     <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
