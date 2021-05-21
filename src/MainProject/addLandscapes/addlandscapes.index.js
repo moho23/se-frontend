@@ -213,6 +213,7 @@ const AddLandscapes = (props) => {
                             placeholder="دسته بندی را انتخاب کنید."
                             showSearch={false}
                             searchValue={''}
+                            maxTagCount="responsive"
                             tokenSeparators={[',']}>
                             {
                                 dropDownData ? dropDownData.map((item, index) => (

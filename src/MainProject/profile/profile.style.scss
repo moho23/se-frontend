@@ -9,17 +9,6 @@
   height: 100%;
   text-align: right;
 
-  .title {
-    width: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-
-    h2 {
-      color: $creamLight;
-      padding: 20px;
-    }
-  }
-
   .image-div {
     display: flex;
     width: 100%;
@@ -61,7 +50,6 @@
     display: flex;
     flex-direction: column;
     padding: 25px 50px;
-    margin-top: 35px;
 
     .edit-confirm-button {
       margin-top: 20px;
@@ -69,6 +57,14 @@
       max-width: 80px;
       height: 38px;
       font-weight: normal;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      color: $white;
+
+      &:hover {
+        color: white;
+      }
     }
 
     .editable {
@@ -81,19 +77,69 @@
 
     .item-detail {
       flex: 1;
-      width: 100%;
       display: flex;
       flex-direction: column;
-      margin-top: 16px;
+      margin-top: 0;
 
       @include project-md {
         flex-direction: row-reverse;
+        margin-top: 15px;
       }
 
       .item {
         width: 100%;
         display: flex;
         padding: 5px;
+      }
+
+      .detail-items {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+
+        span {
+          display: flex;
+          width: 100%;
+          flex: 1;
+        }
+
+        .selected {
+          color: $black !important;
+        }
+
+        .disabled {
+          background-color: $creamLight !important;
+          cursor: not-allowed !important;
+          opacity: 0.5 !important;
+        }
+
+
+        .state-button {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          background-color: $creamLight;
+          font-size: 16px;
+          margin-bottom: 6px;
+          height: 44px;
+          padding: 0 18px;
+          outline: none;
+          color: $gray;
+          font-weight: 500;
+          border: none;
+          border-radius: 5px;
+        }
+
+        p {
+          color: $creamLight;
+          font-size: 16px;
+          margin-bottom: 6px;
+          font-weight: 600;
+          direction: rtl;
+          text-align: right;
+        }
       }
     }
   }
