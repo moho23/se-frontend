@@ -19,7 +19,7 @@ const MyLandscapes = () => {
                 console.log(data.data)
                 setLandscapes(data.data)
             } else {
-                toast.error("مجددا تلاش کنید.");
+                toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
         });
     }, [])
@@ -27,24 +27,28 @@ const MyLandscapes = () => {
     return (
         <div className='my-landscape-page'>
             {
-                landscapes ?
-                    landscapes.map((item) => (
-                        <div className="landscapes-card">
-                            <div className="cover-div">
-                                <img alt='cover-landscapes' className="cover"
-                                     src={item.image[0] ? item.image[0] : cover}/>
-                            </div>
-                            <div className='content'>
-                                <p className="name">{item.name}</p>
-                                <p className="address">{item.address}</p>
-                                <p className={check ? "description" : "description-no"}>{item.description}</p>
-                            </div>
+                landscapes &&
+                landscapes.map((item) => (
+                    <div className="landscapes-card">
+                        <div className="cover-div">
+                            <img alt='cover-landscapes' className="cover"
+                                 src={item.image[0] ? item.image[0] : cover}/>
                         </div>
-                    )) : <div className="no-data">
-                        <img src={noData} alt="no-data"/>
-                        <p>!متاسفانه مکان ثبت شده ای نداری</p>
-                        <Link className="to-add-landscape" to={RoutePath.dashboard.addLandscapes}>مکان خودتو ثبت کن</Link>
+                        <div className='content'>
+                            <p className="name">{item.name}</p>
+                            <p className="address">{item.address}</p>
+                            <p className={check ? "description" : "description-no"}>{item.description}</p>
+                        </div>
                     </div>
+                ))
+            }
+            {
+                landscapes &&
+                landscapes.length === 0 && <div className="no-data">
+                    <img src={noData} alt="no-data"/>
+                    <p>!متاسفانه مکان ثبت شده ای نداری</p>
+                    <Link className="to-add-landscape" to={RoutePath.dashboard.addLandscapes}>مکان خودتو ثبت کن</Link>
+                </div>
             }
         </div>
     )
