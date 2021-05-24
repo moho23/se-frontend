@@ -3,11 +3,13 @@ import "./profile.style.scss";
 import cover from "../../assets/images/static.png";
 import Input from "../../utilities/components/input/input.index";
 import {connect} from "react-redux";
-import Button from "../../utilities/components/button/button.index";
 import {responseValidator, upload} from "../../scripts/api";
 import {APIPath} from "../../data";
 import {toast} from "react-toastify";
-import {setUserData} from "../../redux/actions";
+import {setUserData} from "../../redux/register/actions";
+import {Button, Dropdown, Menu} from "antd";
+import {StatesList} from "../register/signup/states";
+import useOnBlur from "../../scripts/useOnBlur";
 
 const Profile = (props) => {
 
@@ -22,11 +24,16 @@ const Profile = (props) => {
     const [isEdit, setIsEdit] = useState(true)
     const fileRef = useRef(null)
     const uploadTools = useRef();
+    const [visible, setVisible] = useState(false);
+    const [stateButton, setStateButton] = useState(userInfos.city);
+    const ddRef = useRef(null)
 
 
     function onEditHandler() {
         setIsEdit(!isEdit)
     }
+
+    useOnBlur(ddRef, () => setVisible(false))
 
     function onConfirmHandler() {
         setIsEdit(!isEdit);
@@ -79,6 +86,30 @@ const Profile = (props) => {
         }
     }
 
+    const menu = (
+        <Menu style={{maxHeight: "250px", overflow: "auto"}}>
+            {
+                StatesList && StatesList.map((item, index) => (
+                    <div key={index} onClick={(e) => {
+                        setCity(e.target?.innerText);
+                        setStateButton(e.target?.innerText);
+                    }}
+                         style={{
+                             display: "flex",
+                             justifyContent: "flex-end",
+                             fontWeight: 500,
+                             cursor: "pointer",
+                             padding: "10px 10px",
+                         }}
+
+                    >
+                        {item.slug}
+                    </div>
+                ))
+            }
+        </Menu>
+    );
+
 
     return (
         <div className="profile-main-page">
@@ -93,7 +124,7 @@ const Profile = (props) => {
                            }}
                            className="edit-button"/>
                     {isEdit ? "" :
-                        <i onClick={() => fileRef.current.click()} className="material-icons edit-icon">edit</i>}
+                        <i onClick={() => fileRef.current?.click()} className="material-icons edit-icon">edit</i>}
                 </div>
             </div>
             <div className="details">
@@ -101,9 +132,14 @@ const Profile = (props) => {
                     <Input value={username} disabled={isEdit} onChange={(e) => setUsername(e)}
                            className="item"
                            label="نام کاربری"/>
-                    <Input value={city} disabled={isEdit} onChange={(e) => setCity(e)}
-                           className="item"
-                           label="شهر"/>
+                    <div ref={ddRef} className="detail-items">
+                        <p>استان</p>
+                        <Dropdown arrow={true} visible={!isEdit ? visible : false} trigger="click" overlay={menu}
+                                  placement="bottomCenter">
+                            <Button disabled={isEdit} onClick={() => setVisible(!visible)} dir="rtl"
+                                    className={stateButton ? `${isEdit ? "state-button selected disabled" : "state-button selected"}` : "state-button"}>{stateButton ? stateButton : "استان خود را انتخاب کنید."}</Button>
+                        </Dropdown>
+                    </div>
                 </div>
                 <div className="item-detail">
                     <Input value={firstname} disabled={isEdit} onChange={(e) => setFirstname(e)} className="item"
@@ -121,10 +157,10 @@ const Profile = (props) => {
                 {
                     isEdit ? <Button
                             className={`edit-confirm-button editable`}
-                            onClick={onEditHandler} text="ویرایش"/> :
+                            onClick={onEditHandler}>ویرایش</Button> :
                         <Button
                             className={`edit-confirm-button not-editable`}
-                            onClick={onConfirmHandler} text="تایید"/>
+                            onClick={onConfirmHandler}>تایید</Button>
                 }
             </div>
         </div>
@@ -133,7 +169,7 @@ const Profile = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    userData: state.userData,
+    userData: state.register.userData,
 });
 const connector = connect(mapStateToProps);
 export default connector(Profile);

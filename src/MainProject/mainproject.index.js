@@ -9,7 +9,11 @@ import {connect} from "react-redux";
 import {projectInitialize} from "./mainproject.scripts";
 import Profile from "./profile/profile.index";
 import MapContainer from "./map/mapcontainer.index";
-import Details from "./detailsLandscapes/detailsLandscapes.index";
+import ModalDetails from "./modalDetailsLand/modalDetailsLands.index"
+import myLandscapes from "./myLandscapes/myLandscapes.index";
+import AddLandscapes from "./addLandscapes/addlandscapes.index";
+import DriverTravels from "./driverTravels/driverTravels.index"
+
 
 
 const MainProject = (props) => {
@@ -56,8 +60,13 @@ const MainProject = (props) => {
                                     <div className="project-content">
                                         <Switch>
                                             <Route path={RoutePath.dashboard.profile} component={Profile}/>
-                                            <Route path={RoutePath.map.index} component={MapContainer}></Route>
-                                            <Route path={RoutePath.dashboard.details} component={Details}/>
+                                            <Route path={RoutePath.dashboard.details} component={ModalDetails}/>
+                                            <Route path={RoutePath.dashboard.myLandscapes} component={myLandscapes}/>
+                                            <Route path={RoutePath.dashboard.driverTravels} component={DriverTravels}/>
+                                            <Route path={RoutePath.dashboard.addLandscapes}
+                                                   component={AddLandscapes}/>
+                                            <Route path={RoutePath.map.index} component={MapContainer} />
+                                            {/*<Route path={RoutePath.dashboard.details} component={Details}/>*/}
                                             <Route path="*">
                                                 <Redirect to={RoutePath.dashboard.index}/>
                                             </Route>
@@ -75,7 +84,7 @@ const MainProject = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    isAuth: state.authStatus,
+    isAuth: state.register.authStatus,
 });
 const connector = connect(mapStateToProps);
 export default connector(MainProject);

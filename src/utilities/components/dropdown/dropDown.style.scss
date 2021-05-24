@@ -1,0 +1,64 @@
+@import '../../references/index';
+
+.drop-down-select {
+  width: fit-content;
+  margin-bottom: 1rem;
+
+  > label {
+    color: $creamLight;
+    padding: 0 0 12px 0;
+    font-size: 14px;
+  }
+
+  p.input-error {
+    text-align: inherit;
+    margin-top: 6px;
+    font-size: 10px;
+    color: $red;
+    padding: 0 13px;
+    transition: 0.2s;
+  }
+
+  p.input-hint {
+    font-size: 10px;
+    padding: 0 13px;
+    margin-top: 6px;
+    color: #b8b8b8;
+  }
+}
+
+.drop-down-select-menu {
+  transition: color 0.15s ease 0s, background-color 0.15s ease 0s;
+  position: absolute;
+  min-width: 160px;
+  padding: 4px 0;
+  list-style: none;
+  background-clip: padding-box;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  margin: 0;
+  background-color: white;
+  color: rgb(51, 51, 51);
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  z-index: 10000;
+  width: fit-content;
+  .items {
+    padding: 6px 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: flex-end;
+
+    &:hover {
+      background-color: #d7dade;
+      cursor: pointer;
+    }
+
+    > div {
+      display: flex;
+
+      > span {
+        padding: 0 6px;
+      }
+    }
+  }
+}

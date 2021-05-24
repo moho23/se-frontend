@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import './sidebar.style.scss';
-import static_profile from "../../assets/images/static.png"
-import {NavLink} from 'react-router-dom';
+import React, {useEffect, useState, } from "react";
+import "./sidebar.style.scss";
+import static_profile from "../../assets/images/static.png";
+import {NavLink,useHistory} from "react-router-dom";
 import {RoutePath} from "../../data";
 import {authToken} from "../../scripts/storage";
-import {setAuth, setUserData} from "../../redux/actions";
+import {setAuth, setUserData} from "../../redux/register/actions";
 import {connect} from "react-redux";
 
 const Sidebar = (props) => {
     const [status, setStatus] = useState(props.isOpen);
     const detail = props.information;
+    const history=useHistory()
 
     useEffect(() => {
         setStatus(props.isOpen);
@@ -22,13 +23,20 @@ const Sidebar = (props) => {
     }
 
     return (
-        <div className={`project-sidebar-page ${status ? 'is-open' : ''}`}>
+        <div className={`project-sidebar-page ${status ? "is-open" : ""}`}>
             <div className="artist-details">
-                <img src={detail && detail.profile_picture ? detail.profile_picture : static_profile} alt={detail.username}/>
+            <img onClick={()=> history.push(RoutePath.dashboard.profile) }
+                    src={
+                        detail && detail.profile_picture
+                            ? detail.profile_picture
+                            : static_profile
+                    }
+                    alt={detail.username}
+                />
                 <p>{detail && detail.username}@</p>
             </div>
             <div className="sidebar-items">
-                <NavLink
+                {/* <NavLink
                     to={RoutePath.dashboard.profile}
                     onClick={() => setStatus(false)}
                     activeClassName="active"
@@ -36,7 +44,7 @@ const Sidebar = (props) => {
                 >
                     <i className="material-icons">person</i>
                     <p>پروفایل</p>
-                </NavLink>
+                </NavLink> */}
 
                 <NavLink
                     to={RoutePath.map.index}
@@ -47,19 +55,40 @@ const Sidebar = (props) => {
                     <i className="material-icons">map</i>
                     <p>نقشه</p>
                 </NavLink>
-                {/* <NavLink
-                    to={RoutePath.dashboard.details}
+
+                <NavLink
+                    to={RoutePath.dashboard.addLandscapes}
                     onClick={() => setStatus(false)}
                     activeClassName="active"
-                    className="row-item"
+                    className="row-item map"
                 >
-                    <i className="material-icons">person</i>
-                    <p>اطلاعات مکان</p>
-                </NavLink> */}
-
+                    <i className="material-icons">add</i>
+                    <p>ثبت مکان</p>
+                </NavLink>
+                <NavLink
+                    to={RoutePath.dashboard.myLandscapes}
+                    onClick={() => setStatus(false)}
+                    activeClassName="active"
+                    className="row-item map"
+                >
+                    <i className="material-icons">gps_fixed</i>
+                    <p>مکان های من</p>
+                </NavLink>
+                <NavLink
+                    to={RoutePath.dashboard.driverTravels}
+                    onClick={() => setStatus(false)}
+                    activeClassName="active"
+                    className="row-item map"
+                >
+                    <i className="material-icons">explore</i>
+                    <p>سفرهای من</p>
+                </NavLink>
                 <span/>
-
-                <NavLink to={RoutePath.account.signin} onClick={logout} className="row-item end-item">
+                <NavLink
+                    to={RoutePath.account.signin}
+                    onClick={logout}
+                    className="row-item end-item"
+                >
                     <i className="material-icons reverse-icon">logout</i>
                     <p>خروج</p>
                 </NavLink>
@@ -69,8 +98,8 @@ const Sidebar = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    text: state.language,
-    information: state.userData,
+    text: state.register.language,
+    information: state.register.userData,
 });
 
 const connector = connect(mapStateToProps);

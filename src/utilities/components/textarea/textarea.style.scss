@@ -1,0 +1,48 @@
+@import '../../references/index';
+
+.hawdam-textarea {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    color: $creamLight;
+    font-size: 16px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    direction: rtl;
+    text-align: right;
+  }
+
+  textarea {
+    height: 116px;
+    resize: none;
+    padding: 10px 24px;
+    background-color: $creamLight;
+    outline: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: $black;
+    border: none;
+    direction: rtl;
+    border-radius: 5px;
+
+    ::placeholder {
+      color: $grayLight;
+      font-size: 16px;
+    }
+  }
+
+  > p {
+    font-size: 12px;
+    color: $red;
+    max-height: 0px;
+    opacity: 0;
+    transition: 0.3s;
+    overflow: hidden;
+
+    &.active {
+      max-height: 18px;
+      opacity: 1;
+    }
+  }
+}

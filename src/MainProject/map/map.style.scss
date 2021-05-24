@@ -1,14 +1,167 @@
 @import "../../utilities/references/index";
 
-.map-main-page{
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
+.map-main-page {
+  width: 100%;
+  overflow-y: hidden;
+  height: 100%;
+  position: relative;
+
+  .hitchhike {
     position: absolute;
+    right: 10px;
+    top: 110px;
+    z-index: 1000;
+
     @include project-md {
-        position: absolute;
-        // height: 100%;
-        // width: 100%;
+      right: 20px;
+      top: 20px;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $blueWood;
+      border: 2px solid $gray0;
+      background-color: $white;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+
+      @include project-md {
+        width: 50px;
+        font-size: 30px !important;
+        height: 50px;
       }
+    }
+  }
+
+  .main-filter-bar {
+    background-color: white;
+    width: 100%;
+    max-width: 240px;
+    min-width: 240px;
+    flex-direction: column;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+    z-index: 1000;
+    transition: left 300ms linear;
+
+    &.is-open {
+      left: -240px !important;
+    }
+
+    .filterBar-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      .trigger-div {
+        position: absolute;
+        top: 10px;
+        right: -40px;
+        background-color: white;
+        z-index: 10000;
+        transition: right 300ms linear;
+        border-radius: 5px;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, .15);
+
+        .trigger {
+          color: $blueWood;
+          background-color: $white;
+          width: 30px;
+          height: 30px;
+          border: 2px solid $gray0;
+
+          .icon {
+            font-size: 20px;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .content {
+        height: 100vh;
+        overflow-y: auto;
+        padding: 15px;
+
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        .stepper {
+          width: 100%;
+          direction: rtl;
+          flex-direction: column;
+        }
+
+        .search-label {
+          font-weight: 600;
+          margin-bottom: 10px;
+          color: $navyLight;
+          direction: rtl;
+        }
+
+        .stepper-label {
+          font-weight: 600;
+          direction: rtl;
+          margin-bottom: 10px;
+          color: $navyLight;
+        }
+
+        .selector-label {
+          width: 100%;
+          color: $navyLight;
+          font-weight: 600;
+          direction: rtl;
+          margin-bottom: 10px;
+        }
+
+        .simple-selector {
+          width: 100%;
+          display: flex;
+          direction: rtl;
+        }
+
+        .around-places {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+
+          .around {
+            margin-left: 5px;
+            display: flex;
+            direction: rtl;
+          }
+        }
+
+        .search-box {
+          direction: rtl;
+        }
+
+        .check-box {
+          display: flex;
+          width: 100%;
+          justify-content: flex-start;
+          overflow: auto;
+          direction: rtl;
+        }
+      }
+    }
+  }
+
+  .second-item {
+    height: 100%;
+    overflow: hidden;
+  }
 }

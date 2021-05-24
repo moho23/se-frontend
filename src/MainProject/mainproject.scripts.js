@@ -1,6 +1,6 @@
 import { get, responseValidator } from '../scripts/api';
 import { authToken } from '../scripts/storage';
-import { setAuth, setUserData } from '../redux/actions';
+import { setAuth, setUserData } from '../redux/register/actions';
 import { APIPath } from '../data';
 
 export const projectInitialize = (dispatch) => {
