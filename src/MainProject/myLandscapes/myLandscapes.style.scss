@@ -102,18 +102,37 @@
         margin-bottom: 8px;
       }
 
-      .delete {
+      .end-line-button {
         margin-top: 5px;
         display: flex;
-        color: $white;
-        width: 50px;
-        border-radius: 5px;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        background-color: #f34e4e;
+
+        .delete {
+          display: flex;
+          color: $white;
+          width: 50px;
+          border-radius: 5px;
+          justify-content: center;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          background-color: #f34e4e;
+          margin-left: 5px;
+        }
+
+        .edit {
+          display: flex;
+          color: $white;
+          width: 50px;
+          border-radius: 5px;
+          justify-content: center;
+          margin-right: 5px;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          background-color: $blueWood;
+        }
       }
+
 
       span {
         display: flex;

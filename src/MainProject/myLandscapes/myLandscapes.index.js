@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import './myLandscapes.style.scss'
 import cover from '../../assets/images/add-landscapes-default.png';
 import {APIPath, RoutePath} from "../../data";
@@ -7,11 +7,26 @@ import {toast} from "react-toastify";
 import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 import {Button, Modal, Tooltip} from "antd";
+import Draggable from "react-draggable";
 
 
 const MyLandscapes = () => {
 
     const [landscapes, setLandscapes] = useState(null);
+    const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
+    const [disabled, setDisabled] = useState(true);
+    const draggleRef = useRef();
+
+    function onStart(event, uiData) {
+        const {clientWidth, clientHeight} = window?.document?.documentElement;
+        const targetRect = draggleRef?.current?.getBoundingClientRect();
+        setBounds({
+            left: -targetRect?.left + uiData?.x,
+            right: clientWidth - (targetRect?.right - uiData?.x),
+            top: -targetRect?.top + uiData?.y,
+            bottom: clientHeight - (targetRect?.bottom - uiData?.y),
+        })
+    }
 
     useEffect(() => {
         get(APIPath.map.myLandscapes).then((data) => {
@@ -67,7 +82,10 @@ const MyLandscapes = () => {
                                 <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
                             </Tooltip>
                             <span/>
-                            <p className="delete" onClick={showModal}>حذف</p>
+                            <div className="end-line-button">
+                                <p className="edit" >ویرایش</p>
+                                <p className="delete" onClick={showModal}>حذف</p>
+                            </div>
                         </div>
                     </div>
                 ))
@@ -78,31 +96,54 @@ const MyLandscapes = () => {
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}
+                modalRender={modal => (
+                    <Draggable
+                        disabled={disabled}
+                        bounds={bounds}
+                        onStart={(event, uiData) => onStart(event, uiData)}
+                    >
+                        <div ref={draggleRef}>{modal}</div>
+                    </Draggable>
+                )}
                 className="modal"
                 footer={<div style={{display: "flex", width: "100%"}}>
-                    <Button style={{
-                        outline: "none",
-                        border: "none",
-                        color: "white",
-                        backgroundColor: "green",
-                        borderRadius: "5px"
-                    }}>تایید</Button>
-                    <Button style={{
-                        outline: "none",
-                        border: "none",
-                        backgroundColor: "orange",
-                        borderRadius: "5px"
-                    }}>لغو</Button>
+                    <Button
+                        onClick={handleOk}
+                        style={{
+                            outline: "none",
+                            border: "none",
+                            color: "white",
+                            backgroundColor: "green",
+                            borderRadius: "5px"
+                        }}>تایید</Button>
+                    <Button
+                        onClick={handleCancel}
+                        style={{
+                            outline: "none",
+                            border: "none",
+                            backgroundColor: "orange",
+                            borderRadius: "5px",
+                        }}>لغو</Button>
                 </div>}
             >
-                <p style={{
-                    marginTop: "25px",
-                    marginBottom: "-10px",
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "flex-end",
-                    fontWeight: 500
-                }} className="modal-text">آیا
+                <p
+                    onMouseOver={() => {
+                        if (disabled) {
+                            setDisabled(false)
+                        }
+                    }}
+                    onMouseOut={() => {
+                        setDisabled(true)
+                    }}
+                    style={{
+                        marginTop: "25px",
+                        marginBottom: "-10px",
+                        display: "flex",
+                        width: "100%",
+                        cursor: 'move',
+                        justifyContent: "flex-end",
+                        fontWeight: 500
+                    }} className="modal-text">آیا
                     از حذف این مکان مطمئن هستید؟</p>
             </Modal>
             {
