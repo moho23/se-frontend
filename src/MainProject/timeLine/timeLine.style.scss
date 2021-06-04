@@ -1,6 +1,6 @@
 @import "../../utilities/references/index";
 
-.my-landscape-page {
+.time-line-page {
   display: flex;
   padding: 30px;
   flex-wrap: wrap;
@@ -46,19 +46,9 @@
       color: $orangeDark;
       font-weight: 600;
     }
-
-    .to-add-landscape {
-      background-color: white;
-      margin-top: 10px;
-      font-size: 16px;
-      display: flex;
-      font-weight: 600;
-      padding: 10px;
-      border-radius: 10px;
-    }
   }
 
-  .landscapes-card {
+  .time-line-card {
     display: flex;
     flex: 1;
     @include project-size(min-width, 350px, 300px);

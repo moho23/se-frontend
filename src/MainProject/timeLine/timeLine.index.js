@@ -65,11 +65,11 @@ const TimeLine = () => {
 
     return (
         
-        <div className='my-landscape-page'>
+        <div className='time-line-page'>
             {
                 landscapes &&
                 landscapes.map((item) => (
-                    <div className="landscapes-card">
+                    <div className="time-line-card">
                         <div className="cover-div">
                             <img alt='cover-landscapes' className="cover"
                                  src={item.image[0] ? item.image[0] : cover}/>
@@ -129,14 +129,6 @@ const TimeLine = () => {
                         fontWeight: 500
                     }} className="modal-text">جزییات بیشتر این سفر</p>
             </Modal>
-            {
-                landscapes &&
-                landscapes.length === 0 && <div className="no-data">
-                    <img src={noData} alt="no-data"/>
-                    <p>متاسفانه مکان ثبت شده ای نداری</p>
-                    <Link className="to-add-landscape" to={RoutePath.dashboard.addLandscapes}>مکان خودتو ثبت کن</Link>
-                </div>
-            }
         </div>
     )
 }
