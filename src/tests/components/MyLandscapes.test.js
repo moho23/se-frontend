@@ -10,7 +10,7 @@ test('should render MyLandscapes correctly', () => {
 
 test("rendering MyLandscaes component <P> whithout crashing",() =>{
     const wrapper=shallow(<MyLandscapes/>);
-    const p =(<p>!متاسفانه مکان ثبت شده ای نداری</p>);
+    const p =(<p>متاسفانه مکان ثبت شده ای نداری</p>);
     expect(wrapper.contains(p)).toEqual(true);
 })
 

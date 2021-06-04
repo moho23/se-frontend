@@ -24,7 +24,6 @@ import {rootReducer} from "../../redux/store"
 //   ))
 // }))
 
-
 const mockChildComponent = jest.fn();
 jest.mock("../../utilities/components/input/input.index", () => (props) => {
   mockChildComponent(props);

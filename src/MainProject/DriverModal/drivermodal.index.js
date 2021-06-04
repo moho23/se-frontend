@@ -74,7 +74,7 @@ const DriverModal = (props) => {
             post(APIPath.hichhike.create, DriverForm).then((data) => {
                 resolve(true);
                 if (responseValidator(data.status)) {
-                    toast.success("درخواست شما به عنوان سفیر موفقیت ثبت شد")
+                    toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
                     props.setDriverModal()
                 } else {
                     if (data.status === 400) {
