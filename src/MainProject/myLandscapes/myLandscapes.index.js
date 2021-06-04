@@ -8,14 +8,18 @@ import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 import {Button, Modal, Tooltip} from "antd";
 import Draggable from "react-draggable";
+import {connect} from "react-redux";
+import * as Actions from "../../redux/myLandscapes/actions"
+import {useHistory} from "react-router-dom";
 
 
-const MyLandscapes = () => {
+const MyLandscapes = (props) => {
 
     const [landscapes, setLandscapes] = useState(null);
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
+    const history=useHistory()
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -52,6 +56,17 @@ const MyLandscapes = () => {
         setVisible(false);
     };
 
+    const editMyLand=(item)=>{
+        props.setItem(item)
+        //-----
+        // props.setName(item.name)
+        // props.setKinds(item.kinds)
+        // props.setAddress(item.address)
+        // props.setDescription(item.description)
+        // props.setImage(item.image)
+        history.push(RoutePath.dashboard.addLandscapes)
+    }
+
     function isPersianOrEnglish(str) {
         const alphabet = "1234567890abcdefghijklmnopqrstuvwxyz";
         const temp = str?.toString()
@@ -83,7 +98,7 @@ const MyLandscapes = () => {
                             </Tooltip>
                             <span/>
                             <div className="end-line-button">
-                                <p className="edit" >ویرایش</p>
+                                <p className="edit" onClick={()=>{editMyLand(item)}}>ویرایش</p>
                                 <p className="delete" onClick={showModal}>حذف</p>
                             </div>
                         </div>
@@ -158,4 +173,17 @@ const MyLandscapes = () => {
     )
 }
 
-export default MyLandscapes;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
+        //
+        // setName: (name) => dispatch({type: Actions.NAME,name:name}),
+        // setKinds: (kinds) => dispatch({type: Actions.KINDS,kinds:kinds}),
+        // setAddress: (address) => dispatch({type: Actions.ADDRESS,address:address}),
+        // setDescription: (description) => dispatch({type: Actions.DESCRIPTION,description:description}),
+        // setImage: (image) => dispatch({type: Actions.IMAGE,image:image}),
+    }
+}
+
+const connector = connect(null, mapDispatchToProps);
+export default connector(MyLandscapes);

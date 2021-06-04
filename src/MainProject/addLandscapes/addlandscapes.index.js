@@ -58,6 +58,39 @@ const AddLandscapes = (props) => {
         setLang(e.lngLat.lng);
     }
 
+    const checkName=()=>{
+        if (props.item!=null)
+            return props.item.name;
+        else return name
+    }
+
+    // const checkKinds=()=>{
+    //     if (props.item!=null)
+    //         return props.item.kinds;
+    //     else return 
+    // }
+
+    const checkAddress=()=>{
+        if (props.item!=null)
+            return props.item.address;
+        else return address
+    }
+
+    const checkDescription=()=>{
+        if (props.item!=null)
+            return props.item.description;
+        else return description
+    }
+
+    const checkImage=()=>{
+        console.log("hi",imageName)
+        console.log("bye",cover)
+        if (props.item!=null)
+            return props.item.image
+        else 
+            return cover
+    }
+
     function onSubmitHandler() {
         if (name && address && isChoose && description && category) {
             return new Promise((resolve) => {
@@ -193,7 +226,7 @@ const AddLandscapes = (props) => {
                         {isUploading ? (
                             <i className="cfi cfi-loader banner-image spin"/>
                         ) : (
-                            <img src={imageName ? imageName : cover}
+                            <img src={checkImage()}
                                  alt="picture"
                                  className="banner-image"
                             />
@@ -201,7 +234,7 @@ const AddLandscapes = (props) => {
                     </div>
                 </div>
                 <div className="items">
-                    <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
+                    <Input onChange={(e) => setName(e)} value={checkName()} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
                     <div className="detail-items">
                         <p>دسته بندی</p>
@@ -233,9 +266,9 @@ const AddLandscapes = (props) => {
                             }
                         </Select>
                     </div>
-                    <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
+                    <Input onChange={(e) => setAddress(e)} value={checkAddress()} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
-                    <TextArea onChange={(e) => setDescription(e)} value={description} className="item"
+                    <TextArea onChange={(e) => setDescription(e)} value={checkDescription()} className="item"
                               label="توضیحات"
                               placeholder="توضیحات را وارد کنید."/>
                     <div className="map-div">
@@ -273,11 +306,15 @@ const AddLandscapes = (props) => {
     )
 }
 
+const mapStateToProps = (state) => ({
+    user: state.register.userData,
+    item: state.myLandscapes.item,
+    // name: state.myLandscapes.name,
+    // kinds: state.myLandscapes.kinds,
+    // address: state.myLandscapes.address,
+    // description: state.myLandscapes.description,
+    // image: state.myLandscapes.image
+});
 
-const mapStateToProps = (state) => (
-    {
-        user: state.register.userData
-    }
-);
-const connector = connect(mapStateToProps);
+const connector = connect(mapStateToProps,);
 export default connector(AddLandscapes);
