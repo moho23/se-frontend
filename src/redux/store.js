@@ -2,7 +2,7 @@ import { createStore , combineReducers} from "redux";
 import Registerreducer from "./register/reducer";
 import Mapreducer from "./map/reducer" 
 
-const rootReducer= combineReducers({
+export const rootReducer= combineReducers({
     register:Registerreducer,
     map:Mapreducer
   })

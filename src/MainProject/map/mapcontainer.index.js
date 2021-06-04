@@ -104,6 +104,16 @@ const MapContainer = (props) => {
         setIsSearchByRadius(mapfilterData)
     }
 
+    const handleSearchByName =(lat,lon,name,image,address,description,category)=>{
+        setName(name)
+        setImage(image)
+        setAddress(address)
+        setDescription(description)
+        setCategory(()=>categoryHandler(category))
+        setLat(lat)
+        setLon(lon)
+    }
+
     const onMapClicked = (map, e) => {
         e.preventDefault();
         console.log("checkedKeys=", props.checkedKeys)
@@ -164,6 +174,7 @@ const MapContainer = (props) => {
             onClick={() => setIsntClicked(false)}
             anchor="bottom"
             Image={markerUrl}
+            style={{cursor: "pointer"}}
         >
         </Mapir.Marker>);
         setMarkerArray(array);
@@ -173,7 +184,7 @@ const MapContainer = (props) => {
 
     return (
         <div className="map-main-page">
-            <Mapfilterbar isFilterOpen={isOpen} isRadius={handleIsSearchByRadius}/>
+            <Mapfilterbar isFilterOpen={isOpen} isRadius={handleIsSearchByRadius} cordinate={handleSearchByName} />
             {props.modalDetailsShow ? <ModalDetails
                 title={name}
                 category={category}

@@ -13,7 +13,6 @@ const DriverTravels = () => {
     const [travels, setTravels] = useState(null);
     const [check, setCheck] = useState(true);
 
-
     useEffect(() => {
         get(APIPath.hichhike.driverTravels).then((data) => {
             console.log("1", data)
