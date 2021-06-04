@@ -4,7 +4,8 @@ export const __APIPath = {
         signin: "account/login/"
     },
     account: {
-        profile: "account/profile/"
+        profile: "account/profile/",
+        timeLine: "account/time_line/"
     },
     map: {
         nearby: "location/get_locations/",
