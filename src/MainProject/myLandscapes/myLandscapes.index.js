@@ -58,12 +58,6 @@ const MyLandscapes = (props) => {
 
     const editMyLand=(item)=>{
         props.setItem(item)
-        //-----
-        // props.setName(item.name)
-        // props.setKinds(item.kinds)
-        // props.setAddress(item.address)
-        // props.setDescription(item.description)
-        // props.setImage(item.image)
         history.push(RoutePath.dashboard.addLandscapes)
     }
 
@@ -176,12 +170,6 @@ const MyLandscapes = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
-        //
-        // setName: (name) => dispatch({type: Actions.NAME,name:name}),
-        // setKinds: (kinds) => dispatch({type: Actions.KINDS,kinds:kinds}),
-        // setAddress: (address) => dispatch({type: Actions.ADDRESS,address:address}),
-        // setDescription: (description) => dispatch({type: Actions.DESCRIPTION,description:description}),
-        // setImage: (image) => dispatch({type: Actions.IMAGE,image:image}),
     }
 }
 

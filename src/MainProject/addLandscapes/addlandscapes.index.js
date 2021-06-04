@@ -83,8 +83,6 @@ const AddLandscapes = (props) => {
     }
 
     const checkImage=()=>{
-        console.log("hi",imageName)
-        console.log("bye",cover)
         if (props.item!=null)
             return props.item.image
         else 
@@ -309,11 +307,6 @@ const AddLandscapes = (props) => {
 const mapStateToProps = (state) => ({
     user: state.register.userData,
     item: state.myLandscapes.item,
-    // name: state.myLandscapes.name,
-    // kinds: state.myLandscapes.kinds,
-    // address: state.myLandscapes.address,
-    // description: state.myLandscapes.description,
-    // image: state.myLandscapes.image
 });
 
 const connector = connect(mapStateToProps,);
