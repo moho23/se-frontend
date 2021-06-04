@@ -326,10 +326,14 @@ const DriverModal = (props) => {
     );
 };
 
+const mapStateToProps = (state) => ({
+    item: state.driverTravels.item
+});
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
     }
 }
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(DriverModal);

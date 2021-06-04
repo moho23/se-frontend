@@ -6,6 +6,8 @@ import {get, responseValidator} from "../../scripts/api";
 import {toast} from "react-toastify";
 import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
+import {connect} from "react-redux";
+import * as Actions from "../../redux/driverTravels/actions"
 
 
 const DriverTravels = () => {
@@ -62,4 +64,11 @@ const DriverTravels = () => {
     )
 }
 
-export default DriverTravels;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
+    }
+}
+
+const connector = connect(null, mapDispatchToProps);
+export default connector(DriverTravels);
