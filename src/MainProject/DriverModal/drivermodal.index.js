@@ -41,6 +41,7 @@ const DriverModal = (props) => {
     const draggableRef = useRef();
     const calenderRef = useRef(null)
     const inputRef = useRef(null)
+    
 
     useOnBlur(sourceRef, () => setVisible1(false))
     useOnBlur(destinationRef, () => setVisible2(false))
@@ -177,11 +178,52 @@ const DriverModal = (props) => {
         setTimePickerValue(date)
     }
 
+    const setCheckEditDestination=(destinationButton)=>{
+        if(props.check){
+            if(props.item!=null)
+                return props.item.destination
+            }
+        else if(destinationButton)
+            return destinationButton
+        else return "مقصد"            
+    }
+
+    const setCheckEditSource=(sourceButton)=>{
+        if(props.check){
+            if(props.item!=null)
+                return props.item.source
+            }
+        else if(sourceButton)
+            return sourceButton
+        else return "مبدا"         
+    }
+
+    const setCheckEditAge=()=>{
+        if(props.check)
+            if(props.item!=null)
+                return props.item.creator_age
+        else return null
+    
+    }
+
+    const setCheckEditNumOfTraveler=()=>{
+        if(props.check)
+            if(props.item!=null)
+                return props.item.fellow_traveler_num
+        else return null
+    
+    }
+
+    const setCheckAndDrivetModal=()=>{
+        props.setDriverModal()
+        props.setCheck(false)
+    }
+
     return (
         <Modal
             visible={true}
-            onOk={() => props.setDriverModal()}
-            onCancel={() => props.setDriverModal()}
+            onOk={() => setCheckAndDrivetModal()}
+            onCancel={() => setCheckAndDrivetModal()}
             okButtonProps={{hidden: true}}
             cancelButtonProps={{hidden: true}}
             className="driver-modal-page"
@@ -221,7 +263,7 @@ const DriverModal = (props) => {
                                 setVisible2(!visible2)
                                 setSourceOrDestination(2)
                             }} dir="rtl"
-                                    className={destinationButton ? "places selected" : "places"}>{destinationButton ? destinationButton : "مقصد"}</Button>
+                                    className={destinationButton ? "places selected" : "places"}>{setCheckEditDestination(destinationButton)}</Button>
                         </Dropdown>
                     </div>
                     <div className="item">
@@ -232,14 +274,14 @@ const DriverModal = (props) => {
                                 setVisible1(!visible1)
                                 setSourceOrDestination(1)
                             }} dir="rtl"
-                                    className={sourceButton ? "places selected" : "places"}>{sourceButton ? sourceButton : "مبدا"}</Button>
+                                    className={sourceButton ? "places selected" : "places"}>{setCheckEditSource(sourceButton)}</Button>
                         </Dropdown>
                     </div>
                 </div>
                 <div className="first-line">
                     <div className="item">
                         <p className="label">سن</p>
-                        <InputNumber min={18} max={99} className="places" onChange={(e) => setAge(e)} />
+                        <InputNumber min={18} max={99} defaultValue={setCheckEditAge()} className="places" onChange={(e) => setAge(e)} />
                     </div>
                     <div className="item">
                         <p className="label">جنسیت</p>
@@ -253,7 +295,7 @@ const DriverModal = (props) => {
                     </div>
                     <div className="item">
                         <p className="label">تعداد مسافران</p>
-                        <InputNumber min={1} max={20} className="places" onChange={(e) => setNumOfTraveler(e)}/>
+                        <InputNumber min={1} max={20} defaultValue={setCheckEditNumOfTraveler()} className="places" onChange={(e) => setNumOfTraveler(e)}/>
                     </div>
                     <div className="item">
                         <p className="label">ساعت</p>
@@ -334,6 +376,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     return {
         setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
+        setCheck:(checkInput) => dispatch({type: Actions.CHECK,checkInput: checkInput}),
     }
 }
 const connector = connect(mapStateToProps, mapDispatchToProps);

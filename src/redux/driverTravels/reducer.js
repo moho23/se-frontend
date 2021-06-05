@@ -21,7 +21,7 @@ const reducer = (state = initialState, action) => {
         case(Actions.CHECK):
             return {
                 ...state,
-                check: !state.check
+                check: action.checkInput
             }
         default:
             return state
