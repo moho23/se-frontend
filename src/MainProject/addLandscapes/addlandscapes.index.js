@@ -60,16 +60,16 @@ const AddLandscapes = (props) => {
         }
         if(props.item){
             if (props.item.image[0]!==null){
-                setImage(props.item.image[0])
-                // setImageName(URL.createObjectURL(props.item.image[0]))
+                // setImage(props.item.image[0])
+                setImageName(props.item.image[0])
             }
             else {
-                setImage(cover)
+                // setImage(cover)
                 setImageName(cover)                
             }
         }
         else {
-            setImage(cover)
+            // setImage(cover)
             setImageName(cover)
         }
 
@@ -287,7 +287,7 @@ const AddLandscapes = (props) => {
                         {isUploading ? (
                             <i className="cfi cfi-loader banner-image spin"/>
                         ) : (
-                            <img src={image}
+                            <img src={imageName}
                                  alt="picture"
                                  className="banner-image"
                             />
@@ -374,3 +374,4 @@ const mapStateToProps = (state) => ({
 
 const connector = connect(mapStateToProps,);
 export default connector(AddLandscapes);
+
