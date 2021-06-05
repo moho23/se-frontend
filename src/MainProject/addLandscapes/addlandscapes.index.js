@@ -14,7 +14,6 @@ import {Checkbox, Button, Spin, Select} from 'antd';
 import 'antd/dist/antd.css';
 import {EnglishCategoryToPersian} from "../map/translateCategory";
 import {useHistory} from "react-router-dom";
-import { setGlobalContainer } from "react-laag";
 
 const {Option} = Select;
 
@@ -43,6 +42,37 @@ const AddLandscapes = (props) => {
                 setDropDownData(res.data)
             }
         })
+        if(props.item){
+            setIsChoose(true)
+            const array = [];
+            array.push(<Mapir.Marker
+                coordinates={[props.item.longitude, props.item.latitude]}
+                anchor="bottom"
+                Image={markerUrl}
+            >
+            </Mapir.Marker>);
+            setMarkerArray(array);
+            setLat(props.item.latitude)
+            setLang(props.item.longitude)
+            setName(props.item.name)
+            setAddress(props.item.address)
+            setDescription(props.item.description)
+        }
+        if(props.item){
+            if (props.item.image[0]!==null){
+                setImage(props.item.image[0])
+                // setImageName(URL.createObjectURL(props.item.image[0]))
+            }
+            else {
+                setImage(cover)
+                setImageName(cover)                
+            }
+        }
+        else {
+            setImage(cover)
+            setImageName(cover)
+        }
+
     }, [])
 
     const reverseFunction = (map, e) => {
@@ -59,68 +89,68 @@ const AddLandscapes = (props) => {
         setLang(e.lngLat.lng);
     }
 
-    const checkLatLon=()=>{
-        if(props.item!=null){
-            setLat(props.item.latitude)
-            setLang(props.item.longitude)
-        }
-    }
-
-    const checkName=()=>{
-        if (props.item!=null){
-            setName(props.item.name)
-            return props.item.name;
-        }
-        else {
-            setName(name)
-            return name
-        }
-    }
-
-    // const checkKinds=()=>{
-    //     if (props.item!=null)
-    //         return props.item.kinds;
-    //     else return
+    // const checkLatLon=()=>{
+    //     if(props.item!=null){
+    //         setLat(props.item.latitude)
+    //         setLang(props.item.longitude)
+    //     }
     // }
 
-    const checkAddress=()=>{
-        if (props.item!=null){
-            setAddress(props.item.address)
-            return props.item.address;
-        }
-        else {
-            setAddress(address)
-            return address
-        }
-    }
+    // const checkName=()=>{
+    //     if (props.item!=null){
+    //         setName(props.item.name)
+    //         return props.item.name;
+    //     }
+    //     else {
+    //         setName(name)
+    //         return name
+    //     }
+    // }
 
-    const checkDescription=()=>{
-        if (props.item!=null){
-            setDescription(props.item,description)
-            return props.item.description;
-        }
-        else {
-            setDescription(description)
-            return description
-        }
-    }
+    // // const checkKinds=()=>{
+    // //     if (props.item!=null)
+    // //         return props.item.kinds;
+    // //     else return
+    // // }
 
-    const checkImage=()=>{
-        if(props.item){
-            if (props.item.image[0]!==null){
-                setImage(props.item.image[0])
-                return props.item.image[0]
-            }
-            else {
-                setImage(cover)
-                return cover
-            }
-        }
-        else {
-            setImage(cover)
-            return cover
-        }
-    }
+    // const checkAddress=()=>{
+    //     if (props.item!=null){
+    //         setAddress(props.item.address)
+    //         return props.item.address;
+    //     }
+    //     else {
+    //         setAddress(address)
+    //         return address
+    //     }
+    // }
+
+    // const checkDescription=()=>{
+    //     if (props.item!=null){
+    //         setDescription(props.item.description)
+    //         return props.item.description;
+    //     }
+    //     else {
+    //         setDescription(description)
+    //         return description
+    //     }
+    // }
+
+    // const checkImage=()=>{
+    //     if(props.item){
+    //         if (props.item.image[0]!==null){
+    //             setImage(props.item.image[0])
+    //             return props.item.image[0]
+    //         }
+    //         else {
+    //             setImage(cover)
+    //             return cover
+    //         }
+    //     }
+    //     else {
+    //         setImage(cover)
+    //         return cover
+    //     }
+    // }
 
     function onSubmitHandler() {
         if (name && address && isChoose && description && category) {
@@ -247,7 +277,7 @@ const AddLandscapes = (props) => {
                                 onChange={(e) => {
                                     setImage(e.target.files[0]);
                                     setImageName(URL.createObjectURL(e.target.files[0]))
-                                    console.log(e.target.files[0])
+                                    console.log("files",e.target.files[0])
                                 }}
                                 ref={fileRef}
                                 accept={`image/*`}
@@ -257,7 +287,7 @@ const AddLandscapes = (props) => {
                         {isUploading ? (
                             <i className="cfi cfi-loader banner-image spin"/>
                         ) : (
-                            <img src={checkImage()}
+                            <img src={image}
                                  alt="picture"
                                  className="banner-image"
                             />
@@ -265,7 +295,7 @@ const AddLandscapes = (props) => {
                     </div>
                 </div>
                 <div className="items">
-                    <Input onChange={(e) => setName(e)} value={checkName()} className="item" label="نام"
+                    <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
                     <div className="detail-items">
                         <p>دسته بندی</p>
@@ -297,9 +327,9 @@ const AddLandscapes = (props) => {
                             }
                         </Select>
                     </div>
-                    <Input onChange={(e) => setAddress(e)} value={checkAddress()} className="item" label="آدرس"
+                    <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
-                    <TextArea onChange={(e) => setDescription(e)} value={checkDescription()} className="item"
+                    <TextArea onChange={(e) => setDescription(e)} value={description} className="item"
                               label="توضیحات"
                               placeholder="توضیحات را وارد کنید."/>
                     <div className="map-div">
