@@ -62,14 +62,16 @@
 
     .cover-div {
       display: flex;
-      width: 100%;
-      height: 200px;
+      //width: 100%;
+      height: 150px;
+      padding-right: 15px;
 
       .cover {
         width: 100%;
         object-fit: cover;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-radius: 100%;
+        height: 150px;
+        width: 150px;
       }
     }
 

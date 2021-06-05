@@ -104,7 +104,6 @@ const DriverTravels = () => {
                                 <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
                             </Tooltip>
                             <span />
-                            <span/>
                             <div className="end-line-button">
                                 <p className="edit" >ویرایش</p>
                                 <p className="delete" onClick={showModal}>حذف</p>
