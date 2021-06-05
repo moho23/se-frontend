@@ -3,32 +3,35 @@
 .my-travels-page {
   display: flex;
   padding: 30px;
-  flex-direction: row-reverse;
-  direction: rtl;
   flex-wrap: wrap;
-
+  flex-direction: row-reverse;
   margin-left: -18px;
+  overflow: auto;
 
   > * {
     margin-left: 18px;
   }
 
-  .grid {
-    min-width: 300px;
+  .my-grid {
+    @include project-size(min-width, 400px, 315px);
     flex: 1;
   }
 
-  @include project-md {
-    flex-direction: row-reverse;
+  .modal-text {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+    font-weight: 600;
+    justify-content: flex-end;
   }
 
   .no-data {
     display: flex;
-    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 35px;
+    padding: 30px;
     border-radius: 10px;
 
     img {
@@ -37,7 +40,6 @@
     }
 
     p {
-      margin-top: -25px;
       display: flex;
       justify-content: center;
       font-size: 18px;
@@ -46,48 +48,28 @@
     }
   }
 
-
   .travels-card {
     display: flex;
-    flex-direction: column;
+    flex: 1;
+    @include project-size(min-width, 400px, 315px);
+    flex-direction: row-reverse;
     align-items: center;
-    height: fit-content;
+    height: 200px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 5px;
-    background-color: $creamLight;
+    background-color: $gray0;
     margin-bottom: 20px;
-    margin-left: 10px;
-    flex: 1;
-    min-width: 300px;
-
-    @include project-md {
-      flex-direction: row-reverse;
-      height: 210px !important;
-
-    }
 
     .cover-div {
       display: flex;
-      height: 160px;
       width: 100%;
-
-      @include project-md {
-        @include project-size(width, 300px, 200px);
-        height: 140px;
-        margin-right: 15px;
-      }
+      height: 200px;
 
       .cover {
-        background-color: $creamLight;
-        display: flex;
         width: 100%;
-        border-radius: 5px;
         object-fit: cover;
-
-        @include project-md {
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-        }
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
       }
     }
 
@@ -98,68 +80,68 @@
       flex-direction: column;
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
-      padding: 20px;
+      padding: 5px 10px;
 
-
-      .source {
+      .fix {
+        width: 100%;
         display: flex;
         justify-content: flex-end;
-        width: 100%;
-        font-weight: 600;
-        font-size: 18px;
+        font-weight: normal;
+        font-size: 14px;
         word-break: break-word;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
       }
 
-      .destination {
-        width: 100%;
+      .end-line-button {
+        margin-top: 5px;
         display: flex;
-        justify-content: flex-end;
-        font-weight: 500;
-        word-break: break-word;
-        font-size: 17px;
+
+        .delete {
+          display: flex;
+          color: $white;
+          width: 50px;
+          border-radius: 5px;
+          justify-content: center;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          background-color: #f34e4e;
+          margin-left: 5px;
+        }
+
+        .edit {
+          display: flex;
+          color: $white;
+          width: 50px;
+          border-radius: 5px;
+          justify-content: center;
+          margin-right: 5px;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          background-color: $blueWood;
+        }
       }
 
-      .traveler {
-        width: 100%;
+
+      span {
         display: flex;
-        justify-content: flex-end;
-        font-weight: 500;
-        word-break: break-word;
-        font-size: 17px;
+        width: 100%;
+        flex: 1;
       }
 
-      .cities {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        font-weight: 500;
-        word-break: break-word;
-        font-size: 17px;
-      }
-
-      .gender {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        font-weight: 500;
-        word-break: break-word;
-        font-size: 17px;
+      .is-english {
+        justify-content: flex-start !important;
+        direction: ltr !important;
       }
 
       .description {
         width: 100%;
-        height: 100px;
         word-break: break-word;
-        font-size: 15px;
-        text-align: right;
-        margin-top: 5px;
-        padding-right: 5px;
-
-        @include project-md {
-          height: 100px;
-          overflow-y: auto;
-        }
+        font-size: 14px;
+        justify-content: flex-end;
+        direction: rtl;
+        height: 100px;
       }
     }
   }
