@@ -85,7 +85,6 @@ const DriverTravels = () => {
                             <img alt='cover-travels' className="cover"
                                  src={item.creator_profile_picture ? item.creator_profile_picture : cover}/>
                         </div>
-
                         <div className='content'>
                              {/* <p className="source">از {item.source}</p>
                             <p className="destination">به {item.destination}</p>
@@ -104,15 +103,13 @@ const DriverTravels = () => {
                             <Tooltip placement="right" title={item.description}>
                                 <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
                             </Tooltip>
+                            <span />
                             <span/>
                             <div className="end-line-button">
                                 <p className="edit" >ویرایش</p>
                                 <p className="delete" onClick={showModal}>حذف</p>
-                            </div>
-                            
-                           
+                            </div>   
                         </div>
-
                     </div>
                 ))
             }
@@ -171,7 +168,7 @@ const DriverTravels = () => {
                         justifyContent: "flex-end",
                         fontWeight: 500
                     }} className="modal-text">آیا
-                    از حذف این مکان مطمئن هستید؟</p>
+                    از حذف این سفر مطمئن هستید؟</p>
             </Modal>
             {
                 travels && travels.length === 0 && <div className="no-data">
