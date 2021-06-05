@@ -2,10 +2,6 @@ import * as Actions from './actions'
 
 const initialState = {
     item: null,
-    name:null,
-    address:null,
-    description:null,
-    image:null,
 }
 
 const reducer = (state = initialState, action) => {

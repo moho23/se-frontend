@@ -14,6 +14,7 @@ import {Checkbox, Button, Spin, Select} from 'antd';
 import 'antd/dist/antd.css';
 import {EnglishCategoryToPersian} from "../map/translateCategory";
 import {useHistory} from "react-router-dom";
+import { setGlobalContainer } from "react-laag";
 
 const {Option} = Select;
 
@@ -58,35 +59,67 @@ const AddLandscapes = (props) => {
         setLang(e.lngLat.lng);
     }
 
+    const checkLatLon=()=>{
+        if(props.item!=null){
+            setLat(props.item.latitude)
+            setLang(props.item.longitude)
+        }
+    }
+
     const checkName=()=>{
-        if (props.item!=null)
+        if (props.item!=null){
+            setName(props.item.name)
             return props.item.name;
-        else return name
+        }
+        else {
+            setName(name)
+            return name
+        }
     }
 
     // const checkKinds=()=>{
     //     if (props.item!=null)
     //         return props.item.kinds;
-    //     else return 
+    //     else return
     // }
 
     const checkAddress=()=>{
-        if (props.item!=null)
+        if (props.item!=null){
+            setAddress(props.item.address)
             return props.item.address;
-        else return address
+        }
+        else {
+            setAddress(address)
+            return address
+        }
     }
 
     const checkDescription=()=>{
-        if (props.item!=null)
+        if (props.item!=null){
+            setDescription(props.item,description)
             return props.item.description;
-        else return description
+        }
+        else {
+            setDescription(description)
+            return description
+        }
     }
 
     const checkImage=()=>{
-        if (props.item!=null)
-            return props.item.image
-        else 
+        if(props.item){
+            if (props.item.image[0]!==null){
+                setImage(props.item.image[0])
+                return props.item.image[0]
+            }
+            else {
+                setImage(cover)
+                return cover
+            }
+        }
+        else {
+            setImage(cover)
             return cover
+        }
     }
 
     function onSubmitHandler() {

@@ -57,6 +57,7 @@ const MyLandscapes = (props) => {
     };
 
     const editMyLand=(item)=>{
+        console.log("hii",item)
         props.setItem(item)
         history.push(RoutePath.dashboard.addLandscapes)
     }
