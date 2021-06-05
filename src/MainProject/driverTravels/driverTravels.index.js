@@ -8,9 +8,10 @@ import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/driverTravels/actions"
+import DriverModal from "../DriverModal/drivermodal.index";
 
 
-const DriverTravels = () => {
+const DriverTravels = (props) => {
 
     const [travels, setTravels] = useState(null);
     const [check, setCheck] = useState(true);
@@ -27,8 +28,14 @@ const DriverTravels = () => {
         });
     }, [])
 
+    const set=(item)=>{
+        props.setItem(item)
+        props.setDriverModal()
+    }
+
     return (
         <div className='my-travels-page'>
+            {props.driverModalShow ? <DriverModal/> : null}
             {
                 travels &&
                 travels.map((item) => (
@@ -46,8 +53,8 @@ const DriverTravels = () => {
                             {item.creator_gender == "f" ? <p className="gender">زن</p> :
                                 <p className="gender">مرد</p>}
                             <p className={check ? "description" : "description-no"}>{item.description}</p>
+                            <i onClick={() => set(item)} className="material-icons icon">thumb_down_alt</i>
                         </div>
-
                     </div>
                 ))
             }
@@ -64,11 +71,17 @@ const DriverTravels = () => {
     )
 }
 
+const mapStateToProps = (state) => ({
+    driverModalShow: state.driverTravels.driverModalShow,
+});
+
 const mapDispatchToProps = (dispatch) => {
     return {
+        setCheck:() => dispatch({type: Actions.CHECK}),
         setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
+        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
     }
 }
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 export default connector(DriverTravels);

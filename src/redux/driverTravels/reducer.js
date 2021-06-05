@@ -2,6 +2,8 @@ import * as Actions from './actions'
 
 const initialState = {
     item: null,
+    driverModalShow: false,
+    check:false
 }
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +12,16 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 item: action.item
+            }
+        case(Actions.DRIVERMODALSHOW):
+            return {
+                ...state,
+                driverModalShow: !state.driverModalShow
+            }
+        case(Actions.CHECK):
+            return {
+                ...state,
+                check: !state.check
             }
         default:
             return state

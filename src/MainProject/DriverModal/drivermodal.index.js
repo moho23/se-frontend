@@ -239,7 +239,7 @@ const DriverModal = (props) => {
                 <div className="first-line">
                     <div className="item">
                         <p className="label">سن</p>
-                        <InputNumber min={18} max={99} className="places" onChange={(e) => setAge(e)}/>
+                        <InputNumber min={18} max={99} className="places" onChange={(e) => setAge(e)} />
                     </div>
                     <div className="item">
                         <p className="label">جنسیت</p>
@@ -327,8 +327,9 @@ const DriverModal = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    item: state.driverTravels.item
-});
+    item: state.driverTravels.item,
+    check:state.driverTravels.check
+})
 
 const mapDispatchToProps = (dispatch) => {
     return {
