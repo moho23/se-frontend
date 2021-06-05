@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 import {Button, Modal, Tooltip} from "antd";
 import Draggable from "react-draggable";
+import Carousel from "react-elastic-carousel";
 
 
 const TimeLine = () => {
@@ -16,6 +17,13 @@ const TimeLine = () => {
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
+    const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 750, itemsToShow: 2 },
+    { width: 1000, itemsToShow: 3 },
+    { width: 1500, itemsToShow: 4 },
+    { width: 2000, itemsToShow: 5 },
+  ];
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -66,20 +74,22 @@ const TimeLine = () => {
     return (
         
         <div className='time-line-page'>
+            <Carousel breakPoints={breakPoints}>
             {
                 landscapes &&
                 landscapes.map((item) => (
                     <div className="time-line-card">
                         <div className="cover-div">
-                            <img alt='cover-landscapes' className="cover"
-                                 src={item.image[0] ? item.image[0] : cover}/>
+                                <img alt='cover-landscapes' className="cover"
+                                    src={item.image[0] ? item.image[0] : cover} />
+                            
                         </div>
                         <div className='content'>
                             <p className={`${isPersianOrEnglish(item.name) === false ? 'name-address' : 'name-address is-english'}`}>{item.name && item.name.length > 12 ? item.name.substring(0, 13) + '...' : item.name}</p>
-                            <Tooltip placement="right" title={item.address}>
+                            <Tooltip placement="right">
                                 <p className={`${isPersianOrEnglish(item.address) === false ? 'name-address' : 'name-address is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
                             </Tooltip>
-                            <Tooltip placement="right" title={item.description}>
+                            <Tooltip placement="right">
                                 <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
                             </Tooltip>
                             <span/>
@@ -87,12 +97,14 @@ const TimeLine = () => {
                                 <p className="edit" >اضافه شدن</p>
                                 <p className="detail" onClick={showModal}>جزییات</p>
                             </div>
-                        </div>
-                    </div>
+                            </div>
+                            </div>
                 ))
-            }
+                }
+                
             <div className="my-grid"/>
             <div className="my-grid" />
+            </Carousel>
             <Modal
                 visible={visible}
                 onOk={handleOk}
@@ -128,8 +140,9 @@ const TimeLine = () => {
                         justifyContent: "flex-end",
                         fontWeight: 500
                     }} className="modal-text">جزییات بیشتر این سفر</p>
-            </Modal>
-        </div>
+                            </Modal>
+                
+            </div>
     )
 }
 
