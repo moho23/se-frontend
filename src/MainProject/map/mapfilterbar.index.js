@@ -120,7 +120,7 @@ const Mapfilterbar = (props) => {
         // const searchInput = encodeURIComponent(value)
         const searchInput = value
         // const searchInput = value.replace(" ","%20")
-        let url = APIPath.map.searchByName + searchInput
+        let url = APIPath.map.searchByName +"?search="+ searchInput
         get(url).then((data) => {
             console.log(data)
             if (data.data) {
