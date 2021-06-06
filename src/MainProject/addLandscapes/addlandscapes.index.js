@@ -6,13 +6,14 @@ import Input from "../../utilities/components/input/input.index";
 import Mapir from "mapir-react-component";
 import Map from "../map/mapbase.index";
 import {APIPath, RoutePath} from "../../data";
-import {get, responseValidator, upload_post} from "../../scripts/api";
+import {get, responseValidator,put,update_put, upload_post} from "../../scripts/api";
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
 import {Checkbox, Button, Spin, Select} from 'antd';
 import 'antd/dist/antd.css';
 import {EnglishCategoryToPersian} from "../map/translateCategory";
+import * as Actions from "../../redux/myLandscapes/actions"
 import {useHistory} from "react-router-dom";
 
 const {Option} = Select;
@@ -32,7 +33,9 @@ const AddLandscapes = (props) => {
     const [type, setType] = useState(false)
     const [isChoose, setIsChoose] = useState(false)
     const uploadTools = useRef(null)
+    const updateTools = useRef(null)
     const [dropDownData, setDropDownData] = useState(null);
+    const [update, setUpdate] = useState(false);
     const history = useHistory()
 
 
@@ -42,7 +45,7 @@ const AddLandscapes = (props) => {
                 setDropDownData(res.data)
             }
         })
-        if(props.item){
+        if(props.item&& props.update){
             setIsChoose(true)
             const array = [];
             array.push(<Mapir.Marker
@@ -57,8 +60,10 @@ const AddLandscapes = (props) => {
             setName(props.item.name)
             setAddress(props.item.address)
             setDescription(props.item.description)
+            setType(props.item.is_private)
+            setUpdate(true)
         }
-        if(props.item){
+        if(props.item && props.update){
             if (props.item.image[0]!==null){
                 // setImage(props.item.image[0])
                 setImageName(props.item.image[0])
@@ -89,68 +94,7 @@ const AddLandscapes = (props) => {
         setLang(e.lngLat.lng);
     }
 
-    // const checkLatLon=()=>{
-    //     if(props.item!=null){
-    //         setLat(props.item.latitude)
-    //         setLang(props.item.longitude)
-    //     }
-    // }
-
-    // const checkName=()=>{
-    //     if (props.item!=null){
-    //         setName(props.item.name)
-    //         return props.item.name;
-    //     }
-    //     else {
-    //         setName(name)
-    //         return name
-    //     }
-    // }
-
-    // // const checkKinds=()=>{
-    // //     if (props.item!=null)
-    // //         return props.item.kinds;
-    // //     else return
-    // // }
-
-    // const checkAddress=()=>{
-    //     if (props.item!=null){
-    //         setAddress(props.item.address)
-    //         return props.item.address;
-    //     }
-    //     else {
-    //         setAddress(address)
-    //         return address
-    //     }
-    // }
-
-    // const checkDescription=()=>{
-    //     if (props.item!=null){
-    //         setDescription(props.item.description)
-    //         return props.item.description;
-    //     }
-    //     else {
-    //         setDescription(description)
-    //         return description
-    //     }
-    // }
-
-    // const checkImage=()=>{
-    //     if(props.item){
-    //         if (props.item.image[0]!==null){
-    //             setImage(props.item.image[0])
-    //             return props.item.image[0]
-    //         }
-    //         else {
-    //             setImage(cover)
-    //             return cover
-    //         }
-    //     }
-    //     else {
-    //         setImage(cover)
-    //         return cover
-    //     }
-    // }
+    
 
     function onSubmitHandler() {
         if (name && address && isChoose && description && category) {
@@ -180,41 +124,79 @@ const AddLandscapes = (props) => {
                 form.append("longitude", lng)
                 form.append("city", 'city')
                 form.append("state", 'state')
-                uploadTools.current = upload_post(APIPath.location.create, form, (e) => {
-                    console.log(e)
-                });
-                uploadTools.current.promise.then(
-                    (res => {
-                            if (responseValidator(res.status)) {
-                                setTimeout(() => {
-                                    resolve(true)
-                                    toast.success("با موفقیت ثبت شد.")
-                                    setName(null)
-                                    setAddress(null)
-                                    setDescription(null)
-                                    setType(null)
-                                    setCategory(null)
-                                    setType(false)
-                                    setLang(51.41021530151241)
-                                    setLat(35.72079898251745)
-                                    setIsChoose(false)
-                                    setImageName(null)
-                                    history.push(RoutePath.dashboard.myLandscapes)
-                                }, 1500);
-                            } else {
-                                resolve(true)
+                console.log(form)
+                if (props.update){
+                    console.log("update")
+                    form.append("id", props.item.id)
+                    updateTools.current = update_put(APIPath.location.update, form, (e) => {
+                        console.log(e)
+                    });
+                    
+                    updateTools.current.promise.then(data=>
+                        {
+                            if (responseValidator(data.status)){
+                                console.log(data)
+                                setUpdate(false)
+                                toast.success("با موفقیت ثبت شد.")
+                                
+                            }
+                                                            
                                 setName(null)
                                 setAddress(null)
                                 setDescription(null)
+                                setType(null)
                                 setCategory(null)
                                 setType(false)
                                 setLang(51.41021530151241)
                                 setLat(35.72079898251745)
                                 setIsChoose(false)
                                 setImageName(null)
-                            }
+                                props.setUpdate(false)
+                                history.push(RoutePath.dashboard.myLandscapes)
+                           
+                            
                         }
-                    ))
+                    )
+                    props.setUpdate(false)
+                }
+                else{
+                    console.log(form)
+                    uploadTools.current = upload_post(APIPath.location.create, form, (e) => {
+                        console.log(e)
+                    });
+                    uploadTools.current.promise.then(
+                        (res => {
+                                if (responseValidator(res.status)) {
+                                    setTimeout(() => {
+                                        resolve(true)
+                                        toast.success("با موفقیت ثبت شد.")
+                                        setName(null)
+                                        setAddress(null)
+                                        setDescription(null)
+                                        setType(null)
+                                        setCategory(null)
+                                        setType(false)
+                                        setLang(51.41021530151241)
+                                        setLat(35.72079898251745)
+                                        setIsChoose(false)
+                                        setImageName(null)
+                                        history.push(RoutePath.dashboard.myLandscapes)
+                                    }, 1500);
+                                } else {
+                                    resolve(true)
+                                    setName(null)
+                                    setAddress(null)
+                                    setDescription(null)
+                                    setCategory(null)
+                                    setType(false)
+                                    setLang(51.41021530151241)
+                                    setLat(35.72079898251745)
+                                    setIsChoose(false)
+                                    setImageName(null)
+                                }
+                            }
+                        ))
+                }
             });
         } else {
             toast.warn("فیلد های خالی را کامل کنید.")
@@ -358,7 +340,9 @@ const AddLandscapes = (props) => {
                             <p>این مکان به صورت خصوصی ثبت شود</p>
                             <Checkbox checked={type} onChange={(e) => {
                                 setType(e.target.checked);
-                            }} className="checkbox"/>
+                            }}
+                            value={type}
+                            className="checkbox"/>
                         </div>
                     </div>
                 </div>
@@ -370,8 +354,15 @@ const AddLandscapes = (props) => {
 const mapStateToProps = (state) => ({
     user: state.register.userData,
     item: state.myLandscapes.item,
+    update: state.myLandscapes.update,
 });
 
-const connector = connect(mapStateToProps,);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUpdate:(bool) => dispatch({type: Actions.UPDATE, bool: bool}),
+    }
+}
+
+const connector = connect(mapStateToProps,mapDispatchToProps);
 export default connector(AddLandscapes);
 

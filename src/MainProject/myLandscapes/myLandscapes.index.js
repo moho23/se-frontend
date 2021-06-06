@@ -33,6 +33,7 @@ const MyLandscapes = (props) => {
     }
 
     useEffect(() => {
+        props.setUpdate(false)
         get(APIPath.map.myLandscapes).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setLandscapes(data.data)
@@ -59,6 +60,7 @@ const MyLandscapes = (props) => {
     const editMyLand=(item)=>{
         console.log("hii",item)
         props.setItem(item)
+        props.setUpdate(true)
         history.push(RoutePath.dashboard.addLandscapes)
     }
 
@@ -171,6 +173,7 @@ const MyLandscapes = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
+        setUpdate:(bool) => dispatch({type: Actions.UPDATE, bool: bool}),
     }
 }
 
