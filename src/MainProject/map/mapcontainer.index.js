@@ -183,7 +183,7 @@ const MapContainer = (props) => {
     }
 
     const setCheckDriverModal=()=>{
-        props.setCheck()
+        props.setCheck(false)
         props.setDriverModal()
     }
 

@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
 import 'antd/dist/antd.css';
 import Draggable from 'react-draggable';
-import {post, responseValidator} from "../../scripts/api";
+import {post, put, responseValidator,update_put} from "../../scripts/api";
 import {APIPath} from "../../data";
 import {toast} from "react-toastify";
 import {StatesList} from "../register/signup/states";
@@ -61,30 +61,77 @@ const DriverModal = (props) => {
     function onSubmitFormHandler() {
         return new Promise((resolve) => {
 
-            const DriverForm = {
-                creator_type: 'd',
-                creator_gender: gender,
-                creator_age: age,
-                source: source,
-                destination: destination,
-                fellow_traveler_num: numOfTraveler,
-                trip_time: date + 'T' + time + 'Z',
-                cities: ['cities'],
-                description: description
-            }
-            post(APIPath.hichhike.create, DriverForm).then((data) => {
-                resolve(true);
-                if (responseValidator(data.status)) {
-                    toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
-                    props.setDriverModal()
-                } else {
-                    if (data.status === 400) {
-                        toast.error("موارد زیر را با مقادیر معتبر تکمیل فرمایید")
-                    } else {
-                        toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید")
-                    }
+            
+            if(props.check){
+                // DriverForm ={...DriverForm,id:props.item.id}
+                    console.log({
+                        creator_type: 'd',
+                        creator_gender: gender,
+                        creator_age: age,
+                        source: source,
+                        destination: destination,
+                        fellow_traveler_num: numOfTraveler,
+                        date:date,
+                        trip_time: date + 'T' + time + 'Z',
+                        cities: ['cities'],
+                        description: description,
+                        id:props.item.id
+                    })
+                let DriverForm = {
+                    creator_type: 'd',
+                    creator_gender: gender,
+                    creator_age: age,
+                    source: source,
+                    destination: destination,
+                    fellow_traveler_num: numOfTraveler,
+                    trip_time: date + 'T' + time + 'Z',
+                    cities: ['cities'],
+                    description: description,
+                    id:props.item.id
                 }
-            });
+                put(APIPath.hichhike.update, DriverForm).then(data=>{
+                    console.log(data)
+                    if (responseValidator(data.status)) {
+                        toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
+                        props.setDriverModal()
+                        props.setCheck(false)
+                        // window.location.reload();
+                    } else {
+                        if (data.status === 400) {
+                            toast.error("موارد زیر را با مقادیر معتبر تکمیل فرمایید")
+                        } else {
+                            toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید")
+                        }
+                    }
+                })
+            }
+            else{
+                let DriverForm = {
+                    creator_type: 'd',
+                    creator_gender: gender,
+                    creator_age: age,
+                    source: source,
+                    destination: destination,
+                    fellow_traveler_num: numOfTraveler,
+                    trip_time: date + 'T' + time + 'Z',
+                    cities: ['cities'],
+                    description: description
+                }
+                post(APIPath.hichhike.create, DriverForm).then((data) => {
+                    resolve(true);
+                    if (responseValidator(data.status)) {
+                        toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
+                        props.setDriverModal()
+                    } else {
+                        if (data.status === 400) {
+                            toast.error("موارد زیر را با مقادیر معتبر تکمیل فرمایید")
+                        } else {
+                            toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید")
+                        }
+                    }
+                });
+            }
+           
         });
     }
 
@@ -151,6 +198,8 @@ const DriverModal = (props) => {
         setDate(e.format('YY-MM-DD'))
         setStatus(false);
         setDatePickerValue(e);
+        console.log("date",date)
+        console.log("datePickerValue",e)
     }
 
     function onFocusHandler() {
@@ -169,6 +218,35 @@ const DriverModal = (props) => {
         if (datePickerValue) {
             setDate(moment(datePickerValue).format('YYYY-MM-DD'));
         }
+        if(props.check){
+            if(props.item!=null){
+                console.log(props.item)
+                setDestinationButton(props.item.destination)
+                setDestination(props.item.destination)
+                setSourceButton(props.item.source)
+                setSource(props.item.source)
+                setAge(props.item.creator_age)
+                setNumOfTraveler(props.item.fellow_traveler_num)
+                // setDate(props.item.trip_time.split("T")[0])
+                // setDatePickerValue(new Date(props.item.trip_time).toLocaleDateString())
+                setTime(props.item.trip_time.split("T")[1].split("Z")[0])
+                // setTime(new Date(props.item.trip_time).toLocaleTimeString())
+                // setTimePickerValue(new Date(props.item.trip_time).toLocaleTimeString())
+                // console.log(props.item.trip_time.split("T")[1].split("Z")[0])
+                // console.log(props.item.trip_time.split("T")[0])
+                // console.log(new Date(props.item.trip_time).toLocaleDateString())
+                // console.log(new Date(props.item.trip_time).toLocaleTimeString())
+                if(props.item.creator_gender==="m"){
+                    setGenderButton("مرد")
+                }
+                else{
+                    setGenderButton("زن")
+                }
+                setGender(props.item.creator_gender)
+                setDescription(props.item.description)
+                
+            }
+        }
     }, [datePickerValue]);
 
     function onChangeTime(date, dateString) {
@@ -176,43 +254,9 @@ const DriverModal = (props) => {
         console.log(dateString)
         console.log(date)
         setTimePickerValue(date)
+        console.log("timePickerValue",timePickerValue)
     }
 
-    const setCheckEditDestination=(destinationButton)=>{
-        if(props.check){
-            if(props.item!=null)
-                return props.item.destination
-            }
-        else if(destinationButton)
-            return destinationButton
-        else return "مقصد"            
-    }
-
-    const setCheckEditSource=(sourceButton)=>{
-        if(props.check){
-            if(props.item!=null)
-                return props.item.source
-            }
-        else if(sourceButton)
-            return sourceButton
-        else return "مبدا"         
-    }
-
-    const setCheckEditAge=()=>{
-        if(props.check)
-            if(props.item!=null)
-                return props.item.creator_age
-        else return null
-    
-    }
-
-    const setCheckEditNumOfTraveler=()=>{
-        if(props.check)
-            if(props.item!=null)
-                return props.item.fellow_traveler_num
-        else return null
-    
-    }
 
     const setCheckAndDrivetModal=()=>{
         props.setDriverModal()
@@ -263,7 +307,7 @@ const DriverModal = (props) => {
                                 setVisible2(!visible2)
                                 setSourceOrDestination(2)
                             }} dir="rtl"
-                                    className={destinationButton ? "places selected" : "places"}>{setCheckEditDestination(destinationButton)}</Button>
+                                    className={destinationButton ? "places selected" : "places"}>{destinationButton ? destinationButton : "مقصد"}</Button>
                         </Dropdown>
                     </div>
                     <div className="item">
@@ -274,14 +318,14 @@ const DriverModal = (props) => {
                                 setVisible1(!visible1)
                                 setSourceOrDestination(1)
                             }} dir="rtl"
-                                    className={sourceButton ? "places selected" : "places"}>{setCheckEditSource(sourceButton)}</Button>
-                        </Dropdown>
+                            className={sourceButton ? "places selected" : "places"}>{sourceButton ? sourceButton : "مبدا"}</Button>
+                            </Dropdown>
                     </div>
                 </div>
                 <div className="first-line">
                     <div className="item">
                         <p className="label">سن</p>
-                        <InputNumber min={18} max={99} defaultValue={setCheckEditAge()} className="places" onChange={(e) => setAge(e)} />
+                        <InputNumber min={18} max={99} className="places" value={age} onChange={(e) => setAge(e)}/>
                     </div>
                     <div className="item">
                         <p className="label">جنسیت</p>
@@ -295,7 +339,7 @@ const DriverModal = (props) => {
                     </div>
                     <div className="item">
                         <p className="label">تعداد مسافران</p>
-                        <InputNumber min={1} max={20} defaultValue={setCheckEditNumOfTraveler()} className="places" onChange={(e) => setNumOfTraveler(e)}/>
+                        <InputNumber min={1} max={20} className="places" value={numOfTraveler} onChange={(e) => setNumOfTraveler(e)}/>
                     </div>
                     <div className="item">
                         <p className="label">ساعت</p>
@@ -359,7 +403,7 @@ const DriverModal = (props) => {
                             <span style={{display: "flex", flex: 1, width: "100%"}}/>
                             <p className="label">توضیحات</p>
                         </div>
-                        <TextArea onChange={e => setDescription(e.target.value)} rows={2} className="places"
+                        <TextArea value={description} onChange={e => setDescription(e.target.value)} rows={2} className="places"
                                   style={{height: "60px"}}/>
                     </div>
                 </div>

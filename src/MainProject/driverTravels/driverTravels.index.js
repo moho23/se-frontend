@@ -67,6 +67,7 @@ const DriverTravels = (props) => {
     }
 
     useEffect(() => {
+        props.setCheck(false)
         get(APIPath.hichhike.driverTravels).then((data) => {
             console.log("1", data)
             if (responseValidator(data.status) && data.data) {
