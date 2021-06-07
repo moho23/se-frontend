@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import Map from './mapbase.index'
 import Mapir from "mapir-react-component";
 import markerUrl from "../../assets/images/mapmarker.svg"
@@ -15,6 +15,8 @@ import iconHandler from "./iconhandler.index"
 import {EnglishCategoryToPersian} from "./translateCategory";
 import {Tooltip} from "antd";
 import DriverModal from "../DriverModal/drivermodal.index";
+import {authToken} from "../../scripts/storage";
+
 
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -29,6 +31,12 @@ const MapContainer = (props) => {
     const [description, setDescription] = useState(null)
     const [category, setCategory] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
+    const [token, setToken] = useState(null);
+
+
+    useEffect(() => {
+        setToken(authToken.get());
+    }, []);
 
     const categoryHandler = (categ) => {
         let splitcateg = categ.split(",");
@@ -104,8 +112,19 @@ const MapContainer = (props) => {
         setIsSearchByRadius(mapfilterData)
     }
 
+    const handleSearchByName =(lat,lon,name,image,address,description,category)=>{
+        setName(name)
+        setImage(image)
+        setAddress(address)
+        setDescription(description)
+        setCategory(()=>categoryHandler(category))
+        setLat(lat)
+        setLon(lon)
+    }
+
     const onMapClicked = (map, e) => {
         e.preventDefault();
+        console.log("token=",authToken.get())
         console.log("checkedKeys=", props.checkedKeys)
         console.log("searchArea=", props.searchArea)
         console.log("current=", props.current)
@@ -125,7 +144,7 @@ const MapContainer = (props) => {
             }
             const kinds = checkedKeys.join()
             // console.log("kinds=",kinds)
-            let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
+            let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}&token=${token}`
 
             get(url).then((data) => {
                 let loc_array = []
@@ -164,6 +183,7 @@ const MapContainer = (props) => {
             onClick={() => setIsntClicked(false)}
             anchor="bottom"
             Image={markerUrl}
+            style={{cursor: "pointer"}}
         >
         </Mapir.Marker>);
         setMarkerArray(array);
@@ -173,7 +193,7 @@ const MapContainer = (props) => {
 
     return (
         <div className="map-main-page">
-            <Mapfilterbar isFilterOpen={isOpen} isRadius={handleIsSearchByRadius}/>
+            <Mapfilterbar isFilterOpen={isOpen} isRadius={handleIsSearchByRadius} cordinate={handleSearchByName} />
             {props.modalDetailsShow ? <ModalDetails
                 title={name}
                 category={category}

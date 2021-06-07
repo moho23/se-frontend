@@ -12,7 +12,6 @@ import {StatesList} from "../register/signup/states";
 import useOnBlur from "../../scripts/useOnBlur";
 
 const Profile = (props) => {
-
     const userInfos = props.userData
     const [firstname, setFirstname] = useState(userInfos.firstname)
     const [lastname, setLastname] = useState(userInfos.lastname)
@@ -27,7 +26,7 @@ const Profile = (props) => {
     const [visible, setVisible] = useState(false);
     const [stateButton, setStateButton] = useState(userInfos.city);
     const ddRef = useRef(null)
-
+    
 
     function onEditHandler() {
         setIsEdit(!isEdit)
