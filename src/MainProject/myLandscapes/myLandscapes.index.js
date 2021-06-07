@@ -57,7 +57,7 @@ const MyLandscapes = (props) => {
         del(APIPath.map.myLandscapes+"?location_id="+id).then((data) => {
             if (responseValidator(data.status) && data.data=="Location deleted"){
                 toast.success("مکان موردنظر با موفقیت حذف شد.")
-                //history.push(RoutePath.dashboard.myLandscapes)
+                window.location.reload();
             }
         })
     };
