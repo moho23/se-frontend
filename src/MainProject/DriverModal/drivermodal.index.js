@@ -95,7 +95,7 @@ const DriverModal = (props) => {
                         toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
                         props.setDriverModal()
                         props.setCheck(false)
-                        // window.location.reload();
+                        window.location.reload();
                     } else {
                         if (data.status === 400) {
                             toast.error("موارد زیر را با مقادیر معتبر تکمیل فرمایید")
