@@ -14,7 +14,8 @@ export const __APIPath = {
         searchByName: "location/search_by_name/",
     },
     location: {
-        create: "location/create/"
+        create: "location/create/",
+        update: "location/creator_locations/"
     },
     hichhike: {
         driverTravels: "hichhike/list/",
