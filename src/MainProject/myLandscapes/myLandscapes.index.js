@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import './myLandscapes.style.scss'
 import cover from '../../assets/images/add-landscapes-default.png';
 import {APIPath, RoutePath} from "../../data";
-import {get, responseValidator} from "../../scripts/api";
+import {get, responseValidator,del} from "../../scripts/api";
 import {toast} from "react-toastify";
 import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
@@ -13,11 +13,13 @@ import * as Actions from "../../redux/myLandscapes/actions"
 import {useHistory} from "react-router-dom";
 
 
+
 const MyLandscapes = (props) => {
 
     const [landscapes, setLandscapes] = useState(null);
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
+    const[id,setId]=useState(null)
     const draggleRef = useRef();
     const history=useHistory()
 
@@ -45,12 +47,19 @@ const MyLandscapes = (props) => {
 
     const [visible, setVisible] = React.useState(false);
 
-    const showModal = () => {
+    const showModal = (id) => {
         setVisible(true);
+        setId(id)
     };
 
     const handleOk = () => {
         setVisible(false);
+        del(APIPath.map.myLandscapes+"?location_id="+id).then((data) => {
+            if (responseValidator(data.status) && data.data=="Location deleted"){
+                toast.success("مکان موردنظر با موفقیت حذف شد.")
+                //history.push(RoutePath.dashboard.myLandscapes)
+            }
+        })
     };
 
     const handleCancel = () => {
@@ -58,7 +67,6 @@ const MyLandscapes = (props) => {
     };
 
     const editMyLand=(item)=>{
-        console.log("hii",item)
         props.setItem(item)
         props.setUpdate(true)
         history.push(RoutePath.dashboard.addLandscapes)
@@ -96,7 +104,7 @@ const MyLandscapes = (props) => {
                             <span/>
                             <div className="end-line-button">
                                 <p className="edit" onClick={()=>{editMyLand(item)}}>ویرایش</p>
-                                <p className="delete" onClick={showModal}>حذف</p>
+                                <p className="delete" onClick={()=>showModal(item.id)}>حذف</p>
                             </div>
                         </div>
                     </div>
@@ -108,32 +116,37 @@ const MyLandscapes = (props) => {
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                modalRender={modal => (
-                    <Draggable
-                        disabled={disabled}
-                        bounds={bounds}
-                        onStart={(event, uiData) => onStart(event, uiData)}
-                    >
-                        <div ref={draggleRef}>{modal}</div>
-                    </Draggable>
-                )}
+                // modalRender={modal => (
+                //     <Draggable
+                //         disabled={disabled}
+                //         bounds={bounds}
+                //         onStart={(event, uiData) => onStart(event, uiData)}
+                //     >
+                //         <div ref={draggleRef}>{modal}</div>
+                //     </Draggable>
+                // )}
                 className="modal"
                 footer={<div style={{display: "flex", width: "100%"}}>
                     <Button
+                        className="submit"
                         onClick={handleOk}
                         style={{
+                            display: "flex",
                             outline: "none",
-                            border: "none",
-                            color: "white",
-                            backgroundColor: "green",
-                            borderRadius: "5px"
+                            border: "1px solid green",
+                            color:"green",
+                            borderRadius: "5px",
+                            fontWeight:500
                         }}>تایید</Button>
                     <Button
                         onClick={handleCancel}
                         style={{
+                            display: "flex",
                             outline: "none",
                             border: "none",
-                            backgroundColor: "orange",
+                            backgroundColor: "#F05454",
+                            color:"#ffffff",
+                            fontWeight:500,
                             borderRadius: "5px",
                         }}>لغو</Button>
                 </div>}
