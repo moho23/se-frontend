@@ -1,6 +1,21 @@
 @import "../../utilities/references/index";
-.rec .rec-item-wrapper {
-  padding: 120px;
+// .rec .rec-slider{
+//   height: 400px;
+// }
+// .rec .rec-carousel{
+//   height: 390px;
+//   width: 1000px;
+// }
+.rec .rec-item-wrapper{
+  //width: 360px !important;
+  @include project-size(width, 350px, 315px);
+  @include project-md {
+        @include project-size(width, 195px, 200px);
+        flex-direction: column;
+      }
+}
+.rec.rec-arrow:disabled {
+    visibility: hidden;
 }
 .time-line-page {
   display: flex;
@@ -29,6 +44,7 @@
 
   .no-data {
     display: flex;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -53,10 +69,10 @@
   .time-line-card {
     display: flex;
     flex: 1;
-    @include project-size(min-width, 350px, 300px);
+    @include project-size(width, 300px, 200px);
     flex-direction: column;
     align-items: center;
-    height: 470px;
+    height: 380px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 5px;
     background-color: $gray0;
@@ -65,11 +81,12 @@
     .cover-div {
       display: flex;
       width: 100%;
-      //height: 150px;
-      flex-direction: column;
-      //padding-top: 10px;
-      //padding-right: 10px;
+      height: 150px;
+      //flex-direction: row-reverse;
+      padding-top: 10px;
+      padding-left: 50px;
       background-size: cover;
+      
 
 
     //   .fix{
@@ -77,9 +94,20 @@
 
       .cover {
         width: 100%;
+        border-radius: 100%;
+        height: 100px;
+        width: 100px;
+        padding: 5px;
+        justify-content: flex-start;
         // border-top-right-radius: 5px;
         // border-bottom-right-radius: 5px;
      // }
+      }
+      .username{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 90%;
       }
     }
 
@@ -91,11 +119,12 @@
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
       padding: 5px 10px;
+      direction: rtl !important;
 
       .name-address {
         width: 100%;
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         font-weight: normal;
         font-size: 14px;
         word-break: break-word;
@@ -149,7 +178,7 @@
         width: 100%;
         word-break: break-word;
         font-size: 14px;
-        justify-content: flex-end;
+        justify-content: flex-start;
         direction: rtl;
         height: 100px;
       }

@@ -13,14 +13,14 @@ import Carousel from "react-elastic-carousel";
 
 const TimeLine = () => {
 
-    const [landscapes, setLandscapes] = useState(null);
+    const [suggestion, setSuggestion] = useState(null);
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
     const breakPoints = [
     { width: 1, itemsToShow: 1 },
-    { width: 750, itemsToShow: 2 },
-    { width: 1000, itemsToShow: 3 },
+    { width: 600, itemsToShow:2 },
+    { width: 900, itemsToShow:3 },
     { width: 1500, itemsToShow: 4 },
     { width: 2000, itemsToShow: 5 },
   ];
@@ -37,9 +37,9 @@ const TimeLine = () => {
     }
 
     useEffect(() => {
-        get(APIPath.map.myLandscapes).then((data) => {
+        get(APIPath.hichhike.timeLine).then((data) => {
             if (responseValidator(data.status) && data.data) {
-                setLandscapes(data.data)
+                setSuggestion(data.data)
             } else {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
@@ -74,37 +74,44 @@ const TimeLine = () => {
     return (
         
         <div className='time-line-page'>
-            <Carousel breakPoints={breakPoints}>
+            <Carousel breakPoints={breakPoints} itemPadding={[10, 27]} isRTL={true}>
             {
-                landscapes &&
-                landscapes.map((item) => (
+                suggestion &&
+                suggestion.map((item) => (
                     <div className="time-line-card">
                         <div className="cover-div">
+                            <Tooltip placement="left" title={item.creator_username}>
                                 <img alt='cover-landscapes' className="cover"
-                                    src={item.image[0] ? item.image[0] : cover} />
+                                    src={item.creator_profile_picture} /></Tooltip>
+                                <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>{item.creator_username && item.creator_username.length > 12 ? item.name.substring(0, 13) + '...' : item.creator_username}@</p>
+                            
                             
                         </div>
                         <div className='content'>
-                            <p className={`${isPersianOrEnglish(item.name) === false ? 'name-address' : 'name-address is-english'}`}>{item.name && item.name.length > 12 ? item.name.substring(0, 13) + '...' : item.name}</p>
                             <Tooltip placement="right">
-                                <p className={`${isPersianOrEnglish(item.address) === false ? 'name-address' : 'name-address is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
+                                <p className="name-address">مبدا: {item.source && item.source.length > 20 ? item.source.substring(0, 20) + '...' : item.source}</p>
+                                <p className="name-address">مقصد: {item.destination && item.destination.length > 20 ? item.destination.substring(0, 20) + '...' : item.destination}</p>
                             </Tooltip>
+                            <p className="name-address">شهرهای بین راه: {item.cities.join()}</p>
+                            <p className="name-address">تعداد مسافر: {item.fellow_traveler_num && item.fellow_traveler_num.length > 20 ? item.fellow_traveler_num.substring(0, 20) + '...' : item.fellow_traveler_num}</p>
+                            <p className="name-address">زمان سفر: {item.jcreated && item.jcreated > 20 ? item.jcreated.substring(0, 20) + '...' : item.jcreated}</p>
                             <Tooltip placement="right">
-                                <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
+                                <p className="description">توضیحات: {item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
                             </Tooltip>
                             <span/>
-                            <div className="end-line-button">
+                            {/* <div className="end-line-button">
                                 <p className="edit" >اضافه شدن</p>
                                 <p className="detail" onClick={showModal}>جزییات</p>
+                            </div> */}
                             </div>
-                            </div>
-                            </div>
+                        </div>
+                        
                 ))
                 }
                 
-            <div className="my-grid"/>
-            <div className="my-grid" />
-            </Carousel>
+            {/* <div className="my-grid"/>
+                <div className="my-grid" /> */}
+                </Carousel>
             <Modal
                 visible={visible}
                 onOk={handleOk}
@@ -140,8 +147,13 @@ const TimeLine = () => {
                         justifyContent: "flex-end",
                         fontWeight: 500
                     }} className="modal-text">جزییات بیشتر این سفر</p>
-                            </Modal>
-                
+            </Modal>
+            {/* {
+                suggestion &&
+                suggestion.length === 0 && <div className="no-data">
+                    <p>متاسفانه پیشنهادی برای شما وجود ندارد </p>
+                </div>
+            } */}
             </div>
     )
 }

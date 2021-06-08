@@ -4,8 +4,7 @@ export const __APIPath = {
         signin: "account/login/"
     },
     account: {
-        profile: "account/profile/",
-        timeLine: "account/time_line/"
+        profile: "account/profile/"
     },
     map: {
         nearby: "location/get_locations/",
@@ -19,6 +18,7 @@ export const __APIPath = {
     },
     hichhike: {
         driverTravels: "hichhike/list/",
-        create: 'hichhike/create/'
+        create: 'hichhike/create/',
+        timeLine: "hichhike/suggest_hichhike/"
     }
 };
