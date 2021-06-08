@@ -101,40 +101,34 @@ const DriverTravels = (props) => {
                     <div className="travels-card">
                         <div className="cover-div">
                             <img alt='cover-travels' className="cover"
-                                 src={item.creator_profile_picture ? item.creator_profile_picture : cover}/>
+                                src={item.creator_profile_picture ? item.creator_profile_picture : cover} />
+                            <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>@{item.creator_username && item.creator_username.length > 12 ? item.name.substring(0, 13) + '...' : item.creator_username}</p>
                         </div>
-                        <div className='content'>
-                            {/* <p className="source">از {item.source}</p>
-                            <p className="destination">به {item.destination}</p>
-                            <p className="traveler">تعداد مسافر: {item.fellow_traveler_num}</p>
-                            <p className="cities">{item.cities.join()}</p>
-                            {item.creator_gender == "f" ? <p className="gender">زن</p> :
-                                <p className="gender">مرد</p>}
-                            <p className={check ? "description" : "description-no"}>{item.description}</p>
-                            <i onClick={() => set(item)} className="material-icons icon">thumb_down_alt</i>
-                            <p className={check ? "description" : "description-no"}>{item.description}</p> */}
-                            <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
-                            <p className={`${isPersianOrEnglish(item.destination) === false ? 'fix' : 'fix is-english'}`}>به {item.destination}</p>
-                            <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>
-                            <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities}</p>
-                            <Tooltip placement="right" title={item.address}>
-                                <p className={`${isPersianOrEnglish(item.address) === false ? 'fix' : 'fix is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
-                            </Tooltip>
-                            <Tooltip placement="right" title={item.description}>
-                                <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
-                            </Tooltip>
-                            <span/>
-                            <span/>
-                            <div className="end-line-button">
-                                <p onClick={() => set(item)} className="edit">ویرایش</p>
-                                <p className="delete" onClick={() => showModal(item.id)}>حذف</p>
-                            </div>
-                        </div>
+                            <div className='content'>
+                                <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
+                                <p className={`${isPersianOrEnglish(item.destination) === false ? 'fix' : 'fix is-english'}`}>به {item.destination}</p>
+                                <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>
+                                <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities}</p>
+                                <Tooltip placement="right" title={item.address}>
+                                    <p className={`${isPersianOrEnglish(item.address) === false ? 'fix' : 'fix is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
+                                </Tooltip>
+                                <Tooltip placement="right" title={item.description}>
+                                    <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
+                                </Tooltip>
+                                <span />
+                                <span/>
+                                <span />
+                                <div className="end-line-button">
+                                    <p onClick={() => set(item)} className="edit">ویرایش</p>
+                                    <p className="delete" onClick={() => showModal(item.id)}>حذف</p>
+                                </div>
+                        </div>    
                     </div>
                 ))
             }
             <div className="my-grid"/>
-            <div className="my-grid"/>
+            <div className="my-grid" />
+            {/* <p></p> */}
 
             <Modal
                 visible={visible}
