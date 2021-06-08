@@ -84,7 +84,6 @@ const TimeLine = () => {
                                     src={item.creator_profile_picture} /></Tooltip>
                                 <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>{item.creator_username && item.creator_username.length > 12 ? item.name.substring(0, 13) + '...' : item.creator_username}@</p>
                             
-                            
                         </div>
                         <div className='content'>
                             <Tooltip placement="right">
@@ -106,9 +105,8 @@ const TimeLine = () => {
                         </div>
                         
                 ))
-                    }
-                    
-                
+                }
+                {/* <p></p> */}
             {/* <div className="my-grid"/>
                 <div className="my-grid" /> */}
                 </Carousel>
