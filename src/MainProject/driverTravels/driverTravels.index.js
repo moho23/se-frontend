@@ -1,16 +1,14 @@
 import React, {useState, useEffect, useRef} from "react";
 import './driverTravels.style.scss'
 import cover from '../../assets/images/add-landscapes-default.png';
-import {APIPath, RoutePath} from "../../data";
-import {get, responseValidator,del} from "../../scripts/api";
+import {APIPath} from "../../data";
+import {get, responseValidator, del} from "../../scripts/api";
 import {toast} from "react-toastify";
-import {Link} from "react-router-dom";
-import noData from "../../assets/images/undraw_not_found_60pq.svg"
+import noData from "../../assets/images/undraw_off_road_9oae.svg"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/driverTravels/actions"
 import DriverModal from "../DriverModal/drivermodal.index";
 import {Button, Modal, Tooltip} from "antd";
-import Draggable from "react-draggable";
 
 const DriverTravels = (props) => {
 
@@ -19,7 +17,7 @@ const DriverTravels = (props) => {
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
-    const [id,setID]=useState(null)
+    const [id, setID] = useState(null)
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -51,8 +49,8 @@ const DriverTravels = (props) => {
 
     const handleOk = () => {
         setVisible(false);
-        del(APIPath.hichhike.driverTravels+"?hichhike_id="+id).then((data) => {
-            if (responseValidator(data.status) && data.data=="hichhike deleted"){
+        del(APIPath.hichhike.driverTravels + "?hichhike_id=" + id).then((data) => {
+            if (responseValidator(data.status) && data.data == "hichhike deleted") {
                 toast.success("سفر موردنظر با موفقیت حذف شد.")
                 window.location.reload();
                 //history.push(RoutePath.dashboard.myLandscapes)
@@ -88,7 +86,7 @@ const DriverTravels = (props) => {
         });
     }, [])
 
-    const set=(item)=>{
+    const set = (item) => {
         props.setCheck(true)
         props.setItem(item)
         props.setDriverModal()
@@ -106,7 +104,7 @@ const DriverTravels = (props) => {
                                  src={item.creator_profile_picture ? item.creator_profile_picture : cover}/>
                         </div>
                         <div className='content'>
-                             {/* <p className="source">از {item.source}</p>
+                            {/* <p className="source">از {item.source}</p>
                             <p className="destination">به {item.destination}</p>
                             <p className="traveler">تعداد مسافر: {item.fellow_traveler_num}</p>
                             <p className="cities">{item.cities.join()}</p>
@@ -125,19 +123,19 @@ const DriverTravels = (props) => {
                             <Tooltip placement="right" title={item.description}>
                                 <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
                             </Tooltip>
-                            <span />
+                            <span/>
                             <span/>
                             <div className="end-line-button">
-                                <p onClick={() => set(item)} className="edit" >ویرایش</p>
-                                <p className="delete" onClick={()=>showModal(item.id)}>حذف</p>
-                            </div>   
+                                <p onClick={() => set(item)} className="edit">ویرایش</p>
+                                <p className="delete" onClick={() => showModal(item.id)}>حذف</p>
+                            </div>
                         </div>
                     </div>
                 ))
             }
             <div className="my-grid"/>
             <div className="my-grid"/>
-            
+
             <Modal
                 visible={visible}
                 onOk={handleOk}
@@ -159,9 +157,9 @@ const DriverTravels = (props) => {
                             display: "flex",
                             outline: "none",
                             border: "1px solid green",
-                            color:"green",
+                            color: "green",
                             borderRadius: "5px",
-                            fontWeight:500
+                            fontWeight: 500
                         }}>تایید</Button>
                     <Button
                         onClick={handleCancel}
@@ -170,8 +168,8 @@ const DriverTravels = (props) => {
                             outline: "none",
                             border: "none",
                             backgroundColor: "#F05454",
-                            color:"#ffffff",
-                            fontWeight:500,
+                            color: "#ffffff",
+                            fontWeight: 500,
                             borderRadius: "5px",
                         }}>لغو</Button>
                 </div>}
@@ -212,8 +210,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCheck:(checkInput) => dispatch({type: Actions.CHECK,checkInput: checkInput}),
-        setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
+        setCheck: (checkInput) => dispatch({type: Actions.CHECK, checkInput: checkInput}),
+        setItem: (item) => dispatch({type: Actions.ITEM, item: item}),
         setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
     }
 }
