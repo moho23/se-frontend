@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Modal} from 'antd';
+import {Modal,Rate} from 'antd';
 import "./modalDetailsLands.style.scss"
 import detailsDefaultCover from '../../assets/images/default-modal-detail-land.png'
 import {connect} from "react-redux";
@@ -67,6 +67,7 @@ const ModalDetails = (props) => {
                 <img src={props.cover ? props.cover : detailsDefaultCover} alt="landscape-details"/>
             </div>
             <div className="info">
+                <Rate defaultValue={2}/>
                 {
                     props.category && <div className="info-item">
                         <i className="material-icons-outlined">category</i>
