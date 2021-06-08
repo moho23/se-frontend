@@ -106,7 +106,6 @@ const TimeLine = () => {
                         
                 ))
                 }
-                {/* <p></p> */}
             {/* <div className="my-grid"/>
                 <div className="my-grid" /> */}
                 </Carousel>
