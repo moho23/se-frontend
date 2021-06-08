@@ -6,6 +6,11 @@
 //   height: 390px;
 //   width: 1000px;
 // }
+.h1{
+  direction: rtl;
+  display: flex;
+  flex-direction: flex-start
+}
 .rec .rec-item-wrapper{
   //width: 360px !important;
   @include project-size(width, 350px, 315px);

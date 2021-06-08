@@ -70,7 +70,8 @@ const MainProject = (props) => {
                                             <Route path={RoutePath.map.index} component={MapContainer} />
                                             {/*<Route path={RoutePath.dashboard.details} component={Details}/>*/}
                                             <Route path="*">
-                                                <Redirect to={RoutePath.dashboard.index}/>
+                                                <Redirect to={RoutePath.dashboard.timeLine}/>
+                                                {/* <Redirect to={RoutePath.dashboard.index}/> */}
                                             </Route>
                                         </Switch>
                                     </div>

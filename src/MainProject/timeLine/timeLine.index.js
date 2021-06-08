@@ -72,7 +72,6 @@ const TimeLine = () => {
     }
 
     return (
-        
         <div className='time-line-page'>
             <Carousel breakPoints={breakPoints} itemPadding={[10, 27]} isRTL={true}>
             {
@@ -107,7 +106,8 @@ const TimeLine = () => {
                         </div>
                         
                 ))
-                }
+                    }
+                    
                 
             {/* <div className="my-grid"/>
                 <div className="my-grid" /> */}

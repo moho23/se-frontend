@@ -1,6 +1,6 @@
 import * as Actions from './actions'
 
-const initialState = {
+export const initialState = {
     expandedKeys: [],
     checkedKeys: [],
     selectedKeys: [],
