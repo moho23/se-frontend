@@ -20,6 +20,7 @@ export const __APIPath = {
     hichhike: {
         driverTravels: "hichhike/list/",
         create: 'hichhike/create/',
+        timeLine: "hichhike/suggest_hichhike/",
         update: "hichhike/list/"
     }
 };
