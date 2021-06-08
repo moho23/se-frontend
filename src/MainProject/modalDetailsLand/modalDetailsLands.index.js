@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {Modal} from 'antd';
 import "./modalDetailsLands.style.scss"
-import detailsDefaultCover from '../../assets/images/landscape-details-default.png'
+import detailsDefaultCover from '../../assets/images/default-modal-detail-land.png'
 import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
 import 'antd/dist/antd.css';

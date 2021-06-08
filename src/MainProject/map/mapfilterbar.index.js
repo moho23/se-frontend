@@ -120,22 +120,28 @@ const Mapfilterbar = (props) => {
         // const searchInput = encodeURIComponent(value)
         const searchInput = value
         // const searchInput = value.replace(" ","%20")
-        let url = APIPath.map.searchByName + searchInput
-        get(url).then((data) => {
-            console.log(data)
-            if (data.data) {
-                const array = [];
-                setIsntClicked(true)
-                data.data.map(arr=>{
-                    array.push(<div onClick={()=>onSearchClick(arr)}>{arr.display_name}<hr/></div>);
-                })
-               
-                setSearchResult(array)
-            } else {
-                toast.warn("چنین مکانی ثبت نشده است.")
-            }
-
-        })
+        let url = APIPath.map.searchByName +"?search="+ searchInput
+        if(searchInput!==""){
+            get(url).then((data) => {
+                console.log(data)
+                if (data.data) {
+                    const array = [];
+                    setIsntClicked(true)
+                    data.data.map(arr=>{
+                        array.push(<div onClick={()=>onSearchClick(arr)} style={{cursor: "pointer"}}>{arr.display_name}<hr/></div>);
+                    })
+                   
+                    setSearchResult(array)
+                } else {
+                    toast.warn("چنین مکانی ثبت نشده است.")
+                }
+    
+            })
+        }
+        else{
+            toast.warn("لطفا مکان مورد نظر خود را در محل جستجو وارد کنید")
+        }
+        
     };
 
     const setNearPlacesActive = (e) => {

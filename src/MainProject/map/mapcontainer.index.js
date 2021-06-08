@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import Map from './mapbase.index'
 import Mapir from "mapir-react-component";
 import markerUrl from "../../assets/images/mapmarker.svg"
@@ -15,6 +15,8 @@ import iconHandler from "./iconhandler.index"
 import {EnglishCategoryToPersian} from "./translateCategory";
 import {Tooltip} from "antd";
 import DriverModal from "../DriverModal/drivermodal.index";
+import {authToken} from "../../scripts/storage";
+
 
 const MapContainer = (props) => {
     const [isntClicked, setIsntClicked] = useState(true);
@@ -29,6 +31,12 @@ const MapContainer = (props) => {
     const [description, setDescription] = useState(null)
     const [category, setCategory] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
+    const [token, setToken] = useState(null);
+
+
+    useEffect(() => {
+        setToken(authToken.get());
+    }, []);
 
     const categoryHandler = (categ) => {
         let splitcateg = categ.split(",");
@@ -116,6 +124,7 @@ const MapContainer = (props) => {
 
     const onMapClicked = (map, e) => {
         e.preventDefault();
+        console.log("token=",authToken.get())
         console.log("checkedKeys=", props.checkedKeys)
         console.log("searchArea=", props.searchArea)
         console.log("current=", props.current)
@@ -135,7 +144,7 @@ const MapContainer = (props) => {
             }
             const kinds = checkedKeys.join()
             // console.log("kinds=",kinds)
-            let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}`
+            let url = APIPath.map.nearby + `?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=${searchArea}&rate=${current}&kinds=${kinds}&token=${token}`
 
             get(url).then((data) => {
                 let loc_array = []
@@ -182,6 +191,11 @@ const MapContainer = (props) => {
         setLon(e.lngLat.lng);
     }
 
+    const setCheckDriverModal=()=>{
+        props.setCheck(false)
+        props.setDriverModal()
+    }
+
     return (
         <div className="map-main-page">
             <Mapfilterbar isFilterOpen={isOpen} isRadius={handleIsSearchByRadius} cordinate={handleSearchByName} />
@@ -196,7 +210,7 @@ const MapContainer = (props) => {
             <div className="hitchhike">
                 <Tooltip style={{direction: "rtl"}} placement="left"
                          title="سفیر هیچ هایک">
-                    <i onClick={() => props.setDriverModal()} className="material-icons icon">thumb_down_alt</i>
+                    <i onClick={() => setCheckDriverModal()} className="material-icons icon">thumb_down_alt</i>
                     {/*<img onClick={() => props.setDriverModal()} className="sss" src={hitchhiker} alt="mmd"/>*/}
                 </Tooltip>
             </div>
@@ -239,6 +253,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        setCheck:(check) => dispatch({type: Actions.CHECK, check: check}),
         setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
         setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
     }
