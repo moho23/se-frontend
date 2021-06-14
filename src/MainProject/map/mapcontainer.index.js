@@ -36,6 +36,8 @@ const MapContainer = (props) => {
 
     useEffect(() => {
         setToken(authToken.get());
+        props.setDriverModal(false)
+        props.setCheck(false)
     }, []);
 
     const categoryHandler = (categ) => {
@@ -193,7 +195,7 @@ const MapContainer = (props) => {
 
     const setCheckDriverModal=()=>{
         props.setCheck(false)
-        props.setDriverModal()
+        props.setDriverModal(true)
     }
 
     return (
@@ -255,7 +257,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setCheck:(check) => dispatch({type: Actions.CHECK, check: check}),
         setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
-        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
+        setDriverModal: (isopen) => dispatch({type: Actions.DRIVERMODALSHOW,isopen:isopen}),
     }
 }
 

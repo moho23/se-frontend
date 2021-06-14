@@ -42,10 +42,51 @@ const DriverModal = (props) => {
     const calenderRef = useRef(null)
     const inputRef = useRef(null)
     
+    const [showDescription, setShowDescription] = useState(true)
+    const [status, setStatus] = useState(false)
+    const [datePickerValue, setDatePickerValue] = useState(null)
+    const [timePickerValue, setTimePickerValue] = useState(null)
 
     useOnBlur(sourceRef, () => setVisible1(false))
     useOnBlur(destinationRef, () => setVisible2(false))
     useOnBlur(genderRef, () => setVisibleGender(false))
+
+
+    useEffect(() => {
+        if (datePickerValue) {
+            setDate(moment(datePickerValue).format('YYYY-MM-DD'));
+        }
+        if(props.check){
+            if(props.item!=null){
+                console.log(props.item)
+                setDestinationButton(props.item.destination)
+                setDestination(props.item.destination)
+                setSourceButton(props.item.source)
+                setSource(props.item.source)
+                setAge(props.item.creator_age)
+                setNumOfTraveler(props.item.fellow_traveler_num)
+                // setDate(props.item.trip_time.split("T")[0])
+                // setDatePickerValue(new Date(props.item.trip_time).toLocaleDateString())
+                setTime(props.item.trip_time.split("T")[1].split("Z")[0])
+                // setTime(new Date(props.item.trip_time).toLocaleTimeString())
+                // setTimePickerValue(new Date(props.item.trip_time).toLocaleTimeString())
+                // console.log(props.item.trip_time.split("T")[1].split("Z")[0])
+                // console.log(props.item.trip_time.split("T")[0])
+                // console.log(new Date(props.item.trip_time).toLocaleDateString())
+                // console.log(new Date(props.item.trip_time).toLocaleTimeString())
+                if(props.item.creator_gender==="m"){
+                    setGenderButton("مرد")
+                }
+                else{
+                    setGenderButton("زن")
+                }
+                setGender(props.item.creator_gender)
+                setDescription(props.item.description)
+                
+            }
+        }
+    }, [datePickerValue]);
+
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -92,9 +133,9 @@ const DriverModal = (props) => {
                 put(APIPath.hichhike.update, DriverForm).then(data=>{
                     console.log(data)
                     if (responseValidator(data.status)) {
-                        toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
-                        props.setDriverModal()
+                        props.setDriverModal(false)
                         props.setCheck(false)
+                        toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
                         window.location.reload();
                     } else {
                         if (data.status === 400) {
@@ -121,7 +162,7 @@ const DriverModal = (props) => {
                     resolve(true);
                     if (responseValidator(data.status)) {
                         toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
-                        props.setDriverModal()
+                        props.setDriverModal(false)
                     } else {
                         if (data.status === 400) {
                             toast.error("موارد زیر را با مقادیر معتبر تکمیل فرمایید")
@@ -189,10 +230,6 @@ const DriverModal = (props) => {
         </Menu>
     );
 
-    const [showDescription, setShowDescription] = useState(true)
-    const [status, setStatus] = useState(false)
-    const [datePickerValue, setDatePickerValue] = useState(null)
-    const [timePickerValue, setTimePickerValue] = useState(null)
 
     function onDatePickChange(e) {
         setDate(e.format('YY-MM-DD'))
@@ -214,41 +251,6 @@ const DriverModal = (props) => {
         if (status) setStatus(false);
     });
 
-    useEffect(() => {
-        if (datePickerValue) {
-            setDate(moment(datePickerValue).format('YYYY-MM-DD'));
-        }
-        if(props.check){
-            if(props.item!=null){
-                console.log(props.item)
-                setDestinationButton(props.item.destination)
-                setDestination(props.item.destination)
-                setSourceButton(props.item.source)
-                setSource(props.item.source)
-                setAge(props.item.creator_age)
-                setNumOfTraveler(props.item.fellow_traveler_num)
-                // setDate(props.item.trip_time.split("T")[0])
-                // setDatePickerValue(new Date(props.item.trip_time).toLocaleDateString())
-                setTime(props.item.trip_time.split("T")[1].split("Z")[0])
-                // setTime(new Date(props.item.trip_time).toLocaleTimeString())
-                // setTimePickerValue(new Date(props.item.trip_time).toLocaleTimeString())
-                // console.log(props.item.trip_time.split("T")[1].split("Z")[0])
-                // console.log(props.item.trip_time.split("T")[0])
-                // console.log(new Date(props.item.trip_time).toLocaleDateString())
-                // console.log(new Date(props.item.trip_time).toLocaleTimeString())
-                if(props.item.creator_gender==="m"){
-                    setGenderButton("مرد")
-                }
-                else{
-                    setGenderButton("زن")
-                }
-                setGender(props.item.creator_gender)
-                setDescription(props.item.description)
-                
-            }
-        }
-    }, [datePickerValue]);
-
     function onChangeTime(date, dateString) {
         setTime(dateString)
         console.log(dateString)
@@ -258,23 +260,23 @@ const DriverModal = (props) => {
     }
 
 
-    const setCheckAndDrivetModal=()=>{
-        props.setDriverModal()
+    const setCheckAndDriverModal=()=>{
+        props.setDriverModal(false)
         props.setCheck(false)
     }
 
     return (
         <Modal
             visible={true}
-            onOk={() => setCheckAndDrivetModal()}
-            onCancel={() => setCheckAndDrivetModal()}
+            onOk={() => setCheckAndDriverModal()}
+            onCancel={() => setCheckAndDriverModal()}
             okButtonProps={{hidden: true}}
             cancelButtonProps={{hidden: true}}
             className="driver-modal-page"
             footer={
                 <div className="footer">
                     <Button className="submit" onClick={onSubmitFormHandler}>ثبت</Button>
-                    <Button className="cancel" onClick={() => props.setDriverModal()}>لغو</Button>
+                    <Button className="cancel" onClick={() => props.setDriverModal(false)}>لغو</Button>
                 </div>
             }
             modalRender={modal => (
@@ -419,7 +421,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
+        setDriverModal: (isopen) => dispatch({type: Actions.DRIVERMODALSHOW,isopen:isopen}),
         setCheck:(checkInput) => dispatch({type: Actions.CHECK,checkInput: checkInput}),
     }
 }

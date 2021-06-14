@@ -31,6 +31,9 @@ const DriverTravels = (props) => {
     }
 
     useEffect(() => {
+        props.setDriverModal(false)
+        console.log("useEffect")
+        props.setCheck(false)
         get(APIPath.hichhike.driverTravels).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setTravels(data.data)
@@ -38,6 +41,7 @@ const DriverTravels = (props) => {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
         });
+        console.log("props.driverModalShow",props.driverModalShow)
     }, [])
 
     const [visible, setVisible] = React.useState(false);
@@ -73,25 +77,28 @@ const DriverTravels = (props) => {
         return false;
     }
 
-    useEffect(() => {
-        props.setCheck(false)
-        get(APIPath.hichhike.driverTravels).then((data) => {
-            console.log("1", data)
-            if (responseValidator(data.status) && data.data) {
-                console.log("2", data.data)
-                setTravels(data.data)
-            } else {
-                toast.error("مجددا تلاش کنید.");
-            }
-        });
-    }, [])
+    // useEffect(() => {
+    //     props.setCheck(false)
+    //     props.setDriverModal(false)
+    //     get(APIPath.hichhike.driverTravels).then((data) => {
+    //         console.log("1", data)
+    //         if (responseValidator(data.status) && data.data) {
+    //             console.log("2", data.data)
+    //             setTravels(data.data)
+    //         } else {
+    //             toast.error("مجددا تلاش کنید.");
+    //         }
+    //     });
+    // }, [])
 
     const set = (item) => {
+        console.log("itemset")
         props.setCheck(true)
         props.setItem(item)
-        props.setDriverModal()
+        props.setDriverModal(true)
     }
 
+    
     return (
         <div className='my-travels-page'>
             {props.driverModalShow ? <DriverModal/> : null}
@@ -206,7 +213,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setCheck: (checkInput) => dispatch({type: Actions.CHECK, checkInput: checkInput}),
         setItem: (item) => dispatch({type: Actions.ITEM, item: item}),
-        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
+        setDriverModal: (isopen) => dispatch({type: Actions.DRIVERMODALSHOW,isopen:isopen}),
     }
 }
 

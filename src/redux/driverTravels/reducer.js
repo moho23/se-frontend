@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
         case(Actions.DRIVERMODALSHOW):
             return {
                 ...state,
-                driverModalShow: !state.driverModalShow
+                driverModalShow: action.isopen
             }
         case(Actions.CHECK):
             return {
