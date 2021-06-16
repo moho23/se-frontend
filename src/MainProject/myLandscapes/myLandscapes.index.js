@@ -8,14 +8,19 @@ import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 import {Button, Modal, Tooltip} from "antd";
 import Draggable from "react-draggable";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 
 const MyLandscapes = () => {
 
-    const [landscapes, setLandscapes] = useState(null);
+    const [landscapes, setLandscapes] = useState();
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
+    const [page,setPage]=useState(1);
+    const [next,setNext]=useState(false);
     const draggleRef = useRef();
+    
+    
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -29,10 +34,22 @@ const MyLandscapes = () => {
     }
 
     useEffect(() => {
-        get(APIPath.map.myLandscapes).then((data) => {
+        //get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
+        get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
             if (responseValidator(data.status) && data.data) {
-                setLandscapes(data.data)
-            } else {
+                if(data.data.has_next)
+                {
+                    setNext(true);
+                    setPage(page+1);
+                    setLandscapes(data.data.data);
+                    
+                }
+                console.log("travel",data.data)
+                console.log("next1",next)
+                console.log("page1",page)
+            }
+            else
+            {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
         });
@@ -63,9 +80,46 @@ const MyLandscapes = () => {
         return false;
     }
 
+    function fetchMoreData(){
+        let tempArray=[];
+            get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
+                console.log("travels2",data.data);
+                if (responseValidator(data.status) && data.data) {  
+                    if(data.data.has_next)
+                    {
+                        setNext(true);
+                        setPage(page+1);
+                    }
+                    else
+                    {
+                        setNext(false);
+                    }
+                    tempArray=landscapes.concat(data.data.data);
+                    setLandscapes(tempArray)
+                    console.log("next2",next);
+                    console.log("page2",page);
+                }
+                else {
+                    toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
+                }
+            },[]);
+    }
+
     return (
-        <div className='my-landscape-page'>
-            {
+        <InfiniteScroll
+        dataLength={6}
+        next={()=>fetchMoreData()}
+        hasMore={next}
+        loader={<h4>Loading...</h4>}
+        height={600}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            {/* <b>Yay! You have seen it all</b> */}
+          </p>
+        }
+    > 
+        <div className='my-landscape-page'>        
+                {
                 landscapes &&
                 landscapes.map((item) => (
                     <div className="landscapes-card">
@@ -92,6 +146,7 @@ const MyLandscapes = () => {
             }
             <div className="my-grid"/>
             <div className="my-grid"/>
+           
             <Modal
                 visible={visible}
                 onOk={handleOk}
@@ -155,6 +210,7 @@ const MyLandscapes = () => {
                 </div>
             }
         </div>
+         </InfiniteScroll>
     )
 }
 
