@@ -1,21 +1,23 @@
 import React, {useState, useEffect, useRef} from "react";
 import './driverTravels.style.scss'
 import cover from '../../assets/images/add-landscapes-default.png';
-import {APIPath, RoutePath} from "../../data";
-import {get, responseValidator} from "../../scripts/api";
+import {APIPath} from "../../data";
+import {get, responseValidator, del} from "../../scripts/api";
 import {toast} from "react-toastify";
-import {Link} from "react-router-dom";
-import noData from "../../assets/images/undraw_not_found_60pq.svg"
+import noData from "../../assets/images/undraw_off_road_9oae.svg"
+import {connect} from "react-redux";
+import * as Actions from "../../redux/driverTravels/actions"
+import DriverModal from "../DriverModal/drivermodal.index";
 import {Button, Modal, Tooltip} from "antd";
-import Draggable from "react-draggable";
 
-const DriverTravels = () => {
+const DriverTravels = (props) => {
 
     const [travels, setTravels] = useState(null);
     const [check, setCheck] = useState(true);
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
+    const [id, setID] = useState(null)
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -40,12 +42,20 @@ const DriverTravels = () => {
 
     const [visible, setVisible] = React.useState(false);
 
-    const showModal = () => {
+    const showModal = (id) => {
         setVisible(true);
+        setID(id)
     };
 
     const handleOk = () => {
         setVisible(false);
+        del(APIPath.hichhike.driverTravels + "?hichhike_id=" + id).then((data) => {
+            if (responseValidator(data.status) && data.data == "hichhike deleted") {
+                toast.success("سفر موردنظر با موفقیت حذف شد.")
+                window.location.reload();
+                //history.push(RoutePath.dashboard.myLandscapes)
+            }
+        })
     };
 
     const handleCancel = () => {
@@ -64,6 +74,7 @@ const DriverTravels = () => {
     }
 
     useEffect(() => {
+        props.setCheck(false)
         get(APIPath.hichhike.driverTravels).then((data) => {
             console.log("1", data)
             if (responseValidator(data.status) && data.data) {
@@ -75,77 +86,84 @@ const DriverTravels = () => {
         });
     }, [])
 
+    const set = (item) => {
+        props.setCheck(true)
+        props.setItem(item)
+        props.setDriverModal()
+    }
+
     return (
         <div className='my-travels-page'>
+            {props.driverModalShow ? <DriverModal/> : null}
             {
                 travels &&
                 travels.map((item) => (
                     <div className="travels-card">
                         <div className="cover-div">
                             <img alt='cover-travels' className="cover"
-                                 src={item.creator_profile_picture ? item.creator_profile_picture : cover}/>
+                                src={item.creator_profile_picture ? item.creator_profile_picture : cover} />
+                            <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>@{item.creator_username && item.creator_username.length > 12 ? item.name.substring(0, 13) + '...' : item.creator_username}</p>
                         </div>
-                        <div className='content'>
-                             {/* <p className="source">از {item.source}</p>
-                            <p className="destination">به {item.destination}</p>
-                            <p className="traveler">تعداد مسافر: {item.fellow_traveler_num}</p>
-                            <p className="cities">{item.cities.join()}</p>
-                            {item.creator_gender == "f" ? <p className="gender">زن</p> :
-                                <p className="gender">مرد</p>}
-                            <p className={check ? "description" : "description-no"}>{item.description}</p> */}
-                            <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
-                            <p className={`${isPersianOrEnglish(item.destination) === false ? 'fix' : 'fix is-english'}`}>به {item.destination}</p>
-                            <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>
-                            <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities}</p>
-                            <Tooltip placement="right" title={item.address}>
-                                <p className={`${isPersianOrEnglish(item.address) === false ? 'fix' : 'fix is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
-                            </Tooltip>
-                            <Tooltip placement="right" title={item.description}>
-                                <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
-                            </Tooltip>
-                            <span />
-                            <span/>
-                            <div className="end-line-button">
-                                <p className="edit" >ویرایش</p>
-                                <p className="delete" onClick={showModal}>حذف</p>
-                            </div>   
-                        </div>
+                            <div className='content'>
+                                <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
+                                <p className={`${isPersianOrEnglish(item.destination) === false ? 'fix' : 'fix is-english'}`}>به {item.destination}</p>
+                                <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>
+                                <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities}</p>
+                                <Tooltip placement="right" title={item.address}>
+                                    <p className={`${isPersianOrEnglish(item.address) === false ? 'fix' : 'fix is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
+                                </Tooltip>
+                                <Tooltip placement="right" title={item.description}>
+                                    <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
+                                </Tooltip>
+                                <span />
+                                <span/>
+                                <span />
+                                <div className="end-line-button">
+                                    <p onClick={() => set(item)} className="edit">ویرایش</p>
+                                    <p className="delete" onClick={() => showModal(item.id)}>حذف</p>
+                                </div>
+                        </div>    
                     </div>
                 ))
             }
             <div className="my-grid"/>
-            <div className="my-grid"/>
-            
+            <div className="my-grid" />
+            {/* <p></p> */}
+
             <Modal
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                modalRender={modal => (
-                    <Draggable
-                        disabled={disabled}
-                        bounds={bounds}
-                        onStart={(event, uiData) => onStart(event, uiData)}
-                    >
-                        <div ref={draggleRef}>{modal}</div>
-                    </Draggable>
-                )}
+                // modalRender={modal => (
+                //     <Draggable
+                //         disabled={disabled}
+                //         bounds={bounds}
+                //         onStart={(event, uiData) => onStart(event, uiData)}
+                //     >
+                //         <div ref={draggleRef}>{modal}</div>
+                //     </Draggable>
+                // )}
                 className="modal"
                 footer={<div style={{display: "flex", width: "100%"}}>
                     <Button
                         onClick={handleOk}
                         style={{
+                            display: "flex",
                             outline: "none",
-                            border: "none",
-                            color: "white",
-                            backgroundColor: "green",
-                            borderRadius: "5px"
+                            border: "1px solid green",
+                            color: "green",
+                            borderRadius: "5px",
+                            fontWeight: 500
                         }}>تایید</Button>
                     <Button
                         onClick={handleCancel}
                         style={{
+                            display: "flex",
                             outline: "none",
                             border: "none",
-                            backgroundColor: "orange",
+                            backgroundColor: "#F05454",
+                            color: "#ffffff",
+                            fontWeight: 500,
                             borderRadius: "5px",
                         }}>لغو</Button>
                 </div>}
@@ -180,4 +198,17 @@ const DriverTravels = () => {
     )
 }
 
-export default DriverTravels;
+const mapStateToProps = (state) => ({
+    driverModalShow: state.driverTravels.driverModalShow,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setCheck: (checkInput) => dispatch({type: Actions.CHECK, checkInput: checkInput}),
+        setItem: (item) => dispatch({type: Actions.ITEM, item: item}),
+        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
+    }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export default connector(DriverTravels);

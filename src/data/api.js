@@ -14,10 +14,13 @@ export const __APIPath = {
         searchByName: "location/search_by_name/",
     },
     location: {
-        create: "location/create/"
+        create: "location/create/",
+        update: "location/creator_locations/"
     },
     hichhike: {
         driverTravels: "hichhike/list/",
-        create: 'hichhike/create/'
+        create: 'hichhike/create/',
+        timeLine: "hichhike/suggest_hichhike/",
+        update: "hichhike/list/"
     }
 };

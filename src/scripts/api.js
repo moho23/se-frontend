@@ -178,3 +178,24 @@ export function upload_post(URL, formData, onProgress) {
     });
     return {promise, abort};
 }
+
+export function update_put(URL, formData, onProgress) {
+    let abort;
+    const promise = new Promise((resolve) => {
+        const request = new XMLHttpRequest();
+        abort = request.abort;
+        request.onload = function () {
+            if (request.readyState == XMLHttpRequest.DONE)
+                resolve({status: request.status, data: JSON.parse(request.responseText)});
+            else resolve({status: request.status, data: null});
+        };
+        request.upload.addEventListener('progress', function (e) {
+            onProgress(e.loaded);
+        });
+        request.open('put', SERVER + URL);
+        request.setRequestHeader('Authorization', 'Token ' + authToken.get());
+        request.timeout = 45000;
+        request.send(formData);
+    });
+    return {promise, abort};
+}

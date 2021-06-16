@@ -191,6 +191,11 @@ const MapContainer = (props) => {
         setLon(e.lngLat.lng);
     }
 
+    const setCheckDriverModal=()=>{
+        props.setCheck(false)
+        props.setDriverModal()
+    }
+
     return (
         <div className="map-main-page">
             <Mapfilterbar isFilterOpen={isOpen} isRadius={handleIsSearchByRadius} cordinate={handleSearchByName} />
@@ -205,7 +210,7 @@ const MapContainer = (props) => {
             <div className="hitchhike">
                 <Tooltip style={{direction: "rtl"}} placement="left"
                          title="سفیر هیچ هایک">
-                    <i onClick={() => props.setDriverModal()} className="material-icons icon">thumb_down_alt</i>
+                    <i onClick={() => setCheckDriverModal()} className="material-icons icon">thumb_down_alt</i>
                     {/*<img onClick={() => props.setDriverModal()} className="sss" src={hitchhiker} alt="mmd"/>*/}
                 </Tooltip>
             </div>
@@ -248,6 +253,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        setCheck:(check) => dispatch({type: Actions.CHECK, check: check}),
         setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
         setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
     }

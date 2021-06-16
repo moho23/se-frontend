@@ -2,16 +2,20 @@ import React, {useState, useEffect, useRef} from "react";
 import './myLandscapes.style.scss'
 import cover from '../../assets/images/add-landscapes-default.png';
 import {APIPath, RoutePath} from "../../data";
-import {get, responseValidator} from "../../scripts/api";
+import {get, responseValidator,del} from "../../scripts/api";
 import {toast} from "react-toastify";
 import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 import {Button, Modal, Tooltip} from "antd";
 import Draggable from "react-draggable";
 import InfiniteScroll from "react-infinite-scroll-component";
+import {connect} from "react-redux";
+import * as Actions from "../../redux/myLandscapes/actions"
+import {useHistory} from "react-router-dom";
 
 
-const MyLandscapes = () => {
+
+const MyLandscapes = (props) => {
 
     const [landscapes, setLandscapes] = useState();
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
@@ -21,6 +25,9 @@ const MyLandscapes = () => {
     const draggleRef = useRef();
     
     
+    const[id,setId]=useState(null)
+    const draggleRef = useRef();
+    const history=useHistory()
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -35,6 +42,7 @@ const MyLandscapes = () => {
 
     useEffect(() => {
         //get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
+        props.setUpdate(false)
         get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 if(data.data.has_next)
@@ -57,17 +65,30 @@ const MyLandscapes = () => {
 
     const [visible, setVisible] = React.useState(false);
 
-    const showModal = () => {
+    const showModal = (id) => {
         setVisible(true);
+        setId(id)
     };
 
     const handleOk = () => {
         setVisible(false);
+        del(APIPath.map.myLandscapes+"?location_id="+id).then((data) => {
+            if (responseValidator(data.status) && data.data=="Location deleted"){
+                toast.success("مکان موردنظر با موفقیت حذف شد.")
+                window.location.reload();
+            }
+        })
     };
 
     const handleCancel = () => {
         setVisible(false);
     };
+
+    const editMyLand=(item)=>{
+        props.setItem(item)
+        props.setUpdate(true)
+        history.push(RoutePath.dashboard.addLandscapes)
+    }
 
     function isPersianOrEnglish(str) {
         const alphabet = "1234567890abcdefghijklmnopqrstuvwxyz";
@@ -137,8 +158,8 @@ const MyLandscapes = () => {
                             </Tooltip>
                             <span/>
                             <div className="end-line-button">
-                                <p className="edit" >ویرایش</p>
-                                <p className="delete" onClick={showModal}>حذف</p>
+                                <p className="edit" onClick={()=>{editMyLand(item)}}>ویرایش</p>
+                                <p className="delete" onClick={()=>showModal(item.id)}>حذف</p>
                             </div>
                         </div>
                     </div>
@@ -151,32 +172,37 @@ const MyLandscapes = () => {
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                modalRender={modal => (
-                    <Draggable
-                        disabled={disabled}
-                        bounds={bounds}
-                        onStart={(event, uiData) => onStart(event, uiData)}
-                    >
-                        <div ref={draggleRef}>{modal}</div>
-                    </Draggable>
-                )}
+                // modalRender={modal => (
+                //     <Draggable
+                //         disabled={disabled}
+                //         bounds={bounds}
+                //         onStart={(event, uiData) => onStart(event, uiData)}
+                //     >
+                //         <div ref={draggleRef}>{modal}</div>
+                //     </Draggable>
+                // )}
                 className="modal"
                 footer={<div style={{display: "flex", width: "100%"}}>
                     <Button
+                        className="submit"
                         onClick={handleOk}
                         style={{
+                            display: "flex",
                             outline: "none",
-                            border: "none",
-                            color: "white",
-                            backgroundColor: "green",
-                            borderRadius: "5px"
+                            border: "1px solid green",
+                            color:"green",
+                            borderRadius: "5px",
+                            fontWeight:500
                         }}>تایید</Button>
                     <Button
                         onClick={handleCancel}
                         style={{
+                            display: "flex",
                             outline: "none",
                             border: "none",
-                            backgroundColor: "orange",
+                            backgroundColor: "#F05454",
+                            color:"#ffffff",
+                            fontWeight:500,
                             borderRadius: "5px",
                         }}>لغو</Button>
                 </div>}
@@ -214,4 +240,12 @@ const MyLandscapes = () => {
     )
 }
 
-export default MyLandscapes;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
+        setUpdate:(bool) => dispatch({type: Actions.UPDATE, bool: bool}),
+    }
+}
+
+const connector = connect(null, mapDispatchToProps);
+export default connector(MyLandscapes);
