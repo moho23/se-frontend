@@ -11,6 +11,7 @@ import ModalDetails from "../modalDetailsLand/modalDetailsLands.index"
 import Mapfilterbar from "./mapfilterbar.index"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
+import * as DriverModalActions from "../../redux/driverTravels/actions"
 import iconHandler from "./iconhandler.index"
 import {EnglishCategoryToPersian} from "./translateCategory";
 import {Tooltip} from "antd";
@@ -37,7 +38,7 @@ const MapContainer = (props) => {
     useEffect(() => {
         setToken(authToken.get());
         props.setDriverModal(false)
-        props.setCheck(false)
+        props.setIsUpdate(false)
     }, []);
 
     const categoryHandler = (categ) => {
@@ -194,7 +195,7 @@ const MapContainer = (props) => {
     }
 
     const setCheckDriverModal=()=>{
-        props.setCheck(false)
+        props.setIsUpdate(false)
         props.setDriverModal(true)
     }
 
@@ -249,15 +250,15 @@ const mapStateToProps = (state) => ({
     selectedKeys: state.map.selectedKeys,
     searchMarker: state.map.searchMarkerArray,
     modalDetailsShow: state.map.modalDetailsShow,
-    driverModalShow: state.map.driverModalShow,
+    driverModalShow: state.driverTravels.driverModalShow,
     current: state.map.current,
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCheck:(check) => dispatch({type: Actions.CHECK, check: check}),
+        setIsUpdate:(isupdate) => dispatch({type: DriverModalActions.ISUPDATE,isupdate: isupdate}),
         setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
-        setDriverModal: (isopen) => dispatch({type: Actions.DRIVERMODALSHOW,isopen:isopen}),
+        setDriverModal: (isopen) => dispatch({type: DriverModalActions.DRIVERMODALSHOW,isopen:isopen}),
     }
 }
 

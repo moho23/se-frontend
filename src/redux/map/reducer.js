@@ -51,11 +51,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 modalDetailsShow: !state.modalDetailsShow
             }
-        case(Actions.DRIVERMODALSHOW):
-            return {
-                ...state,
-                driverModalShow: action.isopen
-            }
         default:
             return state
     }

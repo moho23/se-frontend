@@ -13,7 +13,7 @@ import {Button, Modal, Tooltip} from "antd";
 const DriverTravels = (props) => {
 
     const [travels, setTravels] = useState(null);
-    const [check, setCheck] = useState(true);
+    // const [check, setCheck] = useState(true);
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
@@ -33,7 +33,7 @@ const DriverTravels = (props) => {
     useEffect(() => {
         props.setDriverModal(false)
         console.log("useEffect")
-        props.setCheck(false)
+        props.setIsUpdate(false)
         get(APIPath.hichhike.driverTravels).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setTravels(data.data)
@@ -78,7 +78,7 @@ const DriverTravels = (props) => {
     }
 
     // useEffect(() => {
-    //     props.setCheck(false)
+    //     props.setIsUpdate(false)
     //     props.setDriverModal(false)
     //     get(APIPath.hichhike.driverTravels).then((data) => {
     //         console.log("1", data)
@@ -93,7 +93,7 @@ const DriverTravels = (props) => {
 
     const set = (item) => {
         console.log("itemset")
-        props.setCheck(true)
+        props.setIsUpdate(true)
         props.setItem(item)
         props.setDriverModal(true)
     }
@@ -211,7 +211,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCheck: (checkInput) => dispatch({type: Actions.CHECK, checkInput: checkInput}),
+        setIsUpdate:(isupdate) => dispatch({type: Actions.ISUPDATE,isupdate: isupdate}),
         setItem: (item) => dispatch({type: Actions.ITEM, item: item}),
         setDriverModal: (isopen) => dispatch({type: Actions.DRIVERMODALSHOW,isopen:isopen}),
     }

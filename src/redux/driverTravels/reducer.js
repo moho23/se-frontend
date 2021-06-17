@@ -3,7 +3,7 @@ import * as Actions from './actions'
 const initialState = {
     item: null,
     driverModalShow: false,
-    check:false
+    isupdate:false
 }
 
 const reducer = (state = initialState, action) => {
@@ -18,10 +18,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 driverModalShow: action.isopen
             }
-        case(Actions.CHECK):
+        case(Actions.ISUPDATE):
             return {
                 ...state,
-                check: action.checkInput
+                isupdate: action.isupdate
             }
         default:
             return state

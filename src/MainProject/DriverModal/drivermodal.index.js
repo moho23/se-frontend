@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, Dropdown, Input, InputNumber, Menu, Modal, TimePicker} from 'antd';
 import "./drivermodal.style.scss"
 import {connect} from "react-redux";
-import * as Actions from "../../redux/map/actions"
+import * as Actions from "../../redux/driverTravels/actions"
 import 'antd/dist/antd.css';
 import Draggable from 'react-draggable';
 import {post, put, responseValidator,update_put} from "../../scripts/api";
@@ -56,7 +56,7 @@ const DriverModal = (props) => {
         if (datePickerValue) {
             setDate(moment(datePickerValue).format('YYYY-MM-DD'));
         }
-        if(props.check){
+        if(props.isupdate){
             if(props.item!=null){
                 console.log(props.item)
                 setDestinationButton(props.item.destination)
@@ -103,7 +103,7 @@ const DriverModal = (props) => {
         return new Promise((resolve) => {
 
             
-            if(props.check){
+            if(props.isupdate){
                 // DriverForm ={...DriverForm,id:props.item.id}
                     console.log({
                         creator_type: 'd',
@@ -134,7 +134,7 @@ const DriverModal = (props) => {
                     console.log(data)
                     if (responseValidator(data.status)) {
                         props.setDriverModal(false)
-                        props.setCheck(false)
+                        props.setIsUpdate(false)
                         toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
                         window.location.reload();
                     } else {
@@ -262,7 +262,7 @@ const DriverModal = (props) => {
 
     const setCheckAndDriverModal=()=>{
         props.setDriverModal(false)
-        props.setCheck(false)
+        props.setIsUpdate(false)
     }
 
     return (
@@ -416,13 +416,13 @@ const DriverModal = (props) => {
 
 const mapStateToProps = (state) => ({
     item: state.driverTravels.item,
-    check:state.driverTravels.check
+    isupdate:state.driverTravels.isupdate
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
         setDriverModal: (isopen) => dispatch({type: Actions.DRIVERMODALSHOW,isopen:isopen}),
-        setCheck:(checkInput) => dispatch({type: Actions.CHECK,checkInput: checkInput}),
+        setIsUpdate:(isupdate) => dispatch({type: Actions.ISUPDATE,isupdate: isupdate}),
     }
 }
 const connector = connect(mapStateToProps, mapDispatchToProps);
