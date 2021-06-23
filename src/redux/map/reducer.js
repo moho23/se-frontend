@@ -9,7 +9,6 @@ export const initialState = {
     searchArea: 1000,
     searchMarkerArray: null,
     modalDetailsShow: false,
-    driverModalShow: false,
 }
 
 const reducer = (state = initialState, action) => {

@@ -4,9 +4,6 @@ import {Provider} from "react-redux"
 import { render as rtlRender,fireEvent,screen } from '@testing-library/react';
 import "@testing-library/jest-dom"
 import Profile from '../../../src/MainProject/profile/profile.index';
-import reducer from '../../redux/register/reducer'
-import * as Actions from '../../redux/register/actions'
-import {initial_state} from '../../redux/register/reducer'
 import {rootReducer} from "../../redux/store"
 
 
@@ -25,42 +22,6 @@ function renderWithRedux(component,{initialState,store = createStore(rootReducer
 }
 
 describe('register reducer', () => {
-  it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(
-      {
-        userData: null,
-        authStatus: "pending",
-      }
-    )
-  })
-
-  it('should handle USER_DATA', () => {
-    expect(
-      reducer(initial_state, {
-        type: Actions.USER_DATA,
-        payload: {
-          firstname:"Yazdan",
-          lastname:"Seyyedi",
-          email:"y@gmail.com",
-          username:"Yazdan",
-          city:"Tehran",
-          profile_picture:""
-        }
-      })
-    ).toEqual(
-      {
-        userData: {
-          firstname:"Yazdan",
-          lastname:"Seyyedi",
-          email:"y@gmail.com",
-          username:"Yazdan",
-          city:"Tehran",
-          profile_picture:""
-        },
-        authStatus: "pending"
-      }
-    )
-  })
 
 
   it("Renders <Profile /> component correctly", () => {
