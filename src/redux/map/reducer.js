@@ -1,6 +1,6 @@
 import * as Actions from './actions'
 
-const initialState = {
+export const initialState = {
     expandedKeys: [],
     checkedKeys: [],
     selectedKeys: [],
@@ -50,11 +50,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 modalDetailsShow: !state.modalDetailsShow
-            }
-        case(Actions.DRIVERMODALSHOW):
-            return {
-                ...state,
-                driverModalShow: !state.driverModalShow
             }
         default:
             return state

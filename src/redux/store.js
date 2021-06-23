@@ -1,10 +1,14 @@
 import { createStore , combineReducers} from "redux";
 import Registerreducer from "./register/reducer";
 import Mapreducer from "./map/reducer" 
+import DriverTravelsreducer from "./driverTravels/reducer"
+import MyLandscapesreducer from "./myLandscapes/reducer";
 
 export const rootReducer= combineReducers({
     register:Registerreducer,
-    map:Mapreducer
+    map:Mapreducer,
+    driverTravels:DriverTravelsreducer,
+    myLandscapes:MyLandscapesreducer
   })
 
 const store = createStore(rootReducer);

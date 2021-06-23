@@ -1,13 +1,35 @@
 @import "../../utilities/references/index";
-
-.my-landscape-page {
+// .rec .rec-slider{
+//   height: 400px;
+// }
+// .rec .rec-carousel{
+//   height: 390px;
+//   width: 1000px;
+// }
+.h1{
+  direction: rtl;
+  display: flex;
+  flex-direction: flex-start
+}
+.rec .rec-item-wrapper{
+  //width: 360px !important;
+  @include project-size(width, 350px, 315px);
+  @include project-md {
+        @include project-size(width, 195px, 200px);
+        flex-direction: column;
+      }
+}
+.rec.rec-arrow:disabled {
+    visibility: hidden;
+}
+.time-line-page {
   display: flex;
   padding: 30px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row-reverse;
   margin-left: -18px;
   overflow: auto;
-
+  
   > * {
     margin-left: 18px;
   }
@@ -28,8 +50,8 @@
   .no-data {
     display: flex;
     width: 100%;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-top: 35px;
     padding: 30px;
@@ -47,25 +69,15 @@
       color: $orangeDark;
       font-weight: 600;
     }
-
-    .to-add-landscape {
-      background-color: white;
-      margin-top: 10px;
-      font-size: 16px;
-      display: flex;
-      font-weight: 600;
-      padding: 10px;
-      border-radius: 10px;
-    }
   }
 
-  .landscapes-card {
+  .time-line-card {
     display: flex;
     flex: 1;
-    @include project-size(min-width, 400px, 315px);
-    flex-direction: row-reverse;
+    @include project-size(width, 300px, 200px);
+    flex-direction: column;
     align-items: center;
-    height: 200px;
+    height: 380px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 5px;
     background-color: $gray0;
@@ -74,13 +86,33 @@
     .cover-div {
       display: flex;
       width: 100%;
-      height: 200px;
+      height: 150px;
+      //flex-direction: row-reverse;
+      padding-top: 10px;
+      padding-left: 50px;
+      background-size: cover;
+      
+
+
+    //   .fix{
+    //     width: 100%;
 
       .cover {
         width: 100%;
-        object-fit: cover;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-radius: 100%;
+        height: 100px;
+        width: 100px;
+        padding: 5px;
+        justify-content: flex-start;
+        // border-top-right-radius: 5px;
+        // border-bottom-right-radius: 5px;
+     // }
+      }
+      .username{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 90%;
       }
     }
 
@@ -92,11 +124,12 @@
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
       padding: 5px 10px;
+      direction: rtl !important;
 
       .name-address {
         width: 100%;
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         font-weight: normal;
         font-size: 14px;
         word-break: break-word;
@@ -107,7 +140,7 @@
         margin-top: 5px;
         display: flex;
 
-        .delete {
+        .detail {
           display: flex;
           color: $white;
           width: 50px;
@@ -123,14 +156,14 @@
         .edit {
           display: flex;
           color: $white;
-          width: 50px;
+          width: 90px;
           border-radius: 5px;
           justify-content: center;
           margin-right: 5px;
           font-size: 13px;
           font-weight: 500;
           cursor: pointer;
-          background-color: $blueWood;
+          background-color: $blue;
         }
       }
 
@@ -150,7 +183,7 @@
         width: 100%;
         word-break: break-word;
         font-size: 14px;
-        justify-content: flex-end;
+        justify-content: flex-start;
         direction: rtl;
         height: 100px;
       }

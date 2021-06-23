@@ -45,7 +45,15 @@ const Sidebar = (props) => {
                     <i className="material-icons">person</i>
                     <p>پروفایل</p>
                 </NavLink> */}
-
+                <NavLink
+                    to={RoutePath.dashboard.timeLine}
+                    onClick={() => setStatus(false)}
+                    activeClassName="active"
+                    className="row-item map"
+                >
+                    <i className="material-icons">home</i>
+                    <p>رویدادها</p>
+                </NavLink>
                 <NavLink
                     to={RoutePath.map.index}
                     onClick={() => setStatus(false)}
