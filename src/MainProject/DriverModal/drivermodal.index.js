@@ -12,7 +12,7 @@ import {StatesList} from "../register/signup/states";
 import useOnBlur from "../../scripts/useOnBlur";
 import moment from 'jalali-moment';
 import {Calendar} from 'react-datepicker2';
-import locale from "antd/es/date-picker/locale/de_DE";
+// import locale from "antd/es/date-picker/locale/de_DE";
 
 const {TextArea} = Input;
 
@@ -351,20 +351,20 @@ const DriverModal = (props) => {
                             className="places"
                             placeholder='00:00:00'
                             onChange={onChangeTime}
-                            locale={{
-                                ...locale,
-                                lang: {
-                                    ...locale.lang,
-                                    now: <p style={{
-                                        color: "green",
-                                        fontWeight: 500,
-                                        fontSize: "14px",
-                                        display: "flex",
-                                        justifyContent: "center"
-                                    }}>اکنون</p>,
-                                    ok: <p style={{}}>تایید</p>,
-                                }
-                            }}
+                            // locale={{
+                            //     ...locale,
+                            //     lang: {
+                            //         ...locale.lang,
+                            //         now: <p style={{
+                            //             color: "green",
+                            //             fontWeight: 500,
+                            //             fontSize: "14px",
+                            //             display: "flex",
+                            //             justifyContent: "center"
+                            //         }}>اکنون</p>,
+                            //         ok: <p style={{}}>تایید</p>,
+                            //     }
+                            // }}
                         />
                     </div>
                 </div>
