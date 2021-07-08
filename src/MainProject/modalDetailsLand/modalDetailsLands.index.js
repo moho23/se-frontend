@@ -1,17 +1,21 @@
 import React, {useRef, useState} from 'react';
-import {Modal} from 'antd';
+import {Modal,Button} from 'antd';
 import "./modalDetailsLands.style.scss"
 import detailsDefaultCover from '../../assets/images/default-modal-detail-land.png'
 import {connect} from "react-redux";
-import * as Actions from "../../redux/map/actions"
+import * as ActionsMap from "../../redux/map/actions"
+import * as ActionsModalDetails from "../../redux/modalDetails/actions"
 import 'antd/dist/antd.css';
 import Draggable from 'react-draggable';
+import {useHistory} from "react-router-dom";
+import { RoutePath } from '../../data';
 
 
 const ModalDetails = (props) => {
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
+    const history=useHistory()
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
@@ -24,6 +28,10 @@ const ModalDetails = (props) => {
         })
     }
 
+    function Comments(detail){
+        props.setProps(detail)
+        history.push(RoutePath.commentsLand.comments)
+    }
 
     return (
         <Modal
@@ -61,6 +69,11 @@ const ModalDetails = (props) => {
                     <div ref={draggleRef}>{modal}</div>
                 </Draggable>
             )}
+            footer={[
+                <Button key="comments" type="primary" onClick={()=>Comments(props)}>
+                    نظرات
+                </Button>
+            ]}
         >
 
             <div className="details-img">
@@ -92,7 +105,8 @@ const ModalDetails = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
+        setProps:(props) => dispatch({type: ActionsModalDetails.PROPS, props: props}),
+        setModal: () => dispatch({type: ActionsMap.MODALDETAILSHOW}),
     }
 }
 const connector = connect(null, mapDispatchToProps);
