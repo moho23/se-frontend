@@ -12,6 +12,7 @@ export const __APIPath = {
         myLandscapes: "location/creator_locations/",
         categories: "location/getCategory/",
         searchByName: "location/search_by_name/",
+        rate: "location/rate/"
     },
     location: {
         create: "location/create/",
