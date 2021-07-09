@@ -53,9 +53,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 35px;
-    padding: 30px;
-    border-radius: 10px;
+    height: 300px;
 
     img {
       @include project-size(width, 450px, 250px);
@@ -74,7 +72,7 @@
   .time-line-card {
     display: flex;
     flex: 1;
-    @include project-size(width, 300px, 200px);
+    @include project-size(width, 250px, 200px);
     flex-direction: column;
     align-items: center;
     height: 380px;
@@ -82,16 +80,23 @@
     border-radius: 5px;
     background-color: $gray0;
     margin-bottom: 20px;
+    
+
+    .header{
+      background-color:$blue;
+      display: flex;
+      width: 100%;
+      height: 12%;
+    }
 
     .cover-div {
       display: flex;
       width: 100%;
-      height: 150px;
       //flex-direction: row-reverse;
       padding-top: 10px;
       padding-left: 50px;
       background-size: cover;
-      
+     
 
 
     //   .fix{
@@ -100,8 +105,8 @@
       .cover {
         width: 100%;
         border-radius: 100%;
-        height: 100px;
-        width: 100px;
+        height: 55px;
+        width: 55px;
         padding: 5px;
         justify-content: flex-start;
         // border-top-right-radius: 5px;
@@ -112,7 +117,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        height: 90%;
+        height: 165%;
       }
     }
 
@@ -123,15 +128,55 @@
       flex-direction: column;
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
-      padding: 5px 10px;
+      padding: 20px 10px;
       direction: rtl !important;
 
-      .name-address {
+      .source {
         width: 100%;
         display: flex;
         justify-content: flex-start;
         font-weight: normal;
-        font-size: 14px;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .destination {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .cities {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .follow-traveler {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .time {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
         word-break: break-word;
         margin-bottom: 8px;
       }
@@ -140,30 +185,29 @@
         margin-top: 5px;
         display: flex;
 
-        .detail {
-          display: flex;
-          color: $white;
-          width: 50px;
-          border-radius: 5px;
-          justify-content: center;
-          font-size: 13px;
-          font-weight: 500;
-          cursor: pointer;
-          background-color: #f34e4e;
-          margin-left: 5px;
-        }
-
-        .edit {
+        .join {
           display: flex;
           color: $white;
           width: 90px;
           border-radius: 5px;
-          justify-content: center;
           margin-right: 5px;
           font-size: 13px;
           font-weight: 500;
           cursor: pointer;
           background-color: $blue;
+          justify-content: center;
+        }
+        .delete{
+          display: flex;
+          color: $white;
+          width: 90px;
+          border-radius: 5px;
+          margin-right: 5px;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          background-color: $red;
+          justify-content: center;
         }
       }
 
@@ -183,9 +227,10 @@
         width: 100%;
         word-break: break-word;
         font-size: 14px;
-        justify-content: flex-start;
         direction: rtl;
         height: 100px;
+        justify-content:flex-end;
+
       }
     }
   }
