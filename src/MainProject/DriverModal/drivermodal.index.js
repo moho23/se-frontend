@@ -5,10 +5,9 @@ import {connect} from "react-redux";
 import * as Actions from "../../redux/driverTravels/actions"
 import 'antd/dist/antd.css';
 import Draggable from 'react-draggable';
-import {post, put, responseValidator, update_put} from "../../scripts/api";
+import {post, put, responseValidator} from "../../scripts/api";
 import {APIPath} from "../../data";
 import {toast} from "react-toastify";
-import {StatesList} from "../register/signup/states";
 import useOnBlur from "../../scripts/useOnBlur";
 import moment from 'jalali-moment';
 import {Calendar} from 'react-datepicker2';
