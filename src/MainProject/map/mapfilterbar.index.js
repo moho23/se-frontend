@@ -34,85 +34,83 @@ const Mapfilterbar = (props) => {
         {label: 'همه مکان ها', value: 'all'},
     ];
 
-    const onSearchClick =(arr)=>{
+    const onSearchClick = (arr) => {
         console.log(arr)
-        let name= null
-        let image= null
-        let address= null
-        let description= null
-        let category= ""
+        let name = null
+        let image = null
+        let address = null
+        let description = null
+        let category = ""
         let array = [];
         setIsntClicked(true)
         let url = APIPath.map.details + arr.xid
-        
+
         get(url).then((data) => {
-                    console.log(data)
-                    
-                    if (data.data) {
-                        props.setModal()
-                        if (data.data.address.city) {
-                            address=(data.data.address.city)
-                            if (data.data.address.neighbourhood) {
-                                address=(data.data.address.city + "," + data.data.address.neighbourhood)
-                                if (data.data.address.road) {
-                                    address=(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
-                                }
-                            } else if (data.data.address.road) {
-                                address=(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
+                console.log(data)
+
+                if (data.data) {
+                    props.setModal()
+                    if (data.data.address.city) {
+                        address = (data.data.address.city)
+                        if (data.data.address.neighbourhood) {
+                            address = (data.data.address.city + "," + data.data.address.neighbourhood)
+                            if (data.data.address.road) {
+                                address = (data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
                             }
-                        } else if (data.data.address) {
-                            address=(data.data.address)
+                        } else if (data.data.address.road) {
+                            address = (data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
                         }
-                        if (data.data.wikipedia_extracts) {
-                            description=(data.data.wikipedia_extracts.text)
-                        } else if (data.data.description) {
-                            description=(data.data.description)
-                        }
-                        if (data.data.name) {
-                            name=(data.data.name)
-                        }
-                        if (data.data.kinds) {
-                            // categoryHandler(data.data.kinds)
-                            category=((data.data.kinds))
-                        }
-                        if (data.data.image) {
-                            if (!data.data.image[0]) {
-                                image=(null)
-                            } else {
-                                image=(data.data.image)
-                            }
+                    } else if (data.data.address) {
+                        address = (data.data.address)
+                    }
+                    if (data.data.wikipedia_extracts) {
+                        description = (data.data.wikipedia_extracts.text)
+                    } else if (data.data.description) {
+                        description = (data.data.description)
+                    }
+                    if (data.data.name) {
+                        name = (data.data.name)
+                    }
+                    if (data.data.kinds) {
+                        // categoryHandler(data.data.kinds)
+                        category = ((data.data.kinds))
+                    }
+                    if (data.data.image) {
+                        if (!data.data.image[0]) {
+                            image = (null)
+                        } else {
+                            image = (data.data.image)
                         }
                     }
-                    else{
-                        // props.setModal()
-                        // toast.warning("متاسفانه برای این مکان جزئیاتی ثبت نشده است")
-                        // console.log("very bad")
-                        // name= arr.display_name
-                        // image= arr.icon
-                        // address= null
-                        // description= null
-                        // category= ""
-                        // array = [];
-                    }
-                    array.push(<Mapir.Marker
-                        coordinates={[arr.lon, arr.lat]}
-                        onClick={() => setIsntClicked(false)}
-                        anchor="bottom"
-                        Image={markerUrl}
-                        style={{cursor: "pointer"}}
-                        >
-                        </Mapir.Marker>);
-                    if (isntClicked) {
-                        props.onSearch(array);
-                        props.cordinate(arr.lat,arr.lon,name,image,address,description,category)
-                    } else {
-                        props.onSearch(null);
-                    }
+                } else {
+                    // props.setModal()
+                    // toast.warning("متاسفانه برای این مکان جزئیاتی ثبت نشده است")
+                    // console.log("very bad")
+                    // name= arr.display_name
+                    // image= arr.icon
+                    // address= null
+                    // description= null
+                    // category= ""
+                    // array = [];
                 }
-            
+                array.push(<Mapir.Marker
+                    coordinates={[arr.lon, arr.lat]}
+                    onClick={() => setIsntClicked(false)}
+                    anchor="bottom"
+                    Image={markerUrl}
+                    style={{cursor: "pointer"}}
+                >
+                </Mapir.Marker>);
+                if (isntClicked) {
+                    props.onSearch(array);
+                    props.cordinate(arr.lat, arr.lon, name, image, address, description, category)
+                } else {
+                    props.onSearch(null);
+                }
+            }
         )
-        
-        
+
+
     }
 
     const onSearch = value => {
@@ -120,29 +118,28 @@ const Mapfilterbar = (props) => {
         // const searchInput = encodeURIComponent(value)
         const searchInput = value
         // const searchInput = value.replace(" ","%20")
-        let url = APIPath.map.searchByName +"?search="+ searchInput
-        if(searchInput!==""){
+        let url = APIPath.map.searchByName + "?search=" + searchInput
+        if (searchInput !== "") {
             get(url).then((data) => {
                 console.log(data)
                 if (data.data) {
                     const array = [];
                     setIsntClicked(true)
-                    data.data.map(arr=>{
-                        array.push(<div onClick={()=>onSearchClick(arr)} style={{cursor: "pointer"}}>{arr.display_name}<hr/></div>);
+                    data.data.map(arr => {
+                        array.push(arr.display_name);
                     })
-                   
+
                     setSearchResult(array)
                 } else {
                     toast.warn("چنین مکانی ثبت نشده است.")
                 }
-    
+
             })
-        }
-        else{
+        } else {
             toast.warn("لطفا مکان مورد نظر خود را در محل جستجو وارد کنید")
             setSearchResult([])
         }
-        
+
     };
 
     const setNearPlacesActive = (e) => {
@@ -161,8 +158,13 @@ const Mapfilterbar = (props) => {
                     <p className="search-label">جستجو</p>
                     <Search className="search-box" placeholder="آدرس، مکان ..."
                             onSearch={onSearch}/>
-                    <hr/>
-                    {searchResult}
+                    {
+                        searchResult && searchResult.map((item, index) => (
+                            <div onClick={() => onSearchClick(item)} className="search-results" style={{cursor: "pointer"}}>{item}
+                                {/*<hr/>*/}
+                            </div>
+                        ))
+                    }
                     <p className="selector-label">محدوده جستجو</p>
                     <Select defaultValue={props.searchArea + ' متر'} disabled={desableFilters}
                             className="simple-selector"

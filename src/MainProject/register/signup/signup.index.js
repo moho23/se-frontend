@@ -11,6 +11,7 @@ import "./states";
 import {Dropdown, Menu, Button} from "antd";
 import {StatesList} from "./states";
 import useOnBlur from "../../../scripts/useOnBlur";
+import Buttonn from "../../../utilities/components/button/button.index";
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -110,7 +111,7 @@ const Signup = () => {
                            placeholder="رمز خود را وارد کنید."/>
                     <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}
                            placeholder="رمز خود را تکرار کنید."/>
-                    <Button className="last-item" onClick={submit}>ثبت نام</Button>
+                    <Buttonn className="last-item" onClick={submit} text="ثبت نام"/>
                     <div className="end-line">
                         <p>
                             قبلا ثبت نام کردی؟ <Link to={RoutePath.account.signin}

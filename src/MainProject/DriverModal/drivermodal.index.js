@@ -93,21 +93,9 @@ const DriverModal = (props) => {
                 setSource(props.item.source)
                 setAge(props.item.creator_age)
                 setNumOfTraveler(props.item.fellow_traveler_num)
-                // setDate(props.item.trip_time.split("T")[0])
-                // setDatePickerValue(new Date(props.item.trip_time).toLocaleDateString())
                 setTime(props.item.trip_time.split("T")[1].split("Z")[0])
-                // setTime(new Date(props.item.trip_time).toLocaleTimeString())
-                // console.log(props.item.trip_time.split("T")[1].split("Z")[0])
                 setTimePickerValue(moment(props.item.trip_time.split("T")[1].split("Z")[0], 'HH:mm:ss'))
-                // console.log(props.item.trip_time.split("T")[1].split("Z")[0])
-                // console.log(props.item.trip_time.split("T")[0])
-                // console.log(new Date(props.item.trip_time).toLocaleDateString())
-                // console.log(new Date(props.item.trip_time).toLocaleTimeString())
-                // console.log("moment",moment(props.item.trip_time ,'YY-MM-DD'))
-                // console.log("moment2",moment(props.item.trip_time))
                 setDate(props.item.trip_time.split("T")[0])
-                // setStatus(false);
-                // setDatePickerValue(moment(props.item.trip_time.split("T")[0] ,'YY-MM-DD'));
                 if(props.item.creator_gender==="m"){
                     setGenderButton("مرد")
                 } else {
@@ -115,7 +103,6 @@ const DriverModal = (props) => {
                 }
                 setGender(props.item.creator_gender)
                 setDescription(props.item.description)
-
             }
         }
     },[])
@@ -134,10 +121,7 @@ const DriverModal = (props) => {
 
     function onSubmitFormHandler() {
         return new Promise((resolve) => {
-
-
             if (props.isupdate) {
-                // DriverForm ={...DriverForm,id:props.item.id}
                 console.log({
                     creator_type: 'd',
                     creator_gender: gender,
@@ -410,7 +394,6 @@ const DriverModal = (props) => {
                                     className={sourceCityButton ? "places selected" : "places"}>{sourceCityButton ? sourceCityButton : "شهر مبدا"}</Button>
                         </Dropdown>
                     </div>
-                    {/*<button onClick={() => console.log(sourceCityOptions)}>ss</button>*/}
                     <div className="item">
                         <p className="label">مبدا</p>
                         <Dropdown arrow={true} visible={visible1} trigger="click" overlay={menu}
