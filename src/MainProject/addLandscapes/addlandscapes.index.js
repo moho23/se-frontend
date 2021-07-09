@@ -365,4 +365,3 @@ const mapDispatchToProps = (dispatch) => {
 
 const connector = connect(mapStateToProps,mapDispatchToProps);
 export default connector(AddLandscapes);
-
