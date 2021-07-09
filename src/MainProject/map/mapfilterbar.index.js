@@ -85,7 +85,7 @@ const Mapfilterbar = (props) => {
                     }
                     else{
                         // props.setModal()
-                        toast.warning("متاسفانه برای این مکان جزئیاتی ثبت نشده است")
+                        // toast.warning("متاسفانه برای این مکان جزئیاتی ثبت نشده است")
                         // console.log("very bad")
                         // name= arr.display_name
                         // image= arr.icon
@@ -140,6 +140,7 @@ const Mapfilterbar = (props) => {
         }
         else{
             toast.warn("لطفا مکان مورد نظر خود را در محل جستجو وارد کنید")
+            setSearchResult([])
         }
         
     };
