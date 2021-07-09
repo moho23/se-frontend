@@ -39,6 +39,7 @@ const MyLandscapes = (props) => {
         get(APIPath.map.myLandscapes).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setLandscapes(data.data)
+                console.log(data.data)
             } else {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
