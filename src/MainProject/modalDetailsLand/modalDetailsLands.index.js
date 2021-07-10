@@ -54,8 +54,8 @@ const ModalDetails = (props) => {
                 </div>
             }
             visible={true}
-            onOk={() => props.setModal()}
-            onCancel={() => props.setModal()}
+            onOk={() => props.setModal(false)}
+            onCancel={() => props.setModal(false)}
             okButtonProps={{hidden: true}}
             cancelButtonProps={{hidden: true}}
             className="modal-detail-page"
@@ -109,7 +109,7 @@ const ModalDetails = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setProps:(props) => dispatch({type: ActionsModalDetails.PROPS, props: props}),
-        setModal: () => dispatch({type: ActionsMap.MODALDETAILSHOW}),
+        setModal: (isOpen) => dispatch({type: ActionsMap.MODALDETAILSHOW,isOpen:isOpen}),
     }
 }
 const connector = connect(null, mapDispatchToProps);

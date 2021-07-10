@@ -40,6 +40,7 @@ const MapContainer = (props) => {
         setToken(authToken.get());
         props.setDriverModal(false)
         props.setIsUpdate(false)
+        props.setModal(false)
     }, []);
 
     const categoryHandler = (categ) => {
@@ -73,7 +74,7 @@ const MapContainer = (props) => {
                 resolve(true);
                 if (responseValidator(data.status) && data.data) {
                     console.log(data)
-                    props.setModal()
+                    props.setModal(true)
                     if (data.data) {
                         if (data.data.address.city) {
                             setAddress(data.data.address.city)
@@ -263,7 +264,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     return {
         setIsUpdate:(isupdate) => dispatch({type: DriverModalActions.ISUPDATE,isupdate: isupdate}),
-        setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
+        setModal: (isOpen) => dispatch({type: Actions.MODALDETAILSHOW,isOpen:isOpen}),
         setDriverModal: (isopen) => dispatch({type: DriverModalActions.DRIVERMODALSHOW,isopen:isopen}),
     }
 }
