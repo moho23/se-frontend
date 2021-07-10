@@ -16,7 +16,8 @@ export const __APIPath = {
     location: {
         create: "location/create/",
         update: "location/creator_locations/",
-        comment:"location/comments/"
+        getComments:"location/comments/",
+        addComment:"location/comments/create"
     },
     hichhike: {
         driverTravels: "hichhike/list/",

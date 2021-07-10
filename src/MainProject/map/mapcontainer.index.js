@@ -33,6 +33,7 @@ const MapContainer = (props) => {
     const [category, setCategory] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
     const [token, setToken] = useState(null);
+    const [id,setId]=useState(null);
 
 
     useEffect(() => {
@@ -63,6 +64,7 @@ const MapContainer = (props) => {
         setAddress(null)
         setDescription(null)
         setCategory(null)
+        setId(null)
         // console.log("details")
         detailsSideBar.set(true)
         let url = APIPath.map.details + xid
@@ -97,6 +99,9 @@ const MapContainer = (props) => {
                         if (data.data.kinds) {
                             // categoryHandler(data.data.kinds)
                             setCategory(categoryHandler(data.data.kinds))
+                        }
+                        if(data.data.id){
+                            setId(data.data.id)
                         }
                         if (data.data.image) {
                             if (!data.data.image[0]) {
@@ -208,6 +213,7 @@ const MapContainer = (props) => {
                 description={description}
                 cover={image}
                 address={address}
+                id={id}
             /> : null}
             {props.driverModalShow ? <DriverModal/> : null}
             <div className="hitchhike">

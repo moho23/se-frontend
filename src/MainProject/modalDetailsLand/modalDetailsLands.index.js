@@ -69,11 +69,14 @@ const ModalDetails = (props) => {
                     <div ref={draggleRef}>{modal}</div>
                 </Draggable>
             )}
-            footer={[
+            footer={props.id!==null 
+                ?[
                 <Button key="comments" type="primary" onClick={()=>Comments(props)}>
                     نظرات
                 </Button>
-            ]}
+                
+            ]
+        :null}
         >
 
             <div className="details-img">
