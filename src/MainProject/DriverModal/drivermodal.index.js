@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Dropdown, Input, InputNumber, Menu, Modal, TimePicker} from 'antd';
+import {Button, Dropdown, Input, InputNumber, Menu, Modal, TimePicker, Select} from 'antd';
 import "./drivermodal.style.scss"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/driverTravels/actions"
@@ -13,7 +13,9 @@ import moment from 'jalali-moment';
 import {Calendar} from 'react-datepicker2';
 import locale from "antd/es/date-picker/locale/de_DE";
 import {AllProvinces} from "./cities.data";
+import {AllCityInIran} from "./allCitiesInIran.data";
 
+const {Option} = Select;
 const {TextArea} = Input;
 
 const DriverModal = (props) => {
@@ -21,7 +23,8 @@ const DriverModal = (props) => {
     const [disabled, setDisabled] = useState(true);
     const [numOfTraveler, setNumOfTraveler] = useState(null);
     const [description, setDescription] = useState('');
-    const [cities, setCities] = useState(null);
+    const [cities, setCities] = useState([]);
+    const [tempCity, setTempCity] = useState([])
     const [date, setDate] = useState('2021-03-21');
     const [time, setTime] = useState(null);
     const [age, setAge] = useState(null);
@@ -40,26 +43,20 @@ const DriverModal = (props) => {
     const [status, setStatus] = useState(false)
     const [datePickerValue, setDatePickerValue] = useState(null)
     const [timePickerValue, setTimePickerValue] = useState(null)
-
-
     const [source, setSource] = useState('تهران');
     const [sourceCity, setSourceCity] = useState('شاهدشهر');
-
-
     const [destination, setDestination] = useState('آذربایجان شرقی');
     const [destinationCity, setDestinationCity] = useState('آبش احمد');
-
-
     const [sourceButton, setSourceButton] = useState('تهران');
     const [sourceCityButton, setSourceCityButton] = useState('شاهدشهر');
-
     const [destinationButton, setDestinationButton] = useState('آذربایجان شرقی');
     const [destinationCityButton, setDestinationCityButton] = useState('آبش احمد');
-
     const [sourceOrDestination, setSourceOrDestination] = useState(null);
     const [sourceCityOrDestinationCity, setSourceCityOrDestinationCity] = useState(null);
-
-
+    const [sourceArrow, setSourceArrow] = useState(false)
+    const [destArrow, setDestArrow] = useState(false)
+    const [sourceCityArrow, setSourceCityArrow] = useState(false)
+    const [destCityArrow, setDestCityArrow] = useState(false)
     const sourceRef = useRef(null)
     const sourceCityRef = useRef(null)
     const destinationRef = useRef(null)
@@ -83,9 +80,9 @@ const DriverModal = (props) => {
         }
     }, [datePickerValue]);
 
-    useEffect(()=>{
-        if(props.isupdate){
-            if(props.item!=null){
+    useEffect(() => {
+        if (props.isupdate) {
+            if (props.item != null) {
                 console.log(props.item)
                 setDestinationButton(props.item.destination)
                 setDestination(props.item.destination)
@@ -96,7 +93,7 @@ const DriverModal = (props) => {
                 setTime(props.item.trip_time.split("T")[1].split("Z")[0])
                 setTimePickerValue(moment(props.item.trip_time.split("T")[1].split("Z")[0], 'HH:mm:ss'))
                 setDate(props.item.trip_time.split("T")[0])
-                if(props.item.creator_gender==="m"){
+                if (props.item.creator_gender === "m") {
                     setGenderButton("مرد")
                 } else {
                     setGenderButton("زن")
@@ -105,7 +102,7 @@ const DriverModal = (props) => {
                 setDescription(props.item.description)
             }
         }
-    },[])
+    }, [])
 
 
     function onStart(event, uiData) {
@@ -163,18 +160,34 @@ const DriverModal = (props) => {
                     }
                 })
             } else {
-                let DriverForm = {
-                    creator_type: 'd',
-                    creator_gender: gender,
-                    creator_age: age,
-                    source: source,
-                    destination: destination,
-                    fellow_traveler_num: numOfTraveler,
-                    trip_time: date + 'T' + time + 'Z',
-                    cities: ['cities'],
-                    description: description
+                let passengerOrDriverForm;
+                if (driver) {
+                    passengerOrDriverForm = {
+                        creator_type: 'd',
+                        creator_gender: gender,
+                        creator_age: age,
+                        source: sourceCity,
+                        source_state: source,
+                        destination: destinationCity,
+                        destination_state: destination,
+                        fellow_traveler_num: numOfTraveler,
+                        description: description,
+                        cities: cities,
+                        trip_time: date + 'T' + time + 'Z',
+                    }
+                } else {
+                    passengerOrDriverForm = {
+                        creator_type: 'p',
+                        creator_gender: gender,
+                        creator_age: age,
+                        source: sourceCity,
+                        source_state: source,
+                        destination: destinationCity,
+                        destination_state: destination,
+                        description: description,
+                    }
                 }
-                post(APIPath.hichhike.create, DriverForm).then((data) => {
+                post(APIPath.hichhike.create, passengerOrDriverForm).then((data) => {
                     resolve(true);
                     if (responseValidator(data.status)) {
                         toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
@@ -192,11 +205,28 @@ const DriverModal = (props) => {
         });
     }
 
-    useOnBlur(sourceRef, () => setVisible1(false))
-    useOnBlur(destinationRef, () => setVisible2(false))
-    useOnBlur(destinationCityRef, () => setVisible22(false))
-    useOnBlur(sourceCityRef, () => setVisible11(false))
-    useOnBlur(genderRef, () => setVisibleGender(false))
+    useOnBlur(sourceRef, () => {
+        setVisible1(false)
+        setSourceArrow(false)
+    })
+    useOnBlur(destinationRef, () => {
+        setVisible2(false)
+        setDestArrow(false)
+    })
+    useOnBlur(destinationCityRef, () => {
+        setVisible22(false)
+        setDestCityArrow(false)
+    })
+    useOnBlur(sourceCityRef, () => {
+        setVisible11(false)
+        setSourceCityArrow(false)
+    })
+    useOnBlur(genderRef, () => {
+        setVisibleGender(false)
+        setGenderArrow(false)
+    })
+
+    const [genderArrow, setGenderArrow] = useState(false)
 
     const menuSourceCity = (
         <Menu style={{maxHeight: "250px", overflow: "auto"}}>
@@ -281,6 +311,7 @@ const DriverModal = (props) => {
     );
 
     const genderType = [{id: "f", title: "زن"}, {id: "m", title: "مرد"}]
+
     const genderMenu = (
         <Menu style={{maxHeight: "250px", overflow: "auto"}}>
             {
@@ -329,32 +360,65 @@ const DriverModal = (props) => {
 
     function onChangeTime(date, dateString) {
         setTime(dateString)
-        console.log("dateString",dateString)
-        console.log("date",date)
+        console.log("dateString", dateString)
+        console.log("date", date)
         setTimePickerValue(date)
         console.log("timePickerValue", timePickerValue)
     }
-
 
     const setCheckAndDriverModal = () => {
         props.setDriverModal(false)
         props.setIsUpdate(false)
     }
 
+    const [driver, setDriver] = useState(true);
+    const [passenger, setPassenger] = useState(false);
+
+    const cityOptions = ["شاهدشهر", "پیشوا", "جوادآباد", "ارجمند", "ری", "نصیرشهر", "رودهن", "اندیشه", "نسیم شهر", "صباشهر", "ملارد", "شمشک", "پاکدشت", "باقرشهر", "احمد آباد مستوفی", "کیلان", "قرچک", "فردوسیه", "گلستان", "ورامین", "فیروزکوه", "فشم", "پرند", "آبعلی", "چهاردانگه", "تهران", "بومهن", "وحیدیه", "صفادشت", "لواسان", "فرون اباد", "کهریزک", "رباطکریم", "آبسرد", "باغستان", "صالحیه", "شهریار", "قدس", "تجریش", "شریف آباد", "حسن آباد", "اسلامشهر", "دماوند", "پردیس"];
+
+
+    function onChange(e) {
+        if (!cities.includes(e)) {
+            setTempCity([...cities, e])
+        } else {
+            toast.warn('شهر قبلا انتخاب شده است.')
+        }
+    }
+
+    function onAddCityHandler() {
+        setCities(tempCity)
+    }
+
+    function handleDeleteCities(item) {
+        if (cities.includes(item)) {
+            setCities(cities.filter(data => data !== item))
+        }
+    }
+
     return (
         <Modal
             title={
-                <div
-                    style={{cursor: "move"}}
-                    onMouseOver={() => {
-                        if (disabled) {
-                            setDisabled(false)
-                        }
-                    }}
-                    onMouseOut={() => {
-                        setDisabled(true)
-                    }}>
-                    سفیر
+                <div className="title-div">
+                    <Button className={driver ? "active driver-passenger" : "driver-passenger"} onClick={() => {
+                        setDriver(!driver)
+                        setPassenger(false)
+                    }}>سفیر</Button>
+                    <Button className={passenger ? "active driver-passenger" : "driver-passenger"} onClick={() => {
+                        setPassenger(!passenger)
+                        setDriver(false)
+                    }}>مسافر</Button>
+                    <span />
+                    <div className="draggable-place"
+                         onMouseEnter={() => {
+                             if (disabled) {
+                                 setDisabled(false)
+                             }
+                         }}
+                         onMouseOut={() => {
+                             setDisabled(true)
+                         }} >
+                        .
+                    </div>
                 </div>
             }
             visible={true}
@@ -389,9 +453,21 @@ const DriverModal = (props) => {
                                   placement="bottomCenter">
                             <Button ref={sourceCityRef} onClick={() => {
                                 setVisible11(!visible11)
+                                setVisible1(false)
+                                setVisible22(false)
+                                setVisible2(false)
                                 setSourceCityOrDestinationCity(1)
+                                setSourceCityArrow(!sourceCityArrow)
+                                setSourceArrow(false)
+                                setDestCityArrow(false)
+                                setDestArrow(false)
+                                setGenderArrow(false)
+                                setVisibleGender(false)
                             }} dir="rtl"
-                                    className={sourceCityButton ? "places selected" : "places"}>{sourceCityButton ? sourceCityButton : "شهر مبدا"}</Button>
+                                    className={sourceCityButton ? "places selected" : "places"}>{sourceCityButton ? sourceCityButton : "شهر مبدا"}
+                                <span
+                                    style={{display: "flex", flex: 1, width: "100%"}}/>
+                                <i className="material-icons">{sourceCityArrow ? 'expand_less' : 'expand_more'}</i></Button>
                         </Dropdown>
                     </div>
                     <div className="item">
@@ -400,9 +476,22 @@ const DriverModal = (props) => {
                                   placement="bottomCenter">
                             <Button ref={sourceRef} onClick={() => {
                                 setVisible1(!visible1)
+                                setVisible11(false)
+                                setVisible22(false)
+                                setVisible2(false)
                                 setSourceOrDestination(1)
+                                setSourceArrow(!sourceArrow)
+                                setDestCityArrow(false)
+                                setDestArrow(false)
+                                setSourceCityArrow(false)
+                                setGenderArrow(false)
+                                setVisibleGender(false)
                             }} dir="rtl"
-                                    className={sourceButton ? "places selected" : "places"}>{sourceButton ? sourceButton : "مبدا"}</Button>
+                                    className={sourceButton ? "places selected" : "places"}>{sourceButton ? sourceButton : "مبدا"}
+                                <span
+                                    style={{display: "flex", flex: 1, width: "100%"}}/>
+                                <i className="material-icons">{sourceArrow ? 'expand_less' : 'expand_more'}</i>
+                            </Button>
                         </Dropdown>
                     </div>
                 </div>
@@ -413,9 +502,23 @@ const DriverModal = (props) => {
                                   placement="bottomCenter">
                             <Button ref={destinationCityRef} onClick={() => {
                                 setVisible22(!visible22)
+                                setVisible2(false)
+                                setVisible11(false)
+                                setVisible1(false)
                                 setSourceCityOrDestinationCity(2)
+                                setDestCityArrow(!destCityArrow)
+                                setDestArrow(false)
+                                setSourceArrow(false)
+                                setSourceCityArrow(false)
+                                setGenderArrow(false)
+                                setVisibleGender(false)
                             }} dir="rtl"
-                                    className={destinationCityButton ? "places selected" : "places"}>{destinationCityButton ? destinationCityButton : "شهر مقصد"}</Button>
+                                    className={destinationCityButton ? "places selected" : "places"}>
+                                {destinationCityButton ? destinationCityButton : "شهر مقصد"}
+                                <span
+                                    style={{display: "flex", flex: 1, width: "100%"}}/>
+                                <i className="material-icons">{destCityArrow ? 'expand_less' : 'expand_more'}</i>
+                            </Button>
                         </Dropdown>
                     </div>
                     <div className="item">
@@ -424,9 +527,23 @@ const DriverModal = (props) => {
                                   placement="bottomCenter">
                             <Button ref={destinationRef} onClick={() => {
                                 setVisible2(!visible2)
+                                setVisible22(false)
+                                setVisible11(false)
+                                setVisible1(false)
                                 setSourceOrDestination(2)
+                                setDestArrow(!destArrow)
+                                setDestCityArrow(false)
+                                setSourceArrow(false)
+                                setSourceCityArrow(false)
+                                setGenderArrow(false)
+                                setVisibleGender(false)
                             }} dir="rtl"
-                                    className={destinationButton ? "places selected" : "places"}>{destinationButton ? destinationButton : "مقصد"}</Button>
+                                    className={destinationButton ? "places selected" : "places"}>
+                                {destinationButton ? destinationButton : "مقصد"}
+                                <span
+                                    style={{display: "flex", flex: 1, width: "100%"}}/>
+                                <i className="material-icons">{destArrow ? 'expand_less' : 'expand_more'}</i>
+                            </Button>
                         </Dropdown>
                     </div>
                 </div>
@@ -441,71 +558,132 @@ const DriverModal = (props) => {
                                   placement="bottomCenter">
                             <Button ref={genderRef} onClick={() => {
                                 setVisibleGender(!visibleGender)
+                                setVisible22(false)
+                                setVisible11(false)
+                                setVisible2(false)
+                                setVisible1(false)
+                                setGenderArrow(!genderArrow)
+                                setDestArrow(false)
+                                setDestCityArrow(false)
+                                setSourceArrow(false)
+                                setSourceCityArrow(false)
                             }} dir="rtl"
-                                    className={genderButton ? "places selected" : "places"}>{genderButton ? genderButton : "مرد"}</Button>
+                                    className={genderButton ? "places selected" : "places"}>{genderButton ? genderButton : "مرد"}
+                                <span
+                                    style={{display: "flex", flex: 1, width: "100%"}}/>
+                                <i className="material-icons">{genderArrow ? 'expand_less' : 'expand_more'}</i>
+                            </Button>
                         </Dropdown>
-                    </div>
-                    <div className="item">
-                        <p className="label">مسافر</p>
-                        <InputNumber min={1} max={20} className="places" value={numOfTraveler}
-                                     onChange={(e) => setNumOfTraveler(e)}/>
-                    </div>
-                    <div className="item">
-                        <p className="label">ساعت</p>
-                        <TimePicker
-                            showNow={true}
-                            value={timePickerValue}
-                            className="places"
-                            placeholder='00:00:00'
-                            onChange={onChangeTime}
-                            locale={{
-                                ...locale,
-                                lang: {
-                                    ...locale.lang,
-                                    now: <p style={{
-                                        color: "green",
-                                        fontWeight: 500,
-                                        fontSize: "14px",
-                                        display: "flex",
-                                        justifyContent: "center"
-                                    }}>اکنون</p>,
-                                    ok: <p style={{}}>تایید</p>,
-                                }
-                            }}
-                        />
                     </div>
                 </div>
                 <div className="first-line">
-                    <div
-                        className={`item  ${props.className} ${props.disabled ? ' disabled' : ''}`}>
-                        <p className="label">تاریخ</p>
-                        <div className={`${status}`}
-                             onClick={onClickHandler} ref={calenderRef} style={{width: '100%'}}>
-                            <input
-                                ref={inputRef}
-                                className="places"
-                                style={{padding: "0 12px"}}
-                                autoComplete="new-password"
-                                value={(new Date(date)).toLocaleDateString('fa')}
-                                disabled={props.disabled}
-                                placeholder="تاریخ سفر"
-                                onFocus={onFocusHandler}
-                            />
-                            {status &&
-                            <Calendar onClickOutside={() => setStatus(false)} isGregorian={false}
-                                      value={datePickerValue}
-                                      onChange={onDatePickChange}/>}
+                    {
+                        driver && <>
+                            <div className="item">
+                                <p className="label">مسافر</p>
+                                <InputNumber min={1} max={20} className="places" value={numOfTraveler}
+                                             onChange={(e) => setNumOfTraveler(e)}/>
+                            </div>
+                            <div className="item">
+                                <p className="label">ساعت</p>
+                                <TimePicker
+                                    showNow={true}
+                                    value={timePickerValue}
+                                    className="places"
+                                    placeholder='00:00:00'
+                                    onChange={onChangeTime}
+                                    locale={{
+                                        ...locale,
+                                        lang: {
+                                            ...locale.lang,
+                                            now: <p style={{
+                                                color: "green",
+                                                fontWeight: 500,
+                                                fontSize: "14px",
+                                                display: "flex",
+                                                justifyContent: "center"
+                                            }}>اکنون</p>,
+                                            ok: <p style={{}}>تایید</p>,
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </>
+                    }
+                </div>
+                {
+                    driver && <div className="first-line">
+                        <div
+                            className={`item  ${props.className} ${props.disabled ? ' disabled' : ''}`}>
+                            <p className="label">تاریخ</p>
+                            <div className={`${status}`}
+                                 onClick={onClickHandler} ref={calenderRef} style={{width: '100%'}}>
+                                <input
+                                    ref={inputRef}
+                                    className="places"
+                                    style={{padding: "0 12px"}}
+                                    autoComplete="new-password"
+                                    value={(new Date(date)).toLocaleDateString('fa')}
+                                    disabled={props.disabled}
+                                    placeholder="تاریخ سفر"
+                                    onFocus={onFocusHandler}
+                                />
+                                {status &&
+                                <Calendar onClickOutside={() => setStatus(false)} isGregorian={false}
+                                          value={datePickerValue}
+                                          onChange={onDatePickChange}/>}
+                            </div>
                         </div>
                     </div>
-                </div>
-                {/*<div className="first-line">*/}
-                {/*    <div className="first-line">*/}
-                {/*        <div className="item">*/}
-                {/*            <p className="label">مسیر شهرها</p>*/}
-
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                }
+                {
+                    driver && <div className="first-line">
+                        <div className="item">
+                            <p className="label">شهر های بین مسیر</p>
+                            <div className="add-city">
+                                <Button disabled={cities && cities.length === 3} className="add-city-button"
+                                        onClick={onAddCityHandler}>اضافه کردن</Button>
+                                <span className="add-city-span"/>
+                                <Select
+                                    showSearch
+                                    showArrow={false}
+                                    disabled={cities && cities.length === 3}
+                                    className="between-cities"
+                                    placeholder="حداکثر ۳ شهر"
+                                    optionFilterProp="children"
+                                    onChange={onChange}
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                    filterSort={(optionA, optionB) =>
+                                        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                                    }
+                                >
+                                    {
+                                        AllCityInIran.map(item => (
+                                            <Option style={{
+                                                direction: "rtl",
+                                                display: "flex",
+                                                width: "100%",
+                                                fontWeight: 500,
+                                                cursor: "pointer",
+                                                padding: "10px 15px",
+                                            }} value={item.name}>{item.name}</Option>
+                                        ))
+                                    }
+                                </Select>
+                            </div>
+                            <div className="show-cities">
+                                {
+                                    cities && cities.map((item) => (
+                                        <p onClick={() => handleDeleteCities(item)}>{item}<i
+                                            className="material-icons">close</i></p>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
                 <div className={`first-line  ${showDescription ? "" : "d-none"}`}>
                     <div className="item">
                         <div className="description">
@@ -513,7 +691,7 @@ const DriverModal = (props) => {
                             <span style={{display: "flex", flex: 1, width: "100%"}}/>
                             <p className="label">توضیحات</p>
                         </div>
-                        <TextArea value={description} onChange={e => setDescription(e.target.value)} rows={2}
+                        <TextArea dir="rtl" value={description} onChange={e => setDescription(e.target.value)} rows={2}
                                   className="places"
                                   style={{height: "60px"}}/>
                     </div>
