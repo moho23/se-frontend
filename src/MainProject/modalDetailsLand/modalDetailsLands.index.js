@@ -1,7 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {Modal,Rate} from 'antd';
-import React, {useRef, useState} from 'react';
-import {Modal,Button} from 'antd';
+import {Button} from 'antd';
 import "./modalDetailsLands.style.scss"
 import detailsDefaultCover from '../../assets/images/default-modal-detail-land.png'
 import {connect} from "react-redux";
@@ -34,6 +33,7 @@ const ModalDetails = (props) => {
             bottom: clientHeight - (targetRect?.bottom - uiData?.y),
         })
     }
+    console.log(props.rate)
     
     const rateHadler = (e) => {
         console.log(e)
@@ -59,6 +59,7 @@ const ModalDetails = (props) => {
             }
         }
         return false;
+    }
         function Comments(detail) {
             props.setProps(detail)
             history.push(RoutePath.commentsLand.comments)
@@ -153,4 +154,3 @@ const ModalDetails = (props) => {
     }
     const connector = connect(null, mapDispatchToProps);
     export default connector(ModalDetails);
-}
