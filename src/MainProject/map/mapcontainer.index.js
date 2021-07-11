@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import Map from './mapbase.index'
 import Mapir from "mapir-react-component";
-import markerUrl from "../../assets/images/mapmarker.svg"
+import markerUrl from "../../assets/images/mapmarker.png"
 import {APIPath} from "../../data";
 import {get, responseValidator} from "../../scripts/api";
 import {detailsSideBar} from "../../scripts/storage"

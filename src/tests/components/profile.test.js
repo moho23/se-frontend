@@ -39,7 +39,7 @@ describe('register reducer', () => {
     
   }
       });
-    // console.log(mockChildComponent.mock.calls)
+    console.log(mockChildComponent.mock.calls)
     mockChildComponent.mock.calls.map((e)=>{
       if(e[0].label==="نام کاربری"){
         expect(e[0].value).toEqual("YazdanSeyyedi")

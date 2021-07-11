@@ -100,7 +100,7 @@ const DriverTravels = (props) => {
 
     
     return (
-        <div className='my-travels-page'>
+        <div data-testid="test" className='my-travels-page'>
             {props.driverModalShow ? <DriverModal/> : null}
             {
                 travels &&
