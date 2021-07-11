@@ -49,9 +49,6 @@ const MyLandscapes = (props) => {
                     setLandscapes(data.data.data);
                     
                 }
-                console.log("travel",data.data)
-                console.log("next1",next)
-                console.log("page1",page)
             }
             else
             {
@@ -101,7 +98,6 @@ const MyLandscapes = (props) => {
     function fetchMoreData(){
         let tempArray=[];
             get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
-                console.log("travels2",data.data);
                 if (responseValidator(data.status) && data.data) {  
                     if(data.data.has_next)
                     {
@@ -114,8 +110,6 @@ const MyLandscapes = (props) => {
                     }
                     tempArray=landscapes.concat(data.data.data);
                     setLandscapes(tempArray)
-                    console.log("next2",next);
-                    console.log("page2",page);
                 }
                 else {
                     toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
