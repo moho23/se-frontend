@@ -59,7 +59,6 @@ const MapContainer = (props) => {
         // console.log(persianCategString)
         return (persianCategString)
     }
-    
 
     function markercordinate(xid) {
         setName(null)
