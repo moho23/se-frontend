@@ -59,10 +59,12 @@ const ModalDetails = (props) => {
             }
         }
         return false;
+    }
         function Comments(detail) {
             props.setProps(detail)
             history.push(RoutePath.commentsLand.comments)
         }
+    
 
         return (
             <Modal
@@ -144,7 +146,7 @@ const ModalDetails = (props) => {
             </Modal>
         );
     };
-}
+
     const mapDispatchToProps = (dispatch) => {
         return {
             setProps: (props) => dispatch({ type: ActionsModalDetails.PROPS, props: props }),
