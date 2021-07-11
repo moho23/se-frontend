@@ -62,6 +62,7 @@ const DriverModal = (props) => {
     const destinationRef = useRef(null)
     const destinationCityRef = useRef(null)
 
+    console.log(props.item)
     let sourceDestinationOptions = []
     AllProvinces.map(item => {
         sourceDestinationOptions.push(item.name);
@@ -71,7 +72,7 @@ const DriverModal = (props) => {
     sourceCityOptions = AllProvinces.find(item => item.name === source).cities
 
     let destinationCityOptions = []
-    destinationCityOptions = AllProvinces.find(item => item.name === destination).cities
+    destinationCityOptions = AllProvinces.find(item => item.name === destination ).cities
 
 
     useEffect(() => {
@@ -84,15 +85,26 @@ const DriverModal = (props) => {
         if (props.isupdate) {
             if (props.item != null) {
                 console.log(props.item)
-                setDestinationButton(props.item.destination)
+                setSourceCity(props.item.source)
+                setSourceCityButton(props.item.source)
+                setDestinationCity(props.item.destination)
+                setDestinationCityButton(props.item.destination_state)
+                setDestinationButton(props.item.destination_state)
                 setDestination(props.item.destination)
-                setSourceButton(props.item.source)
-                setSource(props.item.source)
+                setSourceButton(props.item.source_state)
+                setSource(props.item.source_state)
                 setAge(props.item.creator_age)
                 setNumOfTraveler(props.item.fellow_traveler_num)
-                setTime(props.item.trip_time.split("T")[1].split("Z")[0])
-                setTimePickerValue(moment(props.item.trip_time.split("T")[1].split("Z")[0], 'HH:mm:ss'))
-                setDate(props.item.trip_time.split("T")[0])
+                if(!props.item.trip_time){
+                    setTime(props.item.trip_time.split("T")[1].split("Z")[0])
+                    setTimePickerValue(moment(props.item.trip_time.split("T")[1].split("Z")[0], 'HH:mm:ss'))
+                    setDate(props.item.trip_time.split("T")[0])
+                    setCities(props.item.trip_time.cities)
+                    setDriver(true)
+                }
+                else{
+                    setDriver(false)
+                }
                 if (props.item.creator_gender === "m") {
                     setGenderButton("مرد")
                 } else {
@@ -119,32 +131,35 @@ const DriverModal = (props) => {
     function onSubmitFormHandler() {
         return new Promise((resolve) => {
             if (props.isupdate) {
-                console.log({
-                    creator_type: 'd',
-                    creator_gender: gender,
-                    creator_age: age,
-                    source: source,
-                    destination: destination,
-                    fellow_traveler_num: numOfTraveler,
-                    date: date,
-                    trip_time: date + 'T' + time + 'Z',
-                    cities: ['cities'],
-                    description: description,
-                    id: props.item.id
-                })
-                let DriverForm = {
-                    creator_type: 'd',
-                    creator_gender: gender,
-                    creator_age: age,
-                    source: source,
-                    destination: destination,
-                    fellow_traveler_num: numOfTraveler,
-                    trip_time: date + 'T' + time + 'Z',
-                    cities: ['cities'],
-                    description: description,
-                    id: props.item.id
+                let passengerOrDriverForm;
+                if (driver) {
+                    passengerOrDriverForm = {
+                        creator_type: 'd',
+                        creator_gender: gender,
+                        creator_age: age,
+                        source: sourceCity,
+                        source_state: source,
+                        destination: destinationCity,
+                        destination_state: destination,
+                        fellow_traveler_num: numOfTraveler,
+                        description: description,
+                        cities: cities,
+                        trip_time: date + 'T' + time + 'Z',
+                        id: props.item.id
+                    }
+                } else {
+                    passengerOrDriverForm = {
+                        creator_type: 'p',
+                        creator_gender: gender,
+                        creator_age: age,
+                        source: sourceCity,
+                        source_state: source,
+                        destination: destinationCity,
+                        destination_state: destination,
+                        description: description,
+                    }
                 }
-                put(APIPath.hichhike.update, DriverForm).then(data => {
+                put(APIPath.hichhike.update, passengerOrDriverForm).then(data => {
                     console.log(data)
                     if (responseValidator(data.status)) {
                         props.setDriverModal(false)
@@ -285,7 +300,7 @@ const DriverModal = (props) => {
     const menu = (
         <Menu style={{maxHeight: "250px", overflow: "auto"}}>
             {
-                sourceDestinationOptions.map((item, index) => (
+                sourceDestinationOptions && sourceDestinationOptions.map((item, index) => (
                     <div key={index} onClick={(e) => {
                         sourceOrDestination === 2 ? setDestination(e.target.innerText) : setSource(e.target.innerText)
                         sourceOrDestination === 2 ? setDestinationButton(e.target.innerText) : setSourceButton(e.target.innerText)
