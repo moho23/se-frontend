@@ -30,6 +30,9 @@
 .rec.rec-arrow:disabled {
     visibility: hidden;
 }
+.fix{
+  overflow: scroll;
+}
 .time-line-page {
   display: flex;
   padding: 30px;
@@ -79,6 +82,9 @@
     font-weight: 600;
 
     }
+.fix{
+  overflow: auto;
+}
 
   .time-line-card {
     display: flex;
@@ -268,6 +274,7 @@
       padding-right: 5px;
       height: 100%;
       margin: 5px;
+      
     }
     .right::-webkit-scrollbar {
     display: none;
@@ -329,6 +336,6 @@
       width: 100%;
       padding-right: 5px;
       height: 100%;
-
+      padding-bottom: 10px;
     }
   }

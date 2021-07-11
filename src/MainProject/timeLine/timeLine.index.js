@@ -10,7 +10,8 @@ import Draggable from "react-draggable";
 import Carousel from "react-elastic-carousel";
 import noData from "../../assets/images/undraw_map_1r69.svg";
 import { List, Avatar, ConfigProvider } from 'antd';
-import {authToken} from "../../scripts/storage";
+import { authToken } from "../../scripts/storage";
+import profile from "../../assets/images/static.png"
 
 const dataa = [
   {
@@ -30,7 +31,7 @@ const dataa = [
 
 const TimeLine = () => {
 
-    const [suggestion, setSuggestion] = useState(null);
+    const [suggestion, setSuggestion] = useState([]);
     const [myTravels, setMyTravels] = useState(null);
     const [passengerAccepted, setPassengerAccepted] = useState(null);
 
@@ -47,6 +48,7 @@ const TimeLine = () => {
         get(APIPath.hichhike.timeLine).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setSuggestion(data.data)
+                console.log("test",data)
             } else {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
@@ -70,6 +72,7 @@ const TimeLine = () => {
 
     const driverList = () => {
         let temp = []
+        let temp2=[]
         get(APIPath.hichhike.passengerAccepted + `?token=${authToken.get()}`).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setPassengerAccepted(data.data)
@@ -81,7 +84,9 @@ const TimeLine = () => {
         });
         get(APIPath.hichhike.passengerPending + `?token=${authToken.get()}`).then((data) => {
             if (responseValidator(data.status) && data.data) {
-                setPassengerAccepted(temp.concat(data.data))
+                temp2 = data.data
+                setPassengerAccepted(temp2.concat(temp))
+
                 console.log(data)
             } else {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
@@ -133,18 +138,18 @@ const TimeLine = () => {
     }
 
     return (
-        <div>
+        <div className="fix">
         <div className='time-line-page'>
             <Carousel breakPoints={breakPoints} itemPadding={[10, 10]} isRTL={true}>
                     {
-                        suggestion &&
+                        suggestion[0] ?
                         suggestion.map((item) => (
                             <div className="time-line-card">
                                 {/* <div className="header"> */}
                                 <div className="cover-div">
                                     <Tooltip placement="left" title={item.creator_username}>
                                         <img alt='cover' className="cover"
-                                            src={item.creator_profile_picture} /></Tooltip>
+                                            src={item.creator_profile_picture ? item.creator_profile_picture : profile} /></Tooltip>
                                     <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>{item.creator_username && item.creator_username.length > 12 ? item.name.substring(0, 13) + '...' : item.creator_username}@</p>
                                 </div>
                                 {/* </div> */}
@@ -166,11 +171,11 @@ const TimeLine = () => {
                                 </div>
                             </div>
                         
-                        ))
-                    // <div>
-                    //     <img src={noData} className="no-data"></img>
-                    //     <p className="no-data-p">متاسفانه پیشنهادی برای شما وجود ندارد</p>
-                    // </div>
+                        )):
+                    <div>
+                        <img src={noData} className="no-data"></img>
+                        <p className="no-data-p">متاسفانه پیشنهادی برای شما وجود ندارد</p>
+                    </div>
                 }
             </Carousel>
             </div>
