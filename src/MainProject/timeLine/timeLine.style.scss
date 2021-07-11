@@ -6,6 +6,14 @@
 //   height: 390px;
 //   width: 1000px;
 // }
+.xzcEF {
+  visibility: hidden;
+}
+
+
+.ant-list-item{
+  direction: rtl;
+}
 .h1{
   direction: rtl;
   display: flex;
@@ -53,21 +61,24 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
+    height: 250px;
 
     img {
       @include project-size(width, 450px, 250px);
       @include project-size(height, 450px, 250px);
     }
-
-    p {
-      display: flex;
-      justify-content: center;
-      font-size: 18px;
-      color: $orangeDark;
-      font-weight: 600;
-    }
   }
+  .no-data-p {
+      display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #F05454;
+    font-weight: 600;
+
+    }
 
   .time-line-card {
     display: flex;
@@ -117,7 +128,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        height: 165%;
+        height: 100%;
       }
     }
 
@@ -235,3 +246,89 @@
     }
   }
 }
+.ant-list-header{
+  color: $blue !important;
+}
+
+.list{
+  padding-top: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+  @include project-md{flex-direction:row}
+
+    .right{
+      flex-direction: column;
+      display: flex;
+      overflow: auto;
+      width: 100%;
+      padding-right: 5px;
+      height: 100%;
+      margin: 5px;
+    }
+    .right::-webkit-scrollbar {
+    display: none;
+    }
+  .right {
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+  }
+  .left::-webkit-scrollbar {
+    display: none;
+  }
+  .left {
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+  }
+    .add-button{
+      display: flex;
+          color: $white;
+          width: 80px;
+          border-radius: 5px;
+          margin-right: 5px;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          background-color: $blue;
+          justify-content: center;
+      }
+      .add-button-accepted{
+        display: flex;
+          color: $white;
+          width: 80px;
+          border-radius: 5px;
+          margin-right: 5px;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          justify-content: center;
+            background-color: $green;
+          }
+          .add-button-deny{
+            display: flex;
+          color: $white;
+          width: 80px;
+          border-radius: 5px;
+          margin-right: 5px;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          justify-content: center;
+            background-color: $red;
+           }
+    .between{
+      width: 5%;
+    }
+    .left{
+      flex-direction: column;
+      overflow: auto;
+      display: flex;
+      width: 100%;
+      padding-right: 5px;
+      height: 100%;
+
+    }
+  }
