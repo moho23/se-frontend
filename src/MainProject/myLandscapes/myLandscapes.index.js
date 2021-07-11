@@ -23,10 +23,7 @@ const MyLandscapes = (props) => {
     const [page,setPage]=useState(1);
     const [next,setNext]=useState(false);
     const draggleRef = useRef();
-    
-    
-    const[id,setId]=useState(null)
-    const draggleRef = useRef();
+    const[id,setId]=useState(null);
     const history=useHistory()
 
     function onStart(event, uiData) {
