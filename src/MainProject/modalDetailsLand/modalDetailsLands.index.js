@@ -33,7 +33,12 @@ const ModalDetails = (props) => {
             bottom: clientHeight - (targetRect?.bottom - uiData?.y),
         })
     }
-    console.log(props.rate)
+    useEffect(()=>{
+        setRate(props.rate)
+        console.log(props.rate)
+        console.log(props.id)
+        console.log(props.title)
+    },[props.rate])
     
     const rateHadler = (e) => {
         console.log(e)

@@ -89,7 +89,8 @@ const MapContainer = (props) => {
                             } else if (data.data.address.road) {
                                 setAddress(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
                             }
-                        } else if (data.data.address) {
+                        }
+                        else if (typeof data.data.address==="string") {
                             setAddress(data.data.address)
                         }
                         if (data.data.wikipedia_extracts) {
@@ -105,6 +106,7 @@ const MapContainer = (props) => {
                             setCategory(categoryHandler(data.data.kinds))
                         }
                         if (data.data.ratings) {
+                            console.log(data.data.ratings.rating__avg)
                             setRate(data.data.ratings.rating__avg)
                         }
                         if(data.data.id){
