@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
 import {Button, Modal, Tooltip} from "antd";
 import Draggable from "react-draggable";
+import InfiniteScroll from "react-infinite-scroll-component";
 import {connect} from "react-redux";
 import * as Actions from "../../redux/myLandscapes/actions"
 import {useHistory} from "react-router-dom";
@@ -16,11 +17,13 @@ import {useHistory} from "react-router-dom";
 
 const MyLandscapes = (props) => {
 
-    const [landscapes, setLandscapes] = useState(null);
+    const [landscapes, setLandscapes] = useState();
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
-    const[id,setId]=useState(null)
+    const [page,setPage]=useState(1);
+    const [next,setNext]=useState(false);
     const draggleRef = useRef();
+    const[id,setId]=useState(null);
     const history=useHistory();
 
     function onStart(event, uiData) {
@@ -35,12 +38,20 @@ const MyLandscapes = (props) => {
     }
 
     useEffect(() => {
+        //get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
         props.setUpdate(false)
-        get(APIPath.map.myLandscapes).then((data) => {
+        get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
             if (responseValidator(data.status) && data.data) {
-                setLandscapes(data.data)
-                console.log(data.data)
-            } else {
+                if(data.data.has_next)
+                {
+                    setNext(true);
+                    setPage(page+1);
+                    setLandscapes(data.data.data);
+                    
+                }
+            }
+            else
+            {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
         });
@@ -84,9 +95,43 @@ const MyLandscapes = (props) => {
         return false;
     }
 
+    function fetchMoreData(){
+        let tempArray=[];
+            get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
+                if (responseValidator(data.status) && data.data) {  
+                    if(data.data.has_next)
+                    {
+                        setNext(true);
+                        setPage(page+1);
+                    }
+                    else
+                    {
+                        setNext(false);
+                    }
+                    tempArray=landscapes.concat(data.data.data);
+                    setLandscapes(tempArray)
+                }
+                else {
+                    toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
+                }
+            },[]);
+    }
+
     return (
-        <div className='my-landscape-page'>
-            {
+        <InfiniteScroll
+        dataLength={6}
+        next={()=>fetchMoreData()}
+        hasMore={next}
+        loader={<h4>Loading...</h4>}
+        height={600}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            {/* <b>Yay! You have seen it all</b> */}
+          </p>
+        }
+    > 
+        <div className='my-landscape-page'>        
+                {
                 landscapes &&
                 landscapes.map((item) => (
                     <div className="landscapes-card">
@@ -113,6 +158,7 @@ const MyLandscapes = (props) => {
             }
             <div className="my-grid"/>
             <div className="my-grid"/>
+           
             <Modal
                 visible={visible}
                 onOk={handleOk}
@@ -181,6 +227,7 @@ const MyLandscapes = (props) => {
                 </div>
             }
         </div>
+         </InfiniteScroll>
     )
 }
 
