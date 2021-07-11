@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import Map from './mapbase.index'
 import Mapir from "mapir-react-component";
-import markerUrl from "../../assets/images/mapmarker.svg"
+import markerUrl from "../../assets/images/mapmarker.png"
 import {APIPath} from "../../data";
 import {get, responseValidator} from "../../scripts/api";
 import {detailsSideBar} from "../../scripts/storage"
@@ -11,6 +11,7 @@ import ModalDetails from "../modalDetailsLand/modalDetailsLands.index"
 import Mapfilterbar from "./mapfilterbar.index"
 import {connect} from "react-redux";
 import * as Actions from "../../redux/map/actions"
+import * as DriverModalActions from "../../redux/driverTravels/actions"
 import iconHandler from "./iconhandler.index"
 import {EnglishCategoryToPersian} from "./translateCategory";
 import {Tooltip} from "antd";
@@ -32,12 +33,19 @@ const MapContainer = (props) => {
     const [category, setCategory] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
     const [token, setToken] = useState(null);
+<<<<<<< HEAD
     const [rate, setRate] = useState(null);
     const [id, setId] = useState(null);
+=======
+    const [id,setId]=useState(null);
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
 
 
     useEffect(() => {
         setToken(authToken.get());
+        props.setDriverModal(false)
+        props.setIsUpdate(false)
+        props.setModal(false)
     }, []);
 
     const categoryHandler = (categ) => {
@@ -62,7 +70,11 @@ const MapContainer = (props) => {
         setAddress(null)
         setDescription(null)
         setCategory(null)
+<<<<<<< HEAD
         setRate(null)
+=======
+        setId(null)
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
         // console.log("details")
         detailsSideBar.set(true)
         let url = APIPath.map.details + xid
@@ -71,7 +83,11 @@ const MapContainer = (props) => {
                 resolve(true);
                 if (responseValidator(data.status) && data.data) {
                     console.log(data)
+<<<<<<< HEAD
                     
+=======
+                    props.setModal(true)
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
                     if (data.data) {
                         if (data.data.address.city) {
                             setAddress(data.data.address.city)
@@ -98,8 +114,12 @@ const MapContainer = (props) => {
                             // categoryHandler(data.data.kinds)
                             setCategory(categoryHandler(data.data.kinds))
                         }
+<<<<<<< HEAD
                         if (data.data.ratings) {
                             setRate(data.data.ratings.rating__avg)
+=======
+                        if(data.data.id){
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
                             setId(data.data.id)
                         }
                         if (data.data.image) {
@@ -200,8 +220,8 @@ const MapContainer = (props) => {
     }
 
     const setCheckDriverModal=()=>{
-        props.setCheck(false)
-        props.setDriverModal()
+        props.setIsUpdate(false)
+        props.setDriverModal(true)
     }
 
     return (
@@ -213,7 +233,10 @@ const MapContainer = (props) => {
                 description={description}
                 cover={image}
                 address={address}
+<<<<<<< HEAD
                 rate={rate}
+=======
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
                 id={id}
             /> : null}
             {props.driverModalShow ? <DriverModal/> : null}
@@ -257,15 +280,15 @@ const mapStateToProps = (state) => ({
     selectedKeys: state.map.selectedKeys,
     searchMarker: state.map.searchMarkerArray,
     modalDetailsShow: state.map.modalDetailsShow,
-    driverModalShow: state.map.driverModalShow,
+    driverModalShow: state.driverTravels.driverModalShow,
     current: state.map.current,
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCheck:(check) => dispatch({type: Actions.CHECK, check: check}),
-        setModal: () => dispatch({type: Actions.MODALDETAILSHOW}),
-        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
+        setIsUpdate:(isupdate) => dispatch({type: DriverModalActions.ISUPDATE,isupdate: isupdate}),
+        setModal: (isOpen) => dispatch({type: Actions.MODALDETAILSHOW,isOpen:isOpen}),
+        setDriverModal: (isopen) => dispatch({type: DriverModalActions.DRIVERMODALSHOW,isopen:isopen}),
     }
 }
 

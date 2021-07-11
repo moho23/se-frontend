@@ -9,7 +9,6 @@ export const initialState = {
     searchArea: 1000,
     searchMarkerArray: null,
     modalDetailsShow: false,
-    driverModalShow: false,
 }
 
 const reducer = (state = initialState, action) => {
@@ -49,12 +48,7 @@ const reducer = (state = initialState, action) => {
         case(Actions.MODALDETAILSHOW):
             return {
                 ...state,
-                modalDetailsShow: !state.modalDetailsShow
-            }
-        case(Actions.DRIVERMODALSHOW):
-            return {
-                ...state,
-                driverModalShow: !state.driverModalShow
+                modalDetailsShow: action.isOpen
             }
         default:
             return state
