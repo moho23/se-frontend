@@ -186,7 +186,7 @@ const TimeLine = () => {
                                             description={" از "+item.hichhike_source+ " به "+ item.hichhike_destination}
                                         />
                                         {!item.accepted ?
-                                            <div>
+                                            <div className="end-line">
                                                 <Button className="add-button" onClick={() => accept(item.id)}>اضافه شود</Button>
                                                 <Button className="add-button-deny" onClick={() => deny(item.id)}>رد کردن</Button></div> :
                                             <Button className="add-button-accepted" disabled={true}>پذیرفته شد</Button>}
