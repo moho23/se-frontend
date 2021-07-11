@@ -13,22 +13,6 @@ import { List, Avatar, ConfigProvider } from 'antd';
 import { authToken } from "../../scripts/storage";
 import profile from "../../assets/images/static.png"
 
-const dataa = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-   
-];
-
 const TimeLine = () => {
 
     const [suggestion, setSuggestion] = useState([]);
@@ -45,7 +29,11 @@ const TimeLine = () => {
   ];
 
     useEffect(() => {
-        get(APIPath.hichhike.timeLine).then((data) => {
+       suggest()
+    }, [])
+
+    const suggest = () => {
+         get(APIPath.hichhike.timeLine).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setSuggestion(data.data)
                 console.log("test",data)
@@ -53,7 +41,7 @@ const TimeLine = () => {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
         });
-    }, [])
+    }
 
     useEffect(() => {
         get(APIPath.hichhike.myTravels + `?token=${authToken.get()}`).then((data) => {
@@ -98,6 +86,7 @@ const TimeLine = () => {
         post(APIPath.hichhike.join + `?token=${authToken.get()}`,{id:hichhikeId}).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 toast.success("با موفقیت ثبت شد، لطفا منتظر تایید سفیر بمانید")
+                suggest()
             } else {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
