@@ -115,7 +115,7 @@ const DriverTravels = (props) => {
                             <div className='content'>
                                 <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
                                 <p className={`${isPersianOrEnglish(item.destination) === false ? 'fix' : 'fix is-english'}`}>به {item.destination}</p>
-                                <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>
+                                {item.fellow_traveler_num && <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>}
                                 <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities && item.cities.join(" , ")}</p>
                                 <Tooltip placement="right" title={item.address}>
                                     <p className={`${isPersianOrEnglish(item.address) === false ? 'fix' : 'fix is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
