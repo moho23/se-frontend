@@ -72,7 +72,7 @@ const DriverModal = (props) => {
     sourceCityOptions = AllProvinces.find(item => item.name === source).cities
 
     let destinationCityOptions = []
-    destinationCityOptions = AllProvinces.find(item => item.name === destination ).cities
+    destinationCityOptions = AllProvinces.find(item => item.name === destination).cities
 
 
     useEffect(() => {
@@ -88,22 +88,23 @@ const DriverModal = (props) => {
                 setSourceCity(props.item.source)
                 setSourceCityButton(props.item.source)
                 setDestinationCity(props.item.destination)
-                setDestinationCityButton(props.item.destination_state)
+                setDestinationCityButton(props.item.destination)
                 setDestinationButton(props.item.destination_state)
-                setDestination(props.item.destination)
+                setDestination(props.item.destination_state)
                 setSourceButton(props.item.source_state)
                 setSource(props.item.source_state)
                 setAge(props.item.creator_age)
                 setNumOfTraveler(props.item.fellow_traveler_num)
-                if(!props.item.trip_time){
+                if (props.item.creator_type === 'd') {
                     setTime(props.item.trip_time.split("T")[1].split("Z")[0])
-                    setTimePickerValue(moment(props.item.trip_time.split("T")[1].split("Z")[0], 'HH:mm:ss'))
+                    setTimePickerValue(moment(props.item.trip_time.split("T")[1] && props.item.trip_time.split("T")[1].split("Z")[0], 'HH:mm:ss'))
                     setDate(props.item.trip_time.split("T")[0])
                     setCities(props.item.trip_time.cities)
                     setDriver(true)
-                }
-                else{
+                    setPassenger(true)
+                } else {
                     setDriver(false)
+                    setPassenger(true)
                 }
                 if (props.item.creator_gender === "m") {
                     setGenderButton("مرد")
