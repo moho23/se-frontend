@@ -24,6 +24,10 @@ export const __APIPath = {
         driverTravels: "hichhike/list/",
         create: 'hichhike/create/',
         timeLine: "hichhike/suggest_hichhike/",
-        update: "hichhike/list/"
+        update: "hichhike/list/",
+        myTravels: "hichhike/my_travels/",
+        passengerAccepted: "hichhike/my_passengers/",
+        join:"hichhike/passenger_joinrequest/",
+        passengerPending: "hichhike/driver_joinrequest/"
     }
 };
