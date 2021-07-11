@@ -59,7 +59,7 @@ const MapContainer = (props) => {
         // console.log(persianCategString)
         return (persianCategString)
     }
-    
+
 
     function markercordinate(xid) {
         setName(null)
@@ -73,7 +73,54 @@ const MapContainer = (props) => {
         detailsSideBar.set(true)
         let url = APIPath.map.details + xid
         return new Promise((resolve) => {
-            
+                        get(url).then((data) => {
+                resolve(true);
+                if (responseValidator(data.status) && data.data) {
+                    console.log(data)
+                    props.setModal(true)
+                    if (data.data) {
+                        if (data.data.address.city) {
+                            setAddress(data.data.address.city)
+                            if (data.data.address.neighbourhood) {
+                                setAddress(data.data.address.city + "," + data.data.address.neighbourhood)
+                                if (data.data.address.road) {
+                                    setAddress(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
+                                }
+                            } else if (data.data.address.road) {
+                                setAddress(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
+                            }
+                        } else if (data.data.address) {
+                            setAddress(data.data.address)
+                        }
+                        if (data.data.wikipedia_extracts) {
+                            setDescription(data.data.wikipedia_extracts.text)
+                        } else if (data.data.description) {
+                            setDescription(data.data.description)
+                        }
+                        if (data.data.name) {
+                            setName(data.data.name)
+                        }
+                        if (data.data.kinds) {
+                            // categoryHandler(data.data.kinds)
+                            setCategory(categoryHandler(data.data.kinds))
+                        }
+                        if (data.data.ratings) {
+                            setRate(data.data.ratings.rating__avg)
+                            setId(data.data.id)
+                        }
+                        if(data.data.id){
+                            setId(data.data.id)
+                        }
+                        if (data.data.image) {
+                            if (!data.data.image[0]) {
+                                setImage(null)
+                            } else {
+                                setImage(data.data.image)
+                            }
+                        }
+                    }
+                }
+            })
         
         }) 
     }
