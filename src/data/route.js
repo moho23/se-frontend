@@ -16,4 +16,7 @@ export const __RoutePath = {
     map: {
         index: "/dashboard/map",
     },
+    commentsLand:{
+        comments: "/dashboard/comments",
+    }
 };
