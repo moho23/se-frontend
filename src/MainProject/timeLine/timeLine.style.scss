@@ -1,38 +1,37 @@
 @import "../../utilities/references/index";
-// .rec .rec-slider{
-//   height: 400px;
-// }
-// .rec .rec-carousel{
-//   height: 390px;
-//   width: 1000px;
-// }
+
 .xzcEF {
   visibility: hidden;
 }
 
-
-.ant-list-item{
+.ant-list-item {
   direction: rtl;
 }
-.h1{
+
+.h1 {
   direction: rtl;
   display: flex;
-  flex-direction: flex-start
+  flex-direction: flex-start;
 }
-.rec .rec-item-wrapper{
+
+.rec .rec-item-wrapper {
   //width: 360px !important;
   @include project-size(width, 350px, 315px);
   @include project-md {
-        @include project-size(width, 195px, 200px);
-        flex-direction: column;
-      }
+    @include project-size(width, 195px, 200px);
+    flex-direction: column;
+  }
 }
+
 .rec.rec-arrow:disabled {
-    visibility: hidden;
+  visibility: hidden;
 }
-.fix{
-  overflow: scroll;
+
+.fix {
+  min-height: 100vh;
+  overflow-y: auto;
 }
+
 .time-line-page {
   display: flex;
   padding: 30px;
@@ -40,7 +39,7 @@
   flex-direction: row-reverse;
   margin-left: -18px;
   overflow: auto;
-  
+
   > * {
     margin-left: 18px;
   }
@@ -49,6 +48,7 @@
     @include project-size(min-width, 400px, 315px);
     flex: 1;
   }
+
 
   .modal-text {
     display: flex;
@@ -71,8 +71,9 @@
       @include project-size(height, 450px, 250px);
     }
   }
+
   .no-data-p {
-      display: flex;
+    display: flex;
     width: 100%;
     flex-direction: column;
     justify-content: center;
@@ -80,12 +81,15 @@
     font-size: 14px;
     color: #F05454;
     font-weight: 600;
-    @include project-md{font-size: 16px;}
-
+    @include project-md {
+      font-size: 16px;
     }
-.fix{
-  overflow: auto;
-}
+
+  }
+
+  .fix {
+    overflow: auto;
+  }
 
   .time-line-card {
     display: flex;
@@ -96,12 +100,12 @@
     height: 380px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 5px;
-    background-color: $gray0;
+    background-color: white;
     margin-bottom: 20px;
-    
 
-    .header{
-      background-color:$blue;
+
+    .header {
+      background-color: $blue;
       display: flex;
       width: 100%;
       height: 12%;
@@ -110,32 +114,31 @@
     .cover-div {
       display: flex;
       width: 100%;
-      //flex-direction: row-reverse;
-      padding-top: 10px;
-      padding-left: 50px;
-      background-size: cover;
-     
+      justify-content: flex-end;
+      padding: 5px 10px;
+      border-bottom: 1px solid black;
 
-
-    //   .fix{
-    //     width: 100%;
-
-      .cover {
-        width: 100%;
-        border-radius: 100%;
-        height: 55px;
-        width: 55px;
-        padding: 5px;
-        justify-content: flex-start;
-        // border-top-right-radius: 5px;
-        // border-bottom-right-radius: 5px;
-     // }
-      }
-      .username{
+      .img-div {
         display: flex;
+        width: 100%;
+
+        .cover {
+          display: flex;
+          border-radius: 100%;
+          height: 60px;
+          width: 60px;
+          justify-content: flex-start;
+          background-color: #5ac8fa;
+        }
+      }
+
+
+      .username {
+        display: flex;
+        font-weight: bold;
+        align-items: flex-end;
+        justify-content: center;
         flex-direction: column;
-        justify-content: flex-end;
-        height: 100%;
       }
     }
 
@@ -200,22 +203,22 @@
       }
 
       .end-line-button {
-        margin-top: 5px;
         display: flex;
+        width: 100%;
+        justify-content: flex-end;
 
         .join {
-          display: flex;
-          color: $white;
-          width: 90px;
-          border-radius: 5px;
-          margin-right: 5px;
+          outline: none;
           font-size: 13px;
-          font-weight: 500;
-          cursor: pointer;
+          border: none;
+          color: white;
+          padding: 5px;
+          margin-bottom: -10px;
+          border-radius: 5px;
           background-color: $blue;
-          justify-content: center;
         }
-        .delete{
+
+        .delete {
           display: flex;
           color: $white;
           width: 90px;
@@ -247,103 +250,129 @@
         font-size: 14px;
         direction: rtl;
         height: 100px;
-        justify-content:flex-end;
+        justify-content: flex-end;
 
       }
     }
   }
 }
-.ant-list-header{
+
+.ant-list-header {
   color: $blue !important;
 }
 
-.list{
+.list {
   padding-top: 10px;
   font-size: 15px;
   font-weight: 500;
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 320px;
+  margin-bottom: 25px;
   padding-left: 10px;
   padding-right: 10px;
-  @include project-md{flex-direction:row}
-
-    .right{
-      flex-direction: column;
-      display: flex;
-      overflow: auto;
-      width: 100%;
-      padding-right: 5px;
-      height: 100%;
-      margin: 5px;
-      
-    }
-    .right::-webkit-scrollbar {
-    display: none;
-    }
-  .right {
-    -ms-overflow-style: none;  
-    scrollbar-width: none; 
+  @include project-md {
+    flex-direction: row
   }
+
+  .right {
+
+
+    margin-bottom: 25px;
+    @include project-md {
+      height: 600px;
+      margin-bottom: 0;
+    }
+    height: 600px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+  }
+
+  .right::-webkit-scrollbar {
+    display: none;
+  }
+
+  .right {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   .left::-webkit-scrollbar {
     display: none;
   }
+
   .left {
-    -ms-overflow-style: none;  
-    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
-  .end-line{
+
+  .end-line {
     display: flex;
 
-  
-    .add-button{
+
+    .add-button {
       display: flex;
-          color: $white;
-          width: 60px;
-          border-radius: 5px;
-          margin-right: 5px;
-          font-size: 12px;
-          font-weight: 500;
-          cursor: pointer;
-          background-color: $blue;
-          justify-content: center;
-      }
-          .add-button-deny{
-            display: flex;
-          color: $white;
-          width: 60px;
-          border-radius: 5px;
-          margin-right: 5px;
-          font-size: 12px;
-          font-weight: 500;
-          cursor: pointer;
-          justify-content: center;
-            background-color: $red;
-           }
-           }  
-           .add-button-accepted{
-        display: flex;
-          color: $white;
-          width: 60px;
-          border-radius: 5px;
-          margin-right: 5px;
-          font-size: 12px;
-          font-weight: 500;
-          cursor: pointer;
-          justify-content: center;
-            background-color: $green;
-          }
-    .between{
-      width: 5%;
+      width: 35px;
+      height: 35px;
+      color: $white;
+      border-radius: 100%;
+      font-weight: 500;
+      align-items: center;
+      cursor: pointer;
+      justify-content: center;
+      background-color: $blue;
     }
-    .left{
-      flex-direction: column;
-      overflow: auto;
+
+    .add-button-deny {
       display: flex;
-      width: 100%;
-      padding-right: 5px;
-      height: 100%;
-      padding-bottom: 10px;
+      width: 35px;
+      height: 35px;
+      color: white;
+      border-radius: 100%;
+      font-weight: 500;
+      align-items: center;
+      background-color: $orangeDark;
+      margin-left: 5px;
+      cursor: pointer;
+      justify-content: center;
     }
   }
+
+  .add-button-accepted {
+    display: flex;
+    color: $white;
+    width: 60px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    justify-content: center;
+    background-color: $green;
+  }
+
+  .between {
+    width: 5%;
+  }
+
+  .left {
+
+    margin-bottom: 40px;
+    @include project-md {
+      height: 600px;
+    }
+    height: 600px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+  }
+}
