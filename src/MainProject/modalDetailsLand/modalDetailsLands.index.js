@@ -1,6 +1,7 @@
-import { useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {Modal,Rate} from 'antd';
 import React, {useRef, useState} from 'react';
+import {Modal,Button} from 'antd';
 import "./modalDetailsLands.style.scss"
 import detailsDefaultCover from '../../assets/images/default-modal-detail-land.png'
 import {connect} from "react-redux";
@@ -13,7 +14,6 @@ import { post, responseValidator } from "../../scripts/api";
 import {authToken} from "../../scripts/storage";
 import {useHistory} from "react-router-dom";
 import { RoutePath } from '../../data';
-import {Button} from 'antd';
 
 
 const ModalDetails = (props) => {
@@ -144,13 +144,13 @@ const ModalDetails = (props) => {
             </Modal>
         );
     };
-}
+
     const mapDispatchToProps = (dispatch) => {
         return {
             setProps: (props) => dispatch({ type: ActionsModalDetails.PROPS, props: props }),
             setModal: (isOpen) => dispatch({ type: ActionsMap.MODALDETAILSHOW, isOpen: isOpen }),
         }
     }
-
     const connector = connect(null, mapDispatchToProps);
     export default connector(ModalDetails);
+}

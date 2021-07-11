@@ -33,8 +33,12 @@ const MapContainer = (props) => {
     const [category, setCategory] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
     const [token, setToken] = useState(null);
+<<<<<<< HEAD
     const [rate, setRate] = useState(null);
     const [id, setId] = useState(null);
+=======
+    const [id,setId]=useState(null);
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
 
 
     useEffect(() => {
@@ -66,15 +70,70 @@ const MapContainer = (props) => {
         setAddress(null)
         setDescription(null)
         setCategory(null)
+<<<<<<< HEAD
         setRate(null)
+=======
         setId(null)
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
         // console.log("details")
         detailsSideBar.set(true)
         let url = APIPath.map.details + xid
         return new Promise((resolve) => {
-            
-        
-        }) 
+            get(url).then((data) => {
+                resolve(true);
+                if (responseValidator(data.status) && data.data) {
+                    console.log(data)
+<<<<<<< HEAD
+                    
+=======
+                    props.setModal(true)
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
+                    if (data.data) {
+                        if (data.data.address.city) {
+                            setAddress(data.data.address.city)
+                            if (data.data.address.neighbourhood) {
+                                setAddress(data.data.address.city + "," + data.data.address.neighbourhood)
+                                if (data.data.address.road) {
+                                    setAddress(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
+                                }
+                            } else if (data.data.address.road) {
+                                setAddress(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
+                            }
+                        } else if (data.data.address) {
+                            setAddress(data.data.address)
+                        }
+                        if (data.data.wikipedia_extracts) {
+                            setDescription(data.data.wikipedia_extracts.text)
+                        } else if (data.data.description) {
+                            setDescription(data.data.description)
+                        }
+                        if (data.data.name) {
+                            setName(data.data.name)
+                        }
+                        if (data.data.kinds) {
+                            // categoryHandler(data.data.kinds)
+                            setCategory(categoryHandler(data.data.kinds))
+                        }
+<<<<<<< HEAD
+                        if (data.data.ratings) {
+                            setRate(data.data.ratings.rating__avg)
+=======
+                        if(data.data.id){
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
+                            setId(data.data.id)
+                        }
+                        if (data.data.image) {
+                            if (!data.data.image[0]) {
+                                setImage(null)
+                            } else {
+                                setImage(data.data.image)
+                            }
+                        }
+                    }
+                    props.setModal()
+                }
+            })
+        })
     }
 
     const handleIsSearchByRadius = (mapfilterData) => {
@@ -174,7 +233,10 @@ const MapContainer = (props) => {
                 description={description}
                 cover={image}
                 address={address}
+<<<<<<< HEAD
                 rate={rate}
+=======
+>>>>>>> 487e2d5eeb13cdfcfd977da4bb4f23741260f0bc
                 id={id}
             /> : null}
             {props.driverModalShow ? <DriverModal/> : null}
