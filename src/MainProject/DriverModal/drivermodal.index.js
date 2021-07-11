@@ -101,7 +101,8 @@ const DriverModal = (props) => {
                     setDate(props.item.trip_time.split("T")[0])
                     setCities(props.item.trip_time.cities)
                     setDriver(true)
-                    setPassenger(true)
+                    setPassenger(false)
+                    setCities(props.item.cities)
                 } else {
                     setDriver(false)
                     setPassenger(true)
