@@ -1,27 +1,37 @@
 @import "../../utilities/references/index";
-// .rec .rec-slider{
-//   height: 400px;
-// }
-// .rec .rec-carousel{
-//   height: 390px;
-//   width: 1000px;
-// }
-.h1{
+
+.xzcEF {
+  visibility: hidden;
+}
+
+.ant-list-item {
+  direction: rtl;
+}
+
+.h1 {
   direction: rtl;
   display: flex;
-  flex-direction: flex-start
+  flex-direction: flex-start;
 }
-.rec .rec-item-wrapper{
+
+.rec .rec-item-wrapper {
   //width: 360px !important;
   @include project-size(width, 350px, 315px);
   @include project-md {
-        @include project-size(width, 195px, 200px);
-        flex-direction: column;
-      }
+    @include project-size(width, 195px, 200px);
+    flex-direction: column;
+  }
 }
+
 .rec.rec-arrow:disabled {
-    visibility: hidden;
+  visibility: hidden;
 }
+
+.fix {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
 .time-line-page {
   display: flex;
   padding: 30px;
@@ -29,7 +39,7 @@
   flex-direction: row-reverse;
   margin-left: -18px;
   overflow: auto;
-  
+
   > * {
     margin-left: 18px;
   }
@@ -38,6 +48,7 @@
     @include project-size(min-width, 400px, 315px);
     flex: 1;
   }
+
 
   .modal-text {
     display: flex;
@@ -53,66 +64,81 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 35px;
-    padding: 30px;
-    border-radius: 10px;
+    height: 250px;
 
     img {
       @include project-size(width, 450px, 250px);
       @include project-size(height, 450px, 250px);
     }
+  }
 
-    p {
-      display: flex;
-      justify-content: center;
-      font-size: 18px;
-      color: $orangeDark;
-      font-weight: 600;
+  .no-data-p {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #F05454;
+    font-weight: 600;
+    @include project-md {
+      font-size: 16px;
     }
+
+  }
+
+  .fix {
+    overflow: auto;
   }
 
   .time-line-card {
     display: flex;
     flex: 1;
-    @include project-size(width, 300px, 200px);
+    @include project-size(width, 250px, 200px);
     flex-direction: column;
     align-items: center;
     height: 380px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 5px;
-    background-color: $gray0;
+    background-color: white;
     margin-bottom: 20px;
+
+
+    .header {
+      background-color: $blue;
+      display: flex;
+      width: 100%;
+      height: 12%;
+    }
 
     .cover-div {
       display: flex;
       width: 100%;
-      height: 150px;
-      //flex-direction: row-reverse;
-      padding-top: 10px;
-      padding-left: 50px;
-      background-size: cover;
-      
+      justify-content: flex-end;
+      padding: 5px 10px;
+      border-bottom: 1px solid black;
 
-
-    //   .fix{
-    //     width: 100%;
-
-      .cover {
-        width: 100%;
-        border-radius: 100%;
-        height: 100px;
-        width: 100px;
-        padding: 5px;
-        justify-content: flex-start;
-        // border-top-right-radius: 5px;
-        // border-bottom-right-radius: 5px;
-     // }
-      }
-      .username{
+      .img-div {
         display: flex;
+        width: 100%;
+
+        .cover {
+          display: flex;
+          border-radius: 100%;
+          height: 60px;
+          width: 60px;
+          justify-content: flex-start;
+          background-color: #5ac8fa;
+        }
+      }
+
+
+      .username {
+        display: flex;
+        font-weight: bold;
+        align-items: flex-end;
+        justify-content: center;
         flex-direction: column;
-        justify-content: flex-end;
-        height: 90%;
       }
     }
 
@@ -123,47 +149,86 @@
       flex-direction: column;
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
-      padding: 5px 10px;
+      padding: 20px 10px;
       direction: rtl !important;
 
-      .name-address {
+      .source {
         width: 100%;
         display: flex;
         justify-content: flex-start;
         font-weight: normal;
-        font-size: 14px;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .destination {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .cities {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .follow-traveler {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
+        word-break: break-word;
+        margin-bottom: 8px;
+      }
+
+      .time {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        font-weight: normal;
+        font-size: 13px;
         word-break: break-word;
         margin-bottom: 8px;
       }
 
       .end-line-button {
-        margin-top: 5px;
         display: flex;
+        width: 100%;
+        justify-content: flex-end;
 
-        .detail {
-          display: flex;
-          color: $white;
-          width: 50px;
-          border-radius: 5px;
-          justify-content: center;
+        .join {
+          outline: none;
           font-size: 13px;
-          font-weight: 500;
-          cursor: pointer;
-          background-color: #f34e4e;
-          margin-left: 5px;
+          border: none;
+          color: white;
+          padding: 5px;
+          margin-bottom: -10px;
+          border-radius: 5px;
+          background-color: $blue;
         }
 
-        .edit {
+        .delete {
           display: flex;
           color: $white;
           width: 90px;
           border-radius: 5px;
-          justify-content: center;
           margin-right: 5px;
           font-size: 13px;
           font-weight: 500;
           cursor: pointer;
-          background-color: $blue;
+          background-color: $red;
+          justify-content: center;
         }
       }
 
@@ -183,10 +248,131 @@
         width: 100%;
         word-break: break-word;
         font-size: 14px;
-        justify-content: flex-start;
         direction: rtl;
         height: 100px;
+        justify-content: flex-end;
+
       }
     }
+  }
+}
+
+.ant-list-header {
+  color: $blue !important;
+}
+
+.list {
+  padding-top: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  @include project-md {
+    flex-direction: row
+  }
+
+  .right {
+
+
+    margin-bottom: 25px;
+    @include project-md {
+      height: 600px;
+      margin-bottom: 0;
+    }
+    height: 600px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+  }
+
+  .right::-webkit-scrollbar {
+    display: none;
+  }
+
+  .right {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .left::-webkit-scrollbar {
+    display: none;
+  }
+
+  .left {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .end-line {
+    display: flex;
+
+
+    .add-button {
+      display: flex;
+      width: 35px;
+      height: 35px;
+      color: $white;
+      border-radius: 100%;
+      font-weight: 500;
+      align-items: center;
+      cursor: pointer;
+      justify-content: center;
+      background-color: $blue;
+    }
+
+    .add-button-deny {
+      display: flex;
+      width: 35px;
+      height: 35px;
+      color: white;
+      border-radius: 100%;
+      font-weight: 500;
+      align-items: center;
+      background-color: $orangeDark;
+      margin-left: 5px;
+      cursor: pointer;
+      justify-content: center;
+    }
+  }
+
+  .add-button-accepted {
+    display: flex;
+    color: $white;
+    width: 60px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    justify-content: center;
+    background-color: $green;
+  }
+
+  .between {
+    width: 5%;
+  }
+
+  .left {
+
+    margin-bottom: 40px;
+    @include project-md {
+      height: 600px;
+    }
+    height: 600px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
   }
 }
