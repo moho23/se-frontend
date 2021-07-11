@@ -116,7 +116,7 @@
                 font-size: 19px;
                 font-weight: 200;
                 color: $navyDark;
-
+                margin-left: 5px;
                 i{
                   margin-top: 4px;
                 }
@@ -124,6 +124,11 @@
                 p{
                   margin-left: 10px;
                   overflow: hidden;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 4; /* number of lines to show */
+                  -webkit-box-orient: vertical;
                   
                 }
 
