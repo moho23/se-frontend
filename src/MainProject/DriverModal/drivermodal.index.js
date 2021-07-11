@@ -190,7 +190,7 @@ const DriverModal = (props) => {
                 post(APIPath.hichhike.create, passengerOrDriverForm).then((data) => {
                     resolve(true);
                     if (responseValidator(data.status)) {
-                        toast.success("درخواست شما به عنوان سفیر با موفقیت ثبت شد")
+                        toast.success("درخواست شما با موفقیت ثبت شد")
                         props.setDriverModal(false)
                     } else {
                         if (data.status === 400) {
@@ -289,8 +289,9 @@ const DriverModal = (props) => {
                     <div key={index} onClick={(e) => {
                         sourceOrDestination === 2 ? setDestination(e.target.innerText) : setSource(e.target.innerText)
                         sourceOrDestination === 2 ? setDestinationButton(e.target.innerText) : setSourceButton(e.target.innerText)
-                        sourceOrDestination === 2 ? setDestinationCityButton(AllProvinces.find(item => item.name == e.target.innerText).cities[0]) : setSourceCityButton(AllProvinces.find(item => item.name == e.target.innerText).cities[0])
+                        sourceOrDestination === 2 ? setDestinationCityButton(AllProvinces.find(item => item.name === e.target.innerText).cities[0]) : setSourceCityButton(AllProvinces.find(item => item.name === e.target.innerText).cities[0])
                         sourceOrDestination === 2 ? setVisible2(false) : setVisible1(false)
+                        sourceOrDestination === 2 ? setDestinationCity(AllProvinces.find(item => item.name === e.target.innerText).cities[0]) : setSourceCity(AllProvinces.find(item => item.name === e.target.innerText).cities[0]);
                         sourceOrDestination === 2 ? destinationCityOptions = AllProvinces.find(item => item.name === e.target.innerText).cities : sourceCityOptions = AllProvinces.find(item => item.name === e.target.innerText).cities
                     }}
                          style={{
@@ -374,7 +375,7 @@ const DriverModal = (props) => {
     const [driver, setDriver] = useState(true);
     const [passenger, setPassenger] = useState(false);
 
-    const cityOptions = ["شاهدشهر", "پیشوا", "جوادآباد", "ارجمند", "ری", "نصیرشهر", "رودهن", "اندیشه", "نسیم شهر", "صباشهر", "ملارد", "شمشک", "پاکدشت", "باقرشهر", "احمد آباد مستوفی", "کیلان", "قرچک", "فردوسیه", "گلستان", "ورامین", "فیروزکوه", "فشم", "پرند", "آبعلی", "چهاردانگه", "تهران", "بومهن", "وحیدیه", "صفادشت", "لواسان", "فرون اباد", "کهریزک", "رباطکریم", "آبسرد", "باغستان", "صالحیه", "شهریار", "قدس", "تجریش", "شریف آباد", "حسن آباد", "اسلامشهر", "دماوند", "پردیس"];
+    // const cityOptions = ["شاهدشهر", "پیشوا", "جوادآباد", "ارجمند", "ری", "نصیرشهر", "رودهن", "اندیشه", "نسیم شهر", "صباشهر", "ملارد", "شمشک", "پاکدشت", "باقرشهر", "احمد آباد مستوفی", "کیلان", "قرچک", "فردوسیه", "گلستان", "ورامین", "فیروزکوه", "فشم", "پرند", "آبعلی", "چهاردانگه", "تهران", "بومهن", "وحیدیه", "صفادشت", "لواسان", "فرون اباد", "کهریزک", "رباطکریم", "آبسرد", "باغستان", "صالحیه", "شهریار", "قدس", "تجریش", "شریف آباد", "حسن آباد", "اسلامشهر", "دماوند", "پردیس"];
 
 
     function onChange(e) {
@@ -407,7 +408,7 @@ const DriverModal = (props) => {
                         setPassenger(!passenger)
                         setDriver(false)
                     }}>مسافر</Button>
-                    <span />
+                    <span/>
                     <div className="draggable-place"
                          onMouseEnter={() => {
                              if (disabled) {
@@ -416,7 +417,7 @@ const DriverModal = (props) => {
                          }}
                          onMouseOut={() => {
                              setDisabled(true)
-                         }} >
+                         }}>
                         .
                     </div>
                 </div>
