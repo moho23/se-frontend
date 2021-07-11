@@ -50,7 +50,6 @@ const MyLandscapes = (props) => {
 
                 }
                 setLandscapes(data.data.data);
-                console.log("l", landscapes)
 
             }
             else {
@@ -233,8 +232,6 @@ const MyLandscapes = (props) => {
                     </div>
                 </InfiniteScroll>
             }
-
-
         </div>
     )
 }
