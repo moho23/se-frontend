@@ -33,7 +33,8 @@ const MapContainer = (props) => {
     const [category, setCategory] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
     const [token, setToken] = useState(null);
-    const [id,setId]=useState(null);
+    const [rate, setRate] = useState(null);
+    const [id, setId] = useState(null);
 
 
     useEffect(() => {
@@ -65,6 +66,7 @@ const MapContainer = (props) => {
         setAddress(null)
         setDescription(null)
         setCategory(null)
+        setRate(null)
         setId(null)
         // console.log("details")
         detailsSideBar.set(true)
@@ -74,6 +76,7 @@ const MapContainer = (props) => {
                 resolve(true);
                 if (responseValidator(data.status) && data.data) {
                     console.log(data)
+                    
                     props.setModal(true)
                     if (data.data) {
                         if (data.data.address.city) {
@@ -86,7 +89,8 @@ const MapContainer = (props) => {
                             } else if (data.data.address.road) {
                                 setAddress(data.data.address.city + "," + data.data.address.neighbourhood + "," + data.data.address.road)
                             }
-                        } else if (data.data.address) {
+                        }
+                        else if (typeof data.data.address==="string") {
                             setAddress(data.data.address)
                         }
                         if (data.data.wikipedia_extracts) {
@@ -100,6 +104,10 @@ const MapContainer = (props) => {
                         if (data.data.kinds) {
                             // categoryHandler(data.data.kinds)
                             setCategory(categoryHandler(data.data.kinds))
+                        }
+                        if (data.data.ratings) {
+                            console.log(data.data.ratings.rating__avg)
+                            setRate(data.data.ratings.rating__avg)
                         }
                         if(data.data.id){
                             setId(data.data.id)
@@ -214,6 +222,7 @@ const MapContainer = (props) => {
                 description={description}
                 cover={image}
                 address={address}
+                rate={rate}
                 id={id}
             /> : null}
             {props.driverModalShow ? <DriverModal/> : null}

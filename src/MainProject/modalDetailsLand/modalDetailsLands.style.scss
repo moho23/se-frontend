@@ -1,5 +1,10 @@
 @import "src/utilities/references/index";
-
+.ant-modal-header{
+  background-color: $blueWood;
+}
+.ant-modal-close-x{
+  color: white;
+}
 .modal-detail-page {
   padding: 30px;
   z-index: 9999999 !important;
@@ -48,10 +53,20 @@
       p {
         overflow: auto;
       }
+      
+      .is-english {
+        justify-content: flex-start !important;
+        direction: ltr !important;
+      }
     }
 
     .last-line {
       margin-bottom: 0 !important;
+
+      .is-english {
+        justify-content: flex-start !important;
+        direction: ltr !important;
+      }
     }
   }
 
