@@ -124,6 +124,7 @@
           font-weight: 600;
           direction: rtl;
           margin-bottom: 10px;
+          margin-top: 10px;
         }
 
         .simple-selector {
@@ -147,6 +148,18 @@
 
         .search-box {
           direction: rtl;
+          margin-bottom: 10px;
+        }
+
+        .search-results {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          font-weight: 500;
+          border-bottom: 1px solid $blueWood;
+          padding: 10px 0;
+          font-size: 14px;
+          color: $blueWood;
         }
 
         .check-box {

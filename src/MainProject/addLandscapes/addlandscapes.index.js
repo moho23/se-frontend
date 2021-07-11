@@ -294,9 +294,11 @@ const AddLandscapes = (props) => {
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
                     <div className="detail-items">
+                    <p>دسته بندی</p>
                         {update ?
+                        
                         <Tooltip className="tool-tip" title={<p>دسته بندی هایی که در گذشته انتخاب کرده بودید:{preCategory}</p>}>
-                        <p>دسته بندی</p>
+                        
                     <Select
                         onChange={(e) => e.length < 4 ? handleChange(e) : toast.error('تعداد مجاز انتخاب دسته بندی حداکثر ۳ است')}
                         mode="tags"
@@ -327,7 +329,7 @@ const AddLandscapes = (props) => {
                     </Tooltip>
                         :
                         <div>
-                            <p>دسته بندی</p>
+                            
                     <Select
                         onChange={(e) => e.length < 4 ? handleChange(e) : toast.error('تعداد مجاز انتخاب دسته بندی حداکثر ۳ است')}
                         mode="tags"

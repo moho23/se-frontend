@@ -11,6 +11,7 @@ import "./states";
 import {Dropdown, Menu, Button} from "antd";
 import {StatesList} from "./states";
 import useOnBlur from "../../../scripts/useOnBlur";
+import Buttonn from "../../../utilities/components/button/button.index";
 
 const Signup = () => {
     const [email, setEmail] = useState(null)
@@ -20,6 +21,7 @@ const Signup = () => {
     const [confirmPassword, setConfirmPassword] = useState(null)
     const [visible, setVisible] = useState(false);
     const [stateButton, setStateButton] = useState(null);
+    const [stateArrow, setStateArrow] = useState(null);
     const ddRef = useRef(null)
     const history = useHistory();
 
@@ -82,7 +84,10 @@ const Signup = () => {
         </Menu>
     );
 
-    useOnBlur(ddRef, () => setVisible(false))
+    useOnBlur(ddRef, () => {
+        setVisible(false)
+        setStateArrow(false)
+    } )
 
     return (
         <div className="signup-main-page">
@@ -102,15 +107,21 @@ const Signup = () => {
                         <p>استان</p>
                         <Dropdown arrow={true} visible={visible} trigger="click" overlay={menu}
                                   placement="bottomCenter">
-                            <Button ref={ddRef} onClick={() => setVisible(!visible)} dir="rtl"
-                                    className={stateButton ? "state-button selected" : "state-button"}>{stateButton ? stateButton : "استان خود را انتخاب کنید."}</Button>
+                            <Button ref={ddRef} onClick={() => {
+                                setVisible(!visible)
+                                setStateArrow(!stateArrow)
+                            }} dir="rtl"
+                                    className={stateButton ? "state-button selected" : "state-button"}>{stateButton ? stateButton : "استان خود را انتخاب کنید"}
+                                <span
+                                    style={{display: "flex", flex: 1, width: "100%"}}/>
+                                <i className="material-icons">{stateArrow ? 'expand_less' : 'expand_more'}</i></Button>
                         </Dropdown>
                     </div>
                     <Input className="items" label="رمز" type="password" onChange={(e) => setPassword(e)}
                            placeholder="رمز خود را وارد کنید."/>
                     <Input className="items" label="تایید رمز" type="password" onChange={(e) => setConfirmPassword(e)}
                            placeholder="رمز خود را تکرار کنید."/>
-                    <Button className="last-item" onClick={submit}>ثبت نام</Button>
+                    <Buttonn className="last-item" onClick={submit} text="ثبت نام"/>
                     <div className="end-line">
                         <p>
                             قبلا ثبت نام کردی؟ <Link to={RoutePath.account.signin}
