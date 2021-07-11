@@ -13,7 +13,7 @@ import {Button, Modal, Tooltip} from "antd";
 const DriverTravels = (props) => {
 
     const [travels, setTravels] = useState(null);
-    const [check, setCheck] = useState(true);
+    // const [check, setCheck] = useState(true);
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
@@ -31,13 +31,18 @@ const DriverTravels = (props) => {
     }
 
     useEffect(() => {
+        props.setDriverModal(false)
+        console.log("useEffect")
+        props.setIsUpdate(false)
         get(APIPath.hichhike.driverTravels).then((data) => {
             if (responseValidator(data.status) && data.data) {
                 setTravels(data.data)
+                console.log(data)
             } else {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
         });
+        console.log("props.driverModalShow",props.driverModalShow)
     }, [])
 
     const [visible, setVisible] = React.useState(false);
@@ -73,27 +78,30 @@ const DriverTravels = (props) => {
         return false;
     }
 
-    useEffect(() => {
-        props.setCheck(false)
-        get(APIPath.hichhike.driverTravels).then((data) => {
-            console.log("1", data)
-            if (responseValidator(data.status) && data.data) {
-                console.log("2", data.data)
-                setTravels(data.data)
-            } else {
-                toast.error("مجددا تلاش کنید.");
-            }
-        });
-    }, [])
+    // useEffect(() => {
+    //     props.setIsUpdate(false)
+    //     props.setDriverModal(false)
+    //     get(APIPath.hichhike.driverTravels).then((data) => {
+    //         console.log("1", data)
+    //         if (responseValidator(data.status) && data.data) {
+    //             console.log("2", data.data)
+    //             setTravels(data.data)
+    //         } else {
+    //             toast.error("مجددا تلاش کنید.");
+    //         }
+    //     });
+    // }, [])
 
     const set = (item) => {
-        props.setCheck(true)
+        console.log("itemset")
+        props.setIsUpdate(true)
         props.setItem(item)
-        props.setDriverModal()
+        props.setDriverModal(true)
     }
 
+    
     return (
-        <div className='my-travels-page'>
+        <div data-testid="test" className='my-travels-page'>
             {props.driverModalShow ? <DriverModal/> : null}
             {
                 travels &&
@@ -108,7 +116,7 @@ const DriverTravels = (props) => {
                                 <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
                                 <p className={`${isPersianOrEnglish(item.destination) === false ? 'fix' : 'fix is-english'}`}>به {item.destination}</p>
                                 <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>
-                                <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities}</p>
+                                <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities && item.cities.join(" , ")}</p>
                                 <Tooltip placement="right" title={item.address}>
                                     <p className={`${isPersianOrEnglish(item.address) === false ? 'fix' : 'fix is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
                                 </Tooltip>
@@ -204,9 +212,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCheck: (checkInput) => dispatch({type: Actions.CHECK, checkInput: checkInput}),
+        setIsUpdate:(isupdate) => dispatch({type: Actions.ISUPDATE,isupdate: isupdate}),
         setItem: (item) => dispatch({type: Actions.ITEM, item: item}),
-        setDriverModal: () => dispatch({type: Actions.DRIVERMODALSHOW}),
+        setDriverModal: (isopen) => dispatch({type: Actions.DRIVERMODALSHOW,isopen:isopen}),
     }
 }
 

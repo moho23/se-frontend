@@ -10,7 +10,7 @@ import {get, responseValidator,put,update_put, upload_post} from "../../scripts/
 import markerUrl from "../../assets/images/mapmarker.svg";
 import {toast} from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
-import {Checkbox, Button, Spin, Select} from 'antd';
+import {Checkbox, Button, Spin, Select,Tooltip} from 'antd';
 import 'antd/dist/antd.css';
 import {EnglishCategoryToPersian} from "../map/translateCategory";
 import * as Actions from "../../redux/myLandscapes/actions"
@@ -28,6 +28,7 @@ const AddLandscapes = (props) => {
     const [markerArray, setMarkerArray] = useState();
     const [name, setName] = useState(null)
     const [category, setCategory] = useState(null)
+    const [preCategory, setPreCategory] = useState(null)
     const [address, setAddress] = useState(null)
     const [description, setDescription] = useState(null)
     const [type, setType] = useState(false)
@@ -46,6 +47,7 @@ const AddLandscapes = (props) => {
             }
         })
         if(props.item&& props.update){
+            setUpdate(props.update)
             setIsChoose(true)
             const array = [];
             array.push(<Mapir.Marker
@@ -62,6 +64,13 @@ const AddLandscapes = (props) => {
             setDescription(props.item.description)
             setType(props.item.is_private)
             setUpdate(true)
+            const tempCategArray=[]
+            props.item.all_kinds.map(e=>{
+                tempCategArray.push(EnglishCategoryToPersian[e.title])
+            })
+            console.log(tempCategArray.join())
+            setPreCategory(tempCategArray.join())
+
         }
         if(props.item && props.update){
             if (props.item.image[0]!==null){
@@ -77,8 +86,13 @@ const AddLandscapes = (props) => {
             // setImage(cover)
             setImageName(cover)
         }
+        props.setUpdate(false)
 
     }, [])
+
+    
+
+    
 
     const reverseFunction = (map, e) => {
         setIsChoose(true)
@@ -125,7 +139,7 @@ const AddLandscapes = (props) => {
                 form.append("city", 'city')
                 form.append("state", 'state')
                 console.log(form)
-                if (props.update){
+                if (update){
                     console.log("update")
                     form.append("id", props.item.id)
                     updateTools.current = update_put(APIPath.location.update, form, (e) => {
@@ -280,34 +294,71 @@ const AddLandscapes = (props) => {
                     <Input onChange={(e) => setName(e)} value={name} className="item" label="نام"
                            placeholder="نام را وارد کنید."/>
                     <div className="detail-items">
-                        <p>دسته بندی</p>
-                        <Select
-                            onChange={(e) => e.length < 4 ? handleChange(e) : toast.error('تعداد مجاز انتخاب دسته بندی حداکثر ۳ است')}
-                            mode="tags"
-                            className="multi-select"
-                            onSelect={(e) => e.length <= 3}
-                            placeholder="دسته بندی را انتخاب کنید."
-                            showSearch={false}
-                            searchValue={''}
-                            maxTagCount="responsive"
-                            tokenSeparators={[',']}>
-                            {
-                                dropDownData ? dropDownData.map((item, index) => (
-                                        <Option className="item" value={item.title}
-                                                key={index}><span style={{
-                                            width: "100%",
-                                            display: "flex",
-                                            justifyContent: "flex-end",
-                                            paddingRight: "10px",
-                                            fontSize: "16px",
-                                            fontWeight: 500
-                                        }}>{EnglishCategoryToPersian[item.title]}</span></Option>)) :
-                                    <div>
-                                        <p style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>داده ای
-                                            برای نمایش وجود ندارد</p>
-                                    </div>
-                            }
-                        </Select>
+                    <p>دسته بندی</p>
+                        {update ?
+                        
+                        <Tooltip className="tool-tip" title={<p>دسته بندی هایی که در گذشته انتخاب کرده بودید:{preCategory}</p>}>
+                        
+                    <Select
+                        onChange={(e) => e.length < 4 ? handleChange(e) : toast.error('تعداد مجاز انتخاب دسته بندی حداکثر ۳ است')}
+                        mode="tags"
+                        className="multi-select"
+                        onSelect={(e) => e.length <= 3}
+                        placeholder="دسته بندی را انتخاب کنید."
+                        showSearch={false}
+                        searchValue={''}
+                        maxTagCount="responsive"
+                        tokenSeparators={[',']}>
+                        {
+                            dropDownData ? dropDownData.map((item, index) => (
+                                    <Option className="item" value={item.title}
+                                            key={index}><span style={{
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        paddingRight: "10px",
+                                        fontSize: "16px",
+                                        fontWeight: 500
+                                    }}>{EnglishCategoryToPersian[item.title]}</span></Option>)) :
+                                <div>
+                                    <p style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>داده ای
+                                        برای نمایش وجود ندارد</p>
+                                </div>
+                        }
+                    </Select>
+                    </Tooltip>
+                        :
+                        <div>
+                            
+                    <Select
+                        onChange={(e) => e.length < 4 ? handleChange(e) : toast.error('تعداد مجاز انتخاب دسته بندی حداکثر ۳ است')}
+                        mode="tags"
+                        className="multi-select"
+                        onSelect={(e) => e.length <= 3}
+                        placeholder="دسته بندی را انتخاب کنید."
+                        showSearch={false}
+                        searchValue={''}
+                        maxTagCount="responsive"
+                        tokenSeparators={[',']}>
+                        {
+                            dropDownData ? dropDownData.map((item, index) => (
+                                    <Option className="item" value={item.title}
+                                            key={index}><span style={{
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        paddingRight: "10px",
+                                        fontSize: "16px",
+                                        fontWeight: 500
+                                    }}>{EnglishCategoryToPersian[item.title]}</span></Option>)) :
+                                <div>
+                                    <p style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>داده ای
+                                        برای نمایش وجود ندارد</p>
+                                </div>
+                        }
+                    </Select>
+                        </div> }
+                        
                     </div>
                     <Input onChange={(e) => setAddress(e)} value={address} className="item" label="آدرس"
                            placeholder="آدرس را وارد کنید."/>
@@ -365,4 +416,3 @@ const mapDispatchToProps = (dispatch) => {
 
 const connector = connect(mapStateToProps,mapDispatchToProps);
 export default connector(AddLandscapes);
-

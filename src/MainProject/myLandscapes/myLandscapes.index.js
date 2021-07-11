@@ -24,7 +24,7 @@ const MyLandscapes = (props) => {
     const [next,setNext]=useState(false);
     const draggleRef = useRef();
     const[id,setId]=useState(null);
-    const history=useHistory()
+    const history=useHistory();
 
     function onStart(event, uiData) {
         const {clientWidth, clientHeight} = window?.document?.documentElement;
