@@ -103,7 +103,9 @@ const Comments = (props) => {
                             placeholder="در این قسمت، متن پیام خود را قرار دهید."/>
                             <Button className="send" onClick={()=>send()}>ارسال</Button>                           
                 </div>
-                <div className="comments">
+                {
+                    comments.length!==0 ?
+                    <div className="comments">
                     <div className="comments-title">
                         <p className="title">دیدگاه کاربران</p>
                         <i className="material-icons">message</i>
@@ -116,7 +118,7 @@ const Comments = (props) => {
                                 <div className="comm-card">
                                     <div className="comm-creator">
                                         <div className="creator-pro">
-                                            <img src={comm.creator_profile_picture!==null ? comm.creator_profile_picture : static_profile}/>
+                                            <img src={comm.creator_profile_picture!==null ? "http://45.149.76.77:8000"+comm.creator_profile_picture : static_profile}/>
                                         </div>
                                         <div className="creator-info">
                                             <p>{comm.creator_username}</p>
@@ -130,6 +132,8 @@ const Comments = (props) => {
                         }
                     </div>
                 </div>
+                :<p className="no-comm">هیچ دیدگاهی ثبت نشده است</p>
+                }
             </div>
             : history.push("/dashboard/map")}
         </div>
