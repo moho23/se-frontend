@@ -1,33 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import './myLandscapes.style.scss'
 import cover from '../../assets/images/add-landscapes-default.png';
-import { APIPath, RoutePath } from "../../data";
-import { get, responseValidator, del } from "../../scripts/api";
-import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import {APIPath, RoutePath} from "../../data";
+import {get, responseValidator,del} from "../../scripts/api";
+import {toast} from "react-toastify";
+import {Link} from "react-router-dom";
 import noData from "../../assets/images/undraw_not_found_60pq.svg"
-import { Button, Modal, Tooltip } from "antd";
+import {Button, Modal, Tooltip} from "antd";
 import Draggable from "react-draggable";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import * as Actions from "../../redux/myLandscapes/actions"
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 
 
 const MyLandscapes = (props) => {
 
-    const [landscapes, setLandscapes] = useState(null);
-    const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
+    const [landscapes, setLandscapes] = useState();
+    const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
-    const [page, setPage] = useState(1);
-    const [next, setNext] = useState(false);
+    const [page,setPage]=useState(1);
+    const [next,setNext]=useState(false);
     const draggleRef = useRef();
-    const [id, setId] = useState(null);
-    const history = useHistory();
+    const[id,setId]=useState(null);
+    const history=useHistory();
 
     function onStart(event, uiData) {
-        const { clientWidth, clientHeight } = window?.document?.documentElement;
+        const {clientWidth, clientHeight} = window?.document?.documentElement;
         const targetRect = draggleRef?.current?.getBoundingClientRect();
         setBounds({
             left: -targetRect?.left + uiData?.x,
@@ -40,19 +40,18 @@ const MyLandscapes = (props) => {
     useEffect(() => {
         //get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
         props.setUpdate(false)
-        get(APIPath.map.myLandscapes + "?page=" + page).then((data) => {
+        get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
             if (responseValidator(data.status) && data.data) {
-                if (data.data.has_next) {
+                if(data.data.has_next)
+                {
                     setNext(true);
-                    setPage(page + 1);
-                    console.log("d", data.data.data)
-
-
+                    setPage(page+1);
+                    setLandscapes(data.data.data);
+                    
                 }
-                setLandscapes(data.data.data);
-
             }
-            else {
+            else
+            {
                 toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
             }
         });
@@ -67,8 +66,8 @@ const MyLandscapes = (props) => {
 
     const handleOk = () => {
         setVisible(false);
-        del(APIPath.map.myLandscapes + "?location_id=" + id).then((data) => {
-            if (responseValidator(data.status) && data.data == "Location deleted") {
+        del(APIPath.map.myLandscapes+"?location_id="+id).then((data) => {
+            if (responseValidator(data.status) && data.data=="Location deleted"){
                 toast.success("مکان موردنظر با موفقیت حذف شد.")
                 window.location.reload();
             }
@@ -79,7 +78,7 @@ const MyLandscapes = (props) => {
         setVisible(false);
     };
 
-    const editMyLand = (item) => {
+    const editMyLand=(item)=>{
         props.setItem(item)
         props.setUpdate(true)
         history.push(RoutePath.dashboard.addLandscapes)
@@ -96,150 +95,146 @@ const MyLandscapes = (props) => {
         return false;
     }
 
-    function fetchMoreData() {
-        let tempArray = [];
-        get(APIPath.map.myLandscapes + "?page=" + page).then((data) => {
-            if (responseValidator(data.status) && data.data) {
-                if (data.data.has_next) {
-                    setNext(true);
-                    setPage(page + 1);
+    function fetchMoreData(){
+        let tempArray=[];
+            get(APIPath.map.myLandscapes+"?page="+page).then((data) => {
+                if (responseValidator(data.status) && data.data) {  
+                    if(data.data.has_next)
+                    {
+                        setNext(true);
+                        setPage(page+1);
+                    }
+                    else
+                    {
+                        setNext(false);
+                    }
+                    tempArray=landscapes.concat(data.data.data);
+                    setLandscapes(tempArray)
                 }
                 else {
-                    setNext(false);
+                    toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
                 }
-                tempArray = landscapes.concat(data.data.data);
-                setLandscapes(tempArray)
-            }
-            else {
-                toast.error("سیستم با خطا مواجه شد، مجددا تلاش کنید");
-            }
-        }, []);
+            },[]);
     }
 
     return (
-        <div className="page">
-            {landscapes == null || landscapes.length === 0 ?
-
+        <InfiniteScroll
+        dataLength={6}
+        next={()=>fetchMoreData()}
+        hasMore={next}
+        loader={<h4>Loading...</h4>}
+        height={600}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            {/* <b>Yay! You have seen it all</b> */}
+          </p>
+        }
+    > 
+        <div className='my-landscape-page'>        
+                {
                 landscapes &&
-                landscapes.length === 0 &&
-                <div className="no-data">
-                    <img src={noData} alt="no-data" />
+                landscapes.map((item) => (
+                    <div className="landscapes-card">
+                        <div className="cover-div">
+                            <img alt='cover-landscapes' className="cover"
+                                 src={item.image[0] ? item.image[0] : cover}/>
+                        </div>
+                        <div className='content'>
+                            <p className={`${isPersianOrEnglish(item.name) === false ? 'name-address' : 'name-address is-english'}`}>{item.name && item.name.length > 12 ? item.name.substring(0, 13) + '...' : item.name}</p>
+                            <Tooltip placement="right" title={item.address}>
+                                <p className={`${isPersianOrEnglish(item.address) === false ? 'name-address' : 'name-address is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
+                            </Tooltip>
+                            <Tooltip placement="right" title={item.description}>
+                                <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
+                            </Tooltip>
+                            <span/>
+                            <div className="end-line-button">
+                                <p className="edit" onClick={()=>{editMyLand(item)}}>ویرایش</p>
+                                <p className="delete" onClick={()=>showModal(item.id)}>حذف</p>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+            <div className="my-grid"/>
+            <div className="my-grid"/>
+           
+            <Modal
+                visible={visible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                // modalRender={modal => (
+                //     <Draggable
+                //         disabled={disabled}
+                //         bounds={bounds}
+                //         onStart={(event, uiData) => onStart(event, uiData)}
+                //     >
+                //         <div ref={draggleRef}>{modal}</div>
+                //     </Draggable>
+                // )}
+                className="modal"
+                footer={<div style={{display: "flex", width: "100%"}}>
+                    <Button
+                        className="submit"
+                        onClick={handleOk}
+                        style={{
+                            display: "flex",
+                            outline: "none",
+                            border: "1px solid green",
+                            color:"green",
+                            borderRadius: "5px",
+                            fontWeight:500
+                        }}>تایید</Button>
+                    <Button
+                        onClick={handleCancel}
+                        style={{
+                            display: "flex",
+                            outline: "none",
+                            border: "none",
+                            backgroundColor: "#F05454",
+                            color:"#ffffff",
+                            fontWeight:500,
+                            borderRadius: "5px",
+                        }}>لغو</Button>
+                </div>}
+            >
+                <p
+                    onMouseOver={() => {
+                        if (disabled) {
+                            setDisabled(false)
+                        }
+                    }}
+                    onMouseOut={() => {
+                        setDisabled(true)
+                    }}
+                    style={{
+                        marginTop: "25px",
+                        marginBottom: "-10px",
+                        display: "flex",
+                        width: "100%",
+                        cursor: 'move',
+                        justifyContent: "flex-end",
+                        fontWeight: 500
+                    }} className="modal-text">آیا
+                    از حذف این مکان مطمئن هستید؟</p>
+            </Modal>
+            {
+                landscapes &&
+                landscapes.length === 0 && <div className="no-data">
+                    <img src={noData} alt="no-data"/>
                     <p>متاسفانه مکان ثبت شده ای نداری</p>
                     <Link className="to-add-landscape" to={RoutePath.dashboard.addLandscapes}>مکان خودتو ثبت کن</Link>
                 </div>
-
-                :
-                <InfiniteScroll
-                    dataLength={6}
-                    next={() => fetchMoreData()}
-                    hasMore={next}
-                    loader={<h4>Loading...</h4>}
-                    height={600}
-                    endMessage={
-                        <p style={{ textAlign: "center" }}>
-                            {/* <b>Yay! You have seen it all</b> */}
-                        </p>
-                    }
-                >
-                    <div className='my-landscape-page'>
-                        {
-                            landscapes &&
-                            landscapes.map((item) => (
-                                <div className="landscapes-card">
-                                    <div className="cover-div">
-                                        <img alt='cover-landscapes' className="cover"
-                                            src={item.image[0] ? item.image[0] : cover} />
-                                    </div>
-                                    <div className='content'>
-                                        <p className={`${isPersianOrEnglish(item.name) === false ? 'name-address' : 'name-address is-english'}`}>{item.name && item.name.length > 12 ? item.name.substring(0, 13) + '...' : item.name}</p>
-                                        <Tooltip placement="right" title={item.address}>
-                                            <p className={`${isPersianOrEnglish(item.address) === false ? 'name-address' : 'name-address is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
-                                        </Tooltip>
-                                        <Tooltip placement="right" title={item.description}>
-                                            <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
-                                        </Tooltip>
-                                        <span />
-                                        <div className="end-line-button">
-                                            <p className="edit" onClick={() => { editMyLand(item) }}>ویرایش</p>
-                                            <p className="delete" onClick={() => showModal(item.id)}>حذف</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                        <div className="my-grid" />
-                        <div className="my-grid" />
-
-                        <Modal
-                            visible={visible}
-                            onOk={handleOk}
-                            onCancel={handleCancel}
-                            // modalRender={modal => (
-                            //     <Draggable
-                            //         disabled={disabled}
-                            //         bounds={bounds}
-                            //         onStart={(event, uiData) => onStart(event, uiData)}
-                            //     >
-                            //         <div ref={draggleRef}>{modal}</div>
-                            //     </Draggable>
-                            // )}
-                            className="modal"
-                            footer={<div style={{ display: "flex", width: "100%" }}>
-                                <Button
-                                    className="submit"
-                                    onClick={handleOk}
-                                    style={{
-                                        display: "flex",
-                                        outline: "none",
-                                        border: "1px solid green",
-                                        color: "green",
-                                        borderRadius: "5px",
-                                        fontWeight: 500
-                                    }}>تایید</Button>
-                                <Button
-                                    onClick={handleCancel}
-                                    style={{
-                                        display: "flex",
-                                        outline: "none",
-                                        border: "none",
-                                        backgroundColor: "#F05454",
-                                        color: "#ffffff",
-                                        fontWeight: 500,
-                                        borderRadius: "5px",
-                                    }}>لغو</Button>
-                            </div>}
-                        >
-                            <p
-                                onMouseOver={() => {
-                                    if (disabled) {
-                                        setDisabled(false)
-                                    }
-                                }}
-                                onMouseOut={() => {
-                                    setDisabled(true)
-                                }}
-                                style={{
-                                    marginTop: "25px",
-                                    marginBottom: "-10px",
-                                    display: "flex",
-                                    width: "100%",
-                                    cursor: 'move',
-                                    justifyContent: "flex-end",
-                                    fontWeight: 500
-                                }} className="modal-text">آیا
-                                از حذف این مکان مطمئن هستید؟</p>
-                        </Modal>
-                    </div>
-                </InfiniteScroll>
             }
         </div>
+         </InfiniteScroll>
     )
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setItem: (item) => dispatch({ type: Actions.ITEM, item: item }),
-        setUpdate: (bool) => dispatch({ type: Actions.UPDATE, bool: bool }),
+        setItem:(item) => dispatch({type: Actions.ITEM, item: item}),
+        setUpdate:(bool) => dispatch({type: Actions.UPDATE, bool: bool}),
     }
 }
 
