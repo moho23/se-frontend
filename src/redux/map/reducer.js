@@ -48,7 +48,7 @@ const reducer = (state = initialState, action) => {
         case(Actions.MODALDETAILSHOW):
             return {
                 ...state,
-                modalDetailsShow: !state.modalDetailsShow
+                modalDetailsShow: action.isOpen
             }
         default:
             return state

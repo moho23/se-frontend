@@ -7,11 +7,40 @@
     margin-right: 20px;
   }
 
+  .title-div {
+    display: flex;
+
+    .draggable-place {
+      cursor: move;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .driver-passenger {
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      margin: 0 5px;
+
+      &.active {
+        background-color: $blue;
+        color: #ffffff;
+
+        &:hover {
+          color: #ffffff;
+        }
+      }
+
+      &:hover {
+        color: black;
+      }
+    }
+  }
+
   .driver-modal {
     display: flex;
     width: 100%;
-    cursor: move;
-    margin-top: 25px;
+    margin-top: -15px;
     flex-direction: column;
 
     .first-line {
@@ -24,6 +53,87 @@
         width: 100%;
         flex-direction: column;
         padding: 5px;
+
+        .show-cities {
+          display: flex;
+          direction: rtl;
+          font-weight: 500;
+          margin-top: 5px;
+          padding: 5px 0;
+
+          p {
+            display: flex;
+            @include project-size(font-size, 14px, 13px);
+            background-color: rgba($blue, 0.2);
+            padding: 5px;
+            margin: 0 2px;
+            width: fit-content;
+            cursor: pointer;
+            border-radius: 5px;
+            align-items: center;
+
+            &:first-child {
+              margin-right: 0 !important;
+              padding-right: 5px;
+            }
+
+            i {
+              font-size: 15px;
+              display: flex;
+              margin-right: 3px !important;
+              align-items: center;
+            }
+          }
+        }
+
+        .add-city {
+          display: flex;
+          width: 100%;
+
+          .add-city-span {
+            width: 100%;
+            display: flex;
+            flex: 1;
+          }
+
+          .add-city-button {
+            outline: none;
+            border-radius: 5px;
+            border: 1px solid rgba($blue, 0.5);
+            height: 40px;
+            margin-right: 10px;
+            font-weight: 500;
+            color: $blue;
+
+            &:hover {
+              color: $blue;
+            }
+          }
+
+          .between-cities {
+            width: 100%;
+            direction: rtl;
+
+            &.disabled {
+              cursor: not-allowed;
+            }
+          }
+
+          .ant-select-selector {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            outline: none;
+            justify-content: center;
+            border: 2px solid #d4e8f1;
+            border-radius: 5px;
+            background: $blueLight;
+
+            &.disabled {
+              cursor: not-allowed;
+            }
+          }
+        }
 
         .label {
           display: flex;

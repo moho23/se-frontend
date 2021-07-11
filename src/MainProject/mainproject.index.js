@@ -14,6 +14,7 @@ import myLandscapes from "./myLandscapes/myLandscapes.index";
 import AddLandscapes from "./addLandscapes/addlandscapes.index";
 import DriverTravels from "./driverTravels/driverTravels.index";
 import timeLine from "./timeLine/timeLine.index"
+import Comments from "./commentsLandscapes/commentsLandscapes.index"
 
 
 
@@ -65,9 +66,9 @@ const MainProject = (props) => {
                                             <Route path={RoutePath.dashboard.myLandscapes} component={myLandscapes}/>
                                             <Route path={RoutePath.dashboard.driverTravels} component={DriverTravels} />
                                             <Route path={RoutePath.dashboard.timeLine} component={timeLine}/>
-                                            <Route path={RoutePath.dashboard.addLandscapes}
-                                                   component={AddLandscapes}/>
+                                            <Route path={RoutePath.dashboard.addLandscapes}component={AddLandscapes}/>
                                             <Route path={RoutePath.map.index} component={MapContainer} />
+                                            <Route path={RoutePath.commentsLand.comments} component={Comments}/>
                                             {/*<Route path={RoutePath.dashboard.details} component={Details}/>*/}
                                             <Route path="*">
                                                 <Redirect to={RoutePath.dashboard.timeLine}/>
