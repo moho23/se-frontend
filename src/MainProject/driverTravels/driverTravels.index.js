@@ -143,7 +143,7 @@ const DriverTravels = (props) => {
                                     <div className="cover-div">
                                         <img alt='cover-travels' className="cover"
                                             src={item.creator_profile_picture ? item.creator_profile_picture : cover} />
-                                        <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>@{item.creator_username && item.creator_username.length > 12 ? item.name.substring(0, 13) + '...' : item.creator_username}</p>
+                                        <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>@{item.creator_username && item.creator_username.length > 12 ? item.creator_username.substring(0, 13) + '...' : item.creator_username}</p>
                                     </div>
                                     <div className='content'>
                                         <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
