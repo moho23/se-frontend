@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { APIPath, RoutePath } from "../../data";
 import { connect } from "react-redux";
 import detailsDefaultCover from '../../assets/images/default-modal-detail-land.png'
-import { get, post_with_token,post, responseValidator } from "../../scripts/api";
+import { get, SERVER_ADDRESS,post, responseValidator } from "../../scripts/api";
 import { toast } from "react-toastify";
 import TextArea from "../../utilities/components/textarea/textarea.index";
 import {Button} from 'antd';
@@ -118,7 +118,7 @@ const Comments = (props) => {
                                 <div className="comm-card">
                                     <div className="comm-creator">
                                         <div className="creator-pro">
-                                            <img src={comm.creator_profile_picture!==null ? "http://45.149.76.77:8000"+comm.creator_profile_picture : static_profile}/>
+                                            <img src={comm.creator_profile_picture!==null ? SERVER_ADDRESS+comm.creator_profile_picture : static_profile}/>
                                         </div>
                                         <div className="creator-info">
                                             <p>{comm.creator_username}</p>

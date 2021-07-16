@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import {toast} from "react-toastify";
 import markerUrl from "../../assets/images/redmapmarker.png"
 import Mapir from "mapir-react-component";
-import {get} from "../../scripts/api";
+import {get,responseValidator} from "../../scripts/api";
 import {APIPath} from "../../data";
 import Button from "../../utilities/components/button/button.index";
 import {TreeData} from "./treeData";
@@ -44,11 +44,11 @@ const Mapfilterbar = (props) => {
         let array = [];
         setIsntClicked(true)
         let url = APIPath.map.details + arr.xid
-
+        console.log("onSearchClick begins")
         get(url).then((data) => {
                 console.log(data)
 
-                if (data.data) {
+                if (responseValidator(data.status) && data.data) {
                     props.setModal()
                     if (data.data.address.city) {
                         address = (data.data.address.city)
@@ -122,14 +122,15 @@ const Mapfilterbar = (props) => {
         if (searchInput !== "") {
             get(url).then((data) => {
                 console.log(data)
-                if (data.data) {
-                    const array = [];
+                if (responseValidator(data.status) && data.data) {
+                    // const array = [];
                     setIsntClicked(true)
-                    data.data.map(arr => {
-                        array.push(arr.display_name);
-                    })
+                    // data.data.map(arr => {
+                    //     array.push(arr.display_name);
+                    // })
 
-                    setSearchResult(array)
+                    // setSearchResult(array)
+                    setSearchResult(data.data)
                 } else {
                     toast.warn("چنین مکانی ثبت نشده است.")
                 }
@@ -160,7 +161,7 @@ const Mapfilterbar = (props) => {
                             onSearch={onSearch}/>
                     {
                         searchResult && searchResult.map((item, index) => (
-                            <div onClick={() => onSearchClick(item)} className="search-results" style={{cursor: "pointer"}}>{item}
+                            <div onClick={() => onSearchClick(item)} className="search-results" style={{cursor: "pointer"}}>{item.display_name}
                                 {/*<hr/>*/}
                             </div>
                         ))

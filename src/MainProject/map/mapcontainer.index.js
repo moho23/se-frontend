@@ -34,6 +34,7 @@ const MapContainer = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [token, setToken] = useState(null);
     const [id,setId]=useState(null);
+    const [rate, setRate] = useState(null);
 
 
     useEffect(() => {
@@ -103,6 +104,10 @@ const MapContainer = (props) => {
                         }
                         if(data.data.id){
                             setId(data.data.id)
+                        }
+                        if (data.data.ratings) {
+                            // console.log(data.data.ratings.rating__avg)
+                            setRate(data.data.ratings.rating__avg)
                         }
                         if (data.data.image) {
                             if (!data.data.image[0]) {
@@ -214,6 +219,7 @@ const MapContainer = (props) => {
                 description={description}
                 cover={image}
                 address={address}
+                rate={rate}
                 id={id}
             /> : null}
             {props.driverModalShow ? <DriverModal/> : null}

@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import {Modal,Button} from 'antd';
+import React, {useRef, useState,useEffect} from 'react';
+import {Modal,Button,Rate} from 'antd';
 import "./modalDetailsLands.style.scss"
 import detailsDefaultCover from '../../assets/images/default-modal-detail-land.png'
 import {connect} from "react-redux";
@@ -7,6 +7,9 @@ import * as ActionsMap from "../../redux/map/actions"
 import * as ActionsModalDetails from "../../redux/modalDetails/actions"
 import 'antd/dist/antd.css';
 import Draggable from 'react-draggable';
+import { APIPath } from "../../data";
+import { post, responseValidator } from "../../scripts/api";
+import {authToken} from "../../scripts/storage";
 import {useHistory} from "react-router-dom";
 import { RoutePath } from '../../data';
 
@@ -15,6 +18,7 @@ const ModalDetails = (props) => {
     const [bounds, setBounds] = useState({left: 0, top: 0, bottom: 0, right: 0});
     const [disabled, setDisabled] = useState(true);
     const draggleRef = useRef();
+    const [rate, setRate] = useState(props.rate);
     const history=useHistory()
 
     function onStart(event, uiData) {
@@ -26,6 +30,35 @@ const ModalDetails = (props) => {
             top: -targetRect?.top + uiData?.y,
             bottom: clientHeight - (targetRect?.bottom - uiData?.y),
         })
+    }
+    useEffect(()=>{
+        setRate(props.rate)
+    },[props.rate])
+
+    const rateHadler = (e) => {
+        console.log(e)
+        setRate(e)
+        
+        const form = {
+            rating: e,
+            location: props.id
+        }
+        post(APIPath.map.rate + `?token=${authToken.get()}`, form).then((data) => {
+            if (responseValidator(data.status)) {
+                console.log(data)
+            }
+        });
+    }
+
+    function isPersianOrEnglish(str) {
+        const alphabet = "1234567890abcdefghijklmnopqrstuvwxyz";
+        const temp = str?.toString()
+        for (let i = 0; i < alphabet.length; i++) {
+            if (temp?.split('')[0] === alphabet[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function Comments(detail){
@@ -40,6 +73,7 @@ const ModalDetails = (props) => {
                     style={{
                         width: '100%',
                         cursor: 'move',
+                        color: 'white'
                     }}
                     onMouseOver={() => {
                         if (disabled) {
@@ -83,21 +117,27 @@ const ModalDetails = (props) => {
                 <img src={props.cover ? props.cover : detailsDefaultCover} alt="landscape-details"/>
             </div>
             <div className="info">
+                    {
+                        props.id ? <Rate value={rate} onChange={rateHadler} /> : null
+                    }
                 {
-                    props.category && <div className="info-item">
-                        <i className="material-icons-outlined">category</i>
+                    props.category && <div
+                    className={`${isPersianOrEnglish(props.category) === false ? 'info-item' : 'info-item is-english'}`}>
+                        <i className="material-icons">category</i>
                         <p>{props.category}</p>
                     </div>
                 }
                 {
-                    props.address && <div className="info-item">
-                        <i className="material-icons-outlined">place</i>
+                    props.address && <div
+                    className={`${isPersianOrEnglish(props.address) === false ? 'info-item' : 'info-item is-english'}`}>
+                        <i className="material-icons">place</i>
                         <p>{props.address}</p>
                     </div>
                 }
                 {
-                    props.description && <div className="info-item last-line">
-                        <i className="material-icons-outlined">description</i>
+                    props.description && <div className={`${isPersianOrEnglish(props.description) === false ?
+                        'info-item last-line' : 'info-item last-line is-english'}`}>
+                        <i className="material-icons">description</i>
                         <p>{props.description}</p>
                     </div>
                 }
