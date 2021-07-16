@@ -43,6 +43,7 @@ const DriverTravels = (props) => {
                     setNext(true);
                     setPage(page + 1);
                 }
+                console.log(data.data.data)
                 setTravels(data.data.data);
             }
             else {
