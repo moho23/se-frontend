@@ -40,25 +40,17 @@
   
       .cover-div {
         display: flex;
-        height: 85%;
-        padding-right: 15px;
+        padding: 10px;
+        height: 200px;
         flex-direction: column;
   
         .cover {
-          width: 100%;
           border-radius: 100%;
-          height: 100px;
-          width: 100px;
-          justify-content: flex-start;
+          height: 85px;
+          width: 85px;
+          object-fit: cover;
         }
-        .username{
-          display: flex;
-          flex-direction: column-reverse;
-          padding-top: 12px;
-          padding-left: 16px;
-          justify-content: flex-end;
-          height: 50%;
-        }
+        
       }
   
       .content {
@@ -75,8 +67,9 @@
           flex-direction: row;
         }
   
-        .fix {
+        .in-line-item {
           width: 100%;
+          height: 200px;
           display: flex;
           justify-content: flex-end;
           font-weight: normal;

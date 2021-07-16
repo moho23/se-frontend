@@ -43,7 +43,6 @@ const DriverTravels = (props) => {
                     setNext(true);
                     setPage(page + 1);
                 }
-                console.log(data.data.data)
                 setTravels(data.data.data);
             }
             else {
@@ -144,18 +143,18 @@ const DriverTravels = (props) => {
                                     <div className="cover-div">
                                         <img alt='cover-travels' className="cover"
                                             src={item.creator_profile_picture ? item.creator_profile_picture : cover} />
-                                        <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>@{item.creator_username && item.creator_username.length > 12 ? item.creator_username.substring(0, 13) + '...' : item.creator_username}</p>
+                                        {/* <p className={`${isPersianOrEnglish(item.creator_username) === false ? 'username' : 'username is-english'}`}>@{item.creator_username && item.creator_username.length > 12 ? item.creator_username.substring(0, 13) + '...' : item.creator_username}</p> */}
                                     </div>
                                     <div className='content'>
-                                        <p className={`${isPersianOrEnglish(item.source) === false ? 'fix' : 'fix is-english'}`}>از {item.source}</p>
-                                        <p className={`${isPersianOrEnglish(item.destination) === false ? 'fix' : 'fix is-english'}`}>به {item.destination}</p>
-                                        <p className="fix">تعداد مسافر: {item.fellow_traveler_num}</p>
-                                        <p className="fix">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities}</p>
+                                        <p className={`${isPersianOrEnglish(item.source) === false ? 'in-line-item' : 'in-line-item is-english'}`}>از {item.source}</p>
+                                        <p className={`${isPersianOrEnglish(item.destination) === false ? 'in-line-item' : 'in-line-item is-english'}`}>به {item.destination}</p>
+                                        <p className="in-line-item">تعداد مسافر: {item.fellow_traveler_num}</p>
+                                        <p className="in-line-item">{item.cities && item.cities.length > 12 ? item.cities.substring(0, 13) + '...' : item.cities}</p>
                                         <Tooltip placement="right" title={item.address}>
-                                            <p className={`${isPersianOrEnglish(item.address) === false ? 'fix' : 'fix is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
+                                            <p className={`${isPersianOrEnglish(item.address) === false ? 'in-line-item' : 'in-line-item is-english'}`}>{item.address && item.address.length > 20 ? item.address.substring(0, 20) + '...' : item.address}</p>
                                         </Tooltip>
                                         <Tooltip placement="right" title={item.description}>
-                                            <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>{item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
+                                            <p className={`${isPersianOrEnglish(item.description) === false ? 'description' : 'description is-english'}`}>توضیحات دیگر: {item.description && item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description}</p>
                                         </Tooltip>
                                         <span />
                                         <span />
