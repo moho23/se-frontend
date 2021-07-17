@@ -159,6 +159,7 @@ const DriverModal = (props) => {
                         destination: destinationCity,
                         destination_state: destination,
                         description: description,
+                        id: props.item.id
                     }
                 }
                 put(APIPath.hichhike.update, passengerOrDriverForm).then(data => {
